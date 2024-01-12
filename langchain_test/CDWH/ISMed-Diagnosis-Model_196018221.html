@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : ISMed Diagnosis Model</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="ISMED-data_257097771.html">ISMED data</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : ISMed Diagnosis Model
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Alexander Kleer</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Okt. 03, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p /><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Make sure to read the information below in order to use the entity correctly - there is a lot of potential for inappropriate use!</p></div></div><p /><p /><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336165198 {padding: 0px;}
+div.rbtoc1698336165198 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336165198 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336165198'>
+<ul class='toc-indentation'>
+<li><a href='#ISMedDiagnosisModel-HowtoselectDiagnosesfromISMED'>How to select Diagnoses from ISMED</a>
+<ul class='toc-indentation'>
+<li><a href='#ISMedDiagnosisModel-HowadiagnosislistlookslikeinISMED'>How a diagnosislist looks like in ISMED</a></li>
+<li><a href='#ISMedDiagnosisModel-SelecttherightDiagnosislistperCAS_BK'>Select the right Diagnosis list per CAS_BK</a></li>
+<li><a href='#ISMedDiagnosisModel-Chosetherelevantfields'>Chose the relevant fields</a></li>
+<li><a href='#ISMedDiagnosisModel-Getthedateofadiagosis'>Get the date of a diagosis</a></li>
+<li><a href='#ISMedDiagnosisModel-Fieldsnottouseonageneralbasis/onlywithspecificknowledgeofthesourcesystem'>Fields not to use on a general basis/only with specific knowledge of the source system</a></li>
+</ul>
+</li>
+</ul>
+</div><p /><p /><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/196018221/195756106.pptx" data-nice-type="Microsoft PowerPoint Presentation" data-file-src="/wiki/download/attachments/196018221/ISMED_Diagnosen.pptx?version=1&amp;modificationDate=1684314675576&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="195756106" data-linked-resource-type="attachment" data-linked-resource-container-id="196018221" data-linked-resource-default-alias="ISMED_Diagnosen.pptx" data-mime-type="application/vnd.openxmlformats-officedocument.presentationml.presentation" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="53ba0e58-8d30-42b0-8139-1d12e76fdcc4" data-media-type="file"><img src="attachments/thumbnails/196018221/195756106" height="250"/></a></span></p><p>Credits to <a class="confluence-userlink user-mention current-user-mention" data-username="60a225229da6d500708e943e" data-account-id="60a225229da6d500708e943e" href="https://usbch.atlassian.net/wiki/people/60a225229da6d500708e943e?ref=confluence" target="_blank" data-linked-resource-id="32538841" data-linked-resource-version="1" data-linked-resource-type="userinfo" data-base-url="https://usbch.atlassian.net/wiki">Fabian Franzeck</a> </p><p>The attached presentation describes, how the ISMed Diagnosis are handled within ISMed. It was used to model the information into the CDWH Model.</p><p /><p /><h1 id="ISMedDiagnosisModel-HowtoselectDiagnosesfromISMED">How to select Diagnoses from ISMED</h1><h2 id="ISMedDiagnosisModel-HowadiagnosislistlookslikeinISMED">How a diagnosislist looks like in ISMED</h2><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/196018221/252805368.png" data-image-src="attachments/196018221/252805368.png" data-height="968" data-width="993" data-unresolved-comment-count="0" data-linked-resource-id="252805368" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="grafik-20230808-155403.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="196018221" data-linked-resource-container-version="4" data-media-id="f8b78162-b8bb-4242-9f42-e0cb228e69fb" data-media-type="file"></span><p /><h2 id="ISMedDiagnosisModel-SelecttherightDiagnosislistperCAS_BK">Select the right Diagnosis list per CAS_BK </h2><p>When querying diagnoses from ISMED, you can’t simply query on FAll = CAS_BK (as is typically requested for data extracts). There is another level in the hierarchy, which is the FALLFACH in Ismed Jargon or the Subcase (=SCIM_BK) in CDWH Jargon. There can be multiple FALLFÄCHER in each CAS_BK - they represent treatment episodes within a case: E.g. if a Patient during a stationärer Fall was 1. on the internal medicine ward, then 2. on the ICU and then 3. again on internal medicine, this is represented in ISMED by 3 FALLFÄCHER, one for each of these stays each (no correlate in SAP!). In each of these Fallfächer, there is a complete Patientfile with - among others - it’s own list of diagnoses. These evolve over time and are often presumptive or suspicions at the beginning of a hospitalisation. Therefore, for most studies, only the Diagnosis list at the end of the hospital stay is relevant (as they contain the most uptodate information and conclusions). </p><p>This is simply done by restricting on only the last SCIM_BK per CAS_BK</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    d.PAT_BK,
+    d.cas_bk,
+    d.SCIM_BK,
+    d.DII_DIAG_TEXT ,
+    d.DII_DIAG_SORT
+FROM
+    cdwh.V_IL_FCT_DIAGNOSIS_ISMED d
+JOIN (select CAS_BK, max(SCIM_BK) AS SCIM_BK from  cdwh.V_IL_FCT_DIAGNOSIS_ISMED GROUP BY CAS_BK) sc ON d.SCIM_BK = sc.scim_BK -- nur Austrittsdiagnosen, d.h. im letzten SCIM_BK pro Fall
+WHERE d.CAS_BK IN (&#39;0087737638&#39;, &#39;0087738063&#39;, &#39;0087862473&#39;, &#39;0085503802&#39;, &#39;0085178400&#39;, &#39;0086126186&#39;, &#39;0085964912&#39;)
+ORDER BY
+    d.PAT_BK,
+    d.cas_BK,
+    d.DII_DIAG_SORT
+;
+</pre>
+</div></div><p /><h2 id="ISMedDiagnosisModel-Chosetherelevantfields">Chose the relevant fields</h2><p><code>DII_DIAG_TEXT</code> the diagnosis title is typically the relevant information and is shown in  (in<span data-colorid="tgt6w513d3"> Yellow </span>in the screenshot).</p><p> <code>DII_DIAG_DESC</code> is below the yelow field in the screenshot (upto 4000 characters) and contains more general comments, diagnostics steps taken, conclusions &amp; differentialdiagnoses, and sometimes also a summary of drug therapies (planned, past and current). It is unstructured and simple LIKE queries can result in very misleading outcomes: E.g. there can be written something like “Verzicht auf Venetoclax aufgrund Ablehnung des Patienten” - when you run a Query to look for Subjects who received the drug Venetoclax with <code>LIKE ‘%Venetoclax%'</code>, you would wrongly attribute this conclusion to this subject. Therefore typically, queries on this field have to be manually checked by a physician - we can’t be responsible for correct interpretations from the data alone.</p><p /><p><code>DII_DIAG_SORT</code> is the sorting order of the diagnoses in a list</p><p /><h2 id="ISMedDiagnosisModel-Getthedateofadiagosis">Get the date of a diagosis</h2><p><code>DII_INSERT_DATE_TS</code> <code>DII_UPDATE_DATE_TS</code> <code>DII_SYS_DATE_TS</code> represent the technical timestamps of the ISMED application and <span data-colorid="ijblgc39t2">should not be used</span> as timepoints, when a diagnosis was made. There is no intrinsic connection between the content of a diagnosis and the timestamps. </p><p>E.g. a doctor might create a diagnosis ‘Suspicion of Pneumonia’ on 31.1.2022, which would set this INSERT_DATE. Then possibly, he could the delete the text of the diagnosis (maybe it proved to be wrong) and just fill it with a chronic disease as ‘Arterial hypertension, ED 1.10.2015’. In this case the INSERT_DATE would still be the same 31.1.2022, with an UPDATE_DATE maybe on the 3.2.2022. </p><p>However as you can read in the new diagnosis, the Patient had it since 1.10.2015. <span data-colorid="n6bgv2z1ae">Unfortunately, in ISMED, you can’t use a Timestamp field to infer the timepoint when a diagnosis was made. </span>This info is only contained in <code>DII_DIAG_TEXT</code>  in a messy manner - therefore it can only be done with a lot of string analysis. Aware: not every date in that string represents the date the diagnosis was made! Do not attempt to do this if you don’t understand how physicians document such issues.</p><p /><h2 id="ISMedDiagnosisModel-Fieldsnottouseonageneralbasis/onlywithspecificknowledgeofthesourcesystem">Fields not to use on a general basis/only with specific knowledge of the source system</h2><p><code>DII_DIAG_TODO</code> <code>DII_DIAG_ICD_ID</code> <code>DII_IS_MAIN_DIAGNOSIS</code> are there for completeness but don’t contain relevant/reliable information and <span data-colorid="59i25jg91y">should not be used on a regular basis</span>!</p><p /><p /><p /><p /><p /><p /><p /><p /><p /><style>[data-colorid="n6bgv2z1ae"]{color:#ff5630} html[data-color-mode=dark] [data-colorid="n6bgv2z1ae"]{color:#cf2600}[data-colorid="59i25jg91y"]{color:#ff5630} html[data-color-mode=dark] [data-colorid="59i25jg91y"]{color:#cf2600}[data-colorid="ijblgc39t2"]{color:#ff5630} html[data-color-mode=dark] [data-colorid="ijblgc39t2"]{color:#cf2600}[data-colorid="tgt6w513d3"]{color:#ffc400} html[data-color-mode=dark] [data-colorid="tgt6w513d3"]{color:#ffc400}</style>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/196018221/195756106.pptx">ISMED_Diagnosen.pptx</a> (application/vnd.openxmlformats-officedocument.presentationml.presentation)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/196018221/252805368.png">grafik-20230808-155403.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

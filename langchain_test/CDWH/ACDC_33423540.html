@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : ACDC</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Interfaces_33424004.html">Interfaces</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : ACDC
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on März 06, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><br/></p><h2 id="ACDC-Projectdescription">Project description</h2><p>Project run by the finance department to do billing optimisation using a NLP-based Software developed by ID Berlin. This relies mostly on data from the healthengine, pdf documents und data from SAP (via ADT). We are involved to fill the gap with data that they can't get from these sources: These gaps were defined as being covered by: </p><ul><li>Cdwh.V_DM_FCT_MEDI_APPL</li><li>Cdwh.V_DM_FCT_TRANSFUSION</li></ul><p>in February 2023, they (Verena Kremser) also requested access to P11.NLEI to run their software (previously agreed to give that data only for the training of their algorythm)→ this was approved by Julian Geisshard (Head of controlling)</p><p><br/></p><h2 id="ACDC-Contactpersons">Contact persons</h2><p><br/></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col style="width: 210.0px;"/><col style="width: 296.0px;"/></colgroup><tbody><tr><td class="confluenceTd">Project Lead</td><td class="confluenceTd">Julian Geisshardt (USB)</td></tr><tr><td class="confluenceTd">Project representative ID Berlin</td><td class="confluenceTd"><p><a href="mailto:M.Grevholm@id-berlin.de" class="external-link" rel="nofollow">Martin Grevholm &lt;M.Grevholm@id-berlin.de</a>&gt;</p></td></tr><tr><td colspan="1" class="confluenceTd">Connection responsible ID Berlin</td><td colspan="1" class="confluenceTd">Verena Kremser &lt;V.Kremser@<a href="http://id-berlin.de" class="external-link" rel="nofollow">id-berlin.de</a>&gt;</td></tr></tbody></table></div><p><br/></p><h2 id="ACDC-Dataflow">Dataflow</h2><p>They have a VM on the rnd server and connect via JDBC to DWHP.</p><p>They have a user on DWHE/K/P (will only use P): <strong>IF_ACDC</strong> (pw in Keepass)</p><p>They have following grants on DWHP:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- FROM CDWH User:
+	--GRANT SELECT ON Cdwh.V_DM_FCT_MEDI_APPL TO IF_ACDC;
+	--GRANT SELECT ON Cdwh.V_DM_FCT_TRANSFUSION TO IF_ACDC;
+GRANT SELECT ON p11.nlei TO IF_ACDC;
+
+-- FROM ACDC User:
+GRANT SELECT ON ACDC.V_DM_FCT_MEDI_APPL TO IF_ACDC;
+GRANT SELECT ON ACDC.V_DM_FCT_TRANSFUSION TO IF_ACDC;
+
+
+p11 grants can&#39;t be given from CDWH with grant option to ACDC, thus we have to do the granting directly on an object level...
+--&gt; doesnt work with using schema ACDC as controlling access for IF_ACDC
+	/*
+	GRANT SELECT, SELECT METADATA ON SCHEMA cdwh TO ACDC WITH GRANT OPTION;
+	GRANT SELECT ON SCHEMA p11 TO ACDC ;
+
+	CREATE VIEW ACDC.V_DM_FCT_TRANSFUSION AS (
+	select * from  cdwh.V_DM_FCT_TRANSFUSION)
+
+	CREATE VIEW ACDC.V_DM_FCT_MEDI_APPL
+ 	AS (
+	select * from  cdwh.V_DM_FCT_MEDI_APPL
+	)
+
+	CREATE VIEW ACDC.nlei
+ 	AS (
+	select * from p11.nlei
+	);
+	*/
+
+
+
+
+</pre>
+</div></div><p><br/></p><p><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

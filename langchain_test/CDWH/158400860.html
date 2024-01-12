@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : RedCap (MySQL)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="CDWH_33424168.html">CDWH</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Source-systems_33423773.html">Source systems</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Source-System-Documentation_158990343.html">Source System Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : RedCap (MySQL)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Richard Marti</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 01, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="RedCap(MySQL)-ApplicationInformation">Application Information</h3><p>Web-based data collection tool, primarily with the goal of capturing data for clinical research studies. However at USB, it is also used for processes that need a standardized data capturing and reporting. </p><p>The data are organized around Project_ids: As these data are not necessarily captured in clinical routine and are not owned by USB (but by individiual projects), we can not access all data but just data that are from projects with the explicit wish to be included in CDWH. This is realized with Views created by the Redcap admin, that restrict the data on rows that are from projects who explicitely have that wish.</p><p>If projects want to be included, they have to inform the Redcap Administrator (Murat Bilici, <a href="mailto:murat.bilici@usb.ch" class="external-link" rel="nofollow">murat.bilici@usb.ch</a>)</p><p /><h3 id="RedCap(MySQL)-Informationontheviewsavailabletous">Information on the views available to us</h3><p>For modelling, we need those tables</p><div class="table-wrap"><table data-layout="default" data-local-id="5afe67d9-9110-46e4-a505-e7ffd9a0e283" class="confluenceTable"><colgroup><col style="width: 443.0px;"/></colgroup><tbody><tr><td class="confluenceTd"><p>REDCAP_METADATA</p></td></tr><tr><td class="confluenceTd"><p>REDCAP_PROJECTS</p></td></tr><tr><td class="confluenceTd"><p>REDCAP_USER_INFORMATION</p></td></tr><tr><td class="confluenceTd"><p>REDCAP_DATA</p></td></tr><tr><td class="confluenceTd"><p>REDCAP_EVENTS_METADATA</p></td></tr><tr><td class="confluenceTd"><p>REDCAP_EVENTS_REPEAT</p></td></tr><tr><td class="confluenceTd"><p>REDCAP_EVENTS_ARMS</p></td></tr></tbody></table></div><p>The views are named identical as the tables, however with a <code>v_cdwh_</code> prefix</p><p /><p>The setup on the MySQL DB is as follows:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- Dynamische Liste mit Usernames aus den Zielprojekten
+SELECT distinct username FROM redcap_user_rights where project_id IN (1502, 1541);
+
+-- Dynamische Liste mit Event_IDs aus den Zielprojekten
+SELECT DISTINCT
+                event_id
+            FROM
+                redcap_events_arms a
+			JOIN
+                redcap_events_metadata e ON a.arm_id = e.arm_id
+            WHERE
+                a.project_id IN (1502 , 1541);
+
+-- 1. restricted views definieren
+CREATE OR REPLACE VIEW  v_cdwh_redcap_data AS (
+select  * FROM redcap_data where project_id IN (1502, 1541));
+
+CREATE OR REPLACE VIEW  v_cdwh_redcap_metadata AS (
+select  * FROM redcap_metadata where project_id IN (1502, 1541));
+
+CREATE OR REPLACE VIEW  v_cdwh_redcap_projects AS (
+select  * FROM redcap_projects where project_id IN (1502, 1541));
+
+CREATE OR REPLACE VIEW  v_cdwh_redcap_user_information AS (
+select  * FROM redcap_user_information where username IN (SELECT distinct username FROM redcap_user_rights where project_id IN (1502, 1541)));
+
+CREATE OR REPLACE VIEW v_cdwh_redcap_events_metadata AS
+    (SELECT 
+        *
+    FROM
+        redcap_events_metadata
+    WHERE
+        event_id IN (SELECT DISTINCT
+                event_id
+            FROM
+                redcap_events_arms a
+                    JOIN
+                redcap_events_metadata e ON a.arm_id = e.arm_id
+            WHERE
+                a.project_id IN (1502 , 1541)));
+                
+                
+CREATE OR REPLACE VIEW v_cdwh_redcap_events_repeat AS
+    (SELECT 
+        *
+    FROM
+        redcap_events_repeat
+    WHERE
+        event_id IN (SELECT DISTINCT
+                event_id
+            FROM
+                redcap_events_arms a
+                    JOIN
+                redcap_events_metadata e ON a.arm_id = e.arm_id
+            WHERE
+                a.project_id IN (1502 , 1541)));
+
+CREATE OR REPLACE VIEW  v_cdwh_redcap_events_arms AS (
+select  * FROM redcap_events_arms where project_id IN (1502, 1541));
+
+
+-- 2. Grant für Views &amp; relevaten Tables erteilen
+GRANT SELECT ON v_cdwh_redcap_data TO &#39;cdwh&#39;@&#39;%&#39;;
+GRANT SELECT ON v_cdwh_redcap_metadata TO &#39;cdwh&#39;@&#39;%&#39;;
+GRANT SELECT ON v_cdwh_redcap_projects TO &#39;cdwh&#39;@&#39;%&#39;;
+GRANT SELECT ON v_cdwh_redcap_user_information TO &#39;cdwh&#39;@&#39;%&#39;;
+GRANT SELECT ON v_cdwh_redcap_events_metadata TO &#39;cdwh&#39;@&#39;%&#39;;
+GRANT SELECT ON v_cdwh_redcap_events_repeat TO &#39;cdwh&#39;@&#39;%&#39;;
+GRANT SELECT ON v_cdwh_redcap_events_arms TO &#39;cdwh&#39;@&#39;%&#39;;</pre>
+</div></div><p /><p /><p>Hint for LZ development via Data Services: The Redcap DB is an MySQL DB Version 5.6, the related ODBC Driver can be downloaded here (Version 8.0 does support MySQL DB V. 5.6, see Developer Doku). After the installation, the ODBC Driver Settings for Data Services need to be adapted via the &quot;ODBCDriverSelector.exe&quot; (run as administrator), path C:\Program Files (x86)\SAP BusinessObjects\Data Services\bin. Configure the new driver for the MySQL 5.6 Database connection.</p><p /><p />
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

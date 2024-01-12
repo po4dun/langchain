@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Naming and Table Design Conventions</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="CDWH_33424168.html">CDWH</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Naming and Table Design Conventions
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Jan. 19, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This page describes the naming conventions used and table design rules in CDWH</p></div></div><p><br/></p><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336117905 {padding: 0px;}
+div.rbtoc1698336117905 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336117905 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336117905'>
+<ul class='toc-indentation'>
+<li><a href='#NamingandTableDesignConventions-Table/Viewnames'>Table/View names</a>
+<ul class='toc-indentation'>
+<li><a href='#NamingandTableDesignConventions-Standardisedcomponentsintable/viewnames'>Standardised components in table/view names</a></li>
+<li><a href='#NamingandTableDesignConventions-OrderofComponents'>Order of Components</a></li>
+<li><a href='#NamingandTableDesignConventions-Preferredchoiceofwords'>Preferred choice of words</a>
+<ul class='toc-indentation'>
+<li><a href='#NamingandTableDesignConventions-Singularvs.plural'>Singular vs. plural</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#NamingandTableDesignConventions-Columnnames'>Column names</a>
+<ul class='toc-indentation'>
+<li><a href='#NamingandTableDesignConventions-General'>General</a></li>
+<li><a href='#NamingandTableDesignConventions-Preferredchoiceofwords.1'>Preferred choice of words</a>
+<ul class='toc-indentation'>
+<li><a href='#NamingandTableDesignConventions-Singularvs.plural.1'>Singular vs. plural</a></li>
+<li><a href='#NamingandTableDesignConventions-Synonyms'>Synonyms</a></li>
+</ul>
+</li>
+<li><a href='#NamingandTableDesignConventions-DIM/FCTspecific'>DIM/FCT specific</a>
+<ul class='toc-indentation'>
+<li><a href='#NamingandTableDesignConventions-Primarykeynames(andtablespecificprefixesforeachcolumn)'>Primary key names (and table specific prefixes for each column)</a></li>
+<li><a href='#NamingandTableDesignConventions-Tablespecificprefixesforcolumnnames'>Table specific prefixes for column names</a></li>
+<li><a href='#NamingandTableDesignConventions-Foreign/Dimensionkeys'>Foreign / Dimension keys</a>
+<ul class='toc-indentation'>
+<li><a href='#NamingandTableDesignConventions-SingleRole'>Single Role</a></li>
+<li><a href='#NamingandTableDesignConventions-Roleplayingdimensions'>Role playing dimensions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#NamingandTableDesignConventions-DMspecific'>DM specific</a></li>
+</ul>
+</li>
+<li><a href='#NamingandTableDesignConventions-Orderofcolumnsinatable'>Order of columns in a table</a></li>
+</ul>
+</div></p><hr/><p><br/></p><h1 id="NamingandTableDesignConventions-Table/Viewnames">Table/View names</h1><h2 id="NamingandTableDesignConventions-Standardisedcomponentsintable/viewnames">Standardised components in table/view names</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><thead><tr><th class="confluenceTh">Abbreviation</th><th class="confluenceTh">Description</th></tr></thead><tbody><tr><td class="confluenceTd">V_</td><td class="confluenceTd">View</td></tr><tr><td class="confluenceTd">_IL_</td><td class="confluenceTd">Integration layer</td></tr><tr><td class="confluenceTd">_DM_</td><td class="confluenceTd">Datamart layer</td></tr><tr><td class="confluenceTd">_TZ_</td><td class="confluenceTd">Transformation zone (technical stage)</td></tr><tr><td class="confluenceTd">_GEN_</td><td class="confluenceTd">Generator View</td></tr><tr><td class="confluenceTd">_DIM_</td><td class="confluenceTd">Dimension</td></tr><tr><td class="confluenceTd">_FCT_</td><td class="confluenceTd">Fact</td></tr><tr><td class="confluenceTd">_CID</td><td class="confluenceTd">Applies only for <em>DIM</em> : only the current version of each dimension (including early arrives and deleted dimensions)</td></tr><tr><td class="confluenceTd">_CUR</td><td class="confluenceTd">Applies only for <em>DIM</em> : only the current version of each dimension (excluding early arrives and deleted dimensions)</td></tr></tbody></table></div><h2 id="NamingandTableDesignConventions-OrderofComponents">Order of Components</h2><p><strong>Example</strong>: V_IL_FCT_MEDI_APPL_MEONA</p><ol><li>V_ prefix for views; tables have no prefix</li><li>_IL_ or _TZ_ or _GEN_</li><li>_DIM_ or _FCT__</li><li>Description of data entity in the object. Choice regarding this is made when designing the object. Consistently reuse descriptions already in use, particularly if there equal entities from different source systems! Can include more than one part, separated by _.</li><li>Name of the source system. In case of Dimensions including multiple source systems, none is indicated.</li><li>In case of Dimensions: restricted views are denoted with _CID or _CUR</li></ol><h2 id="NamingandTableDesignConventions-Preferredchoiceofwords">Preferred choice of words</h2><p>In general, always assess if there are pre-existing entities that have a similiar content (e.g. from another source system) and keep the naming as close as possible in order to make entities easily discoverable also by less experiences users.</p><h3 id="NamingandTableDesignConventions-Singularvs.plural">Singular vs. plural</h3><p>The singular form is to be used by default</p><h1 id="NamingandTableDesignConventions-Columnnames">Column names</h1><h2 id="NamingandTableDesignConventions-General">General</h2><p>Prefixes/Suffixes used in CDWH:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><thead><tr><th class="confluenceTh">Abbreviation</th><th class="confluenceTh">Description</th></tr></thead><tbody><tr><td class="confluenceTd">_BK</td><td class="confluenceTd">Business key: _BKs are used as primary/secondary keys for table joins. Column names of BKs have to be unique in the sense that they can only be used in one table as a primary key</td></tr><tr><td class="confluenceTd">_NK</td><td class="confluenceTd">Natural key: Individual components of a composite _BK in the same table</td></tr><tr><td class="confluenceTd">_SID</td><td class="confluenceTd">Surrogate ID (unique identifier for a dimension and its version)</td></tr><tr><td class="confluenceTd">DWH_</td><td class="confluenceTd">Technical variables generated by the data warehousing process</td></tr><tr><td class="confluenceTd">_DATE_TS</td><td class="confluenceTd">Timestamp (in datatype  SECONDDATE)</td></tr><tr><td colspan="1" class="confluenceTd">_DATE</td><td colspan="1" class="confluenceTd">Date (in datatype DATE)</td></tr><tr><td class="confluenceTd">_DAY_BK</td><td class="confluenceTd">Date, reference to IL_DIM_DAY</td></tr><tr><td class="confluenceTd">_TIM_BK</td><td class="confluenceTd">Time, reference to IL_DIM_TIME</td></tr><tr><td class="confluenceTd">_FLAG</td><td class="confluenceTd">Variable used as a flag (0/1 values), typically '-1' for missing, smallint datatype</td></tr></tbody></table></div><h2 id="NamingandTableDesignConventions-Preferredchoiceofwords.1">Preferred choice of words</h2><p><br/></p><h3 id="NamingandTableDesignConventions-Singularvs.plural.1">Singular vs. plural</h3><p>The singular form is to be used by default</p><h3 id="NamingandTableDesignConventions-Synonyms">Synonyms</h3><p>Regularly in the design process when choosing columns names, synonymous terms could be used, expressing the same meaning. To make DWH easier and more consistent to use for an analyst (same meaning=same word), we have preferred terms to use: These are not valid for technical fields (starting with DWH_)</p><p><br/></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Description</th><th class="confluenceTh">Possible alternatives</th><th colspan="1" class="confluenceTh">Preferred</th><th colspan="1" class="confluenceTh">Example of usage</th></tr><tr><td class="confluenceTd">A date/timestamp indicating when the record was last updated</td><td class="confluenceTd"><p>UPDATE</p><p>CHANGE</p><p>MUTATE</p><p>MUTATION</p></td><td colspan="1" class="confluenceTd">UPDATE</td><td colspan="1" class="confluenceTd">UPDATE_DATE_TS</td></tr><tr><td class="confluenceTd">A date/timestamp indicating when the record was created in the source system </td><td class="confluenceTd"><p>CREATE</p><p>INSERT</p><p><br/></p></td><td colspan="1" class="confluenceTd">CREATE</td><td colspan="1" class="confluenceTd">CREATE_DATE_TS</td></tr><tr><td class="confluenceTd"><p>A date/timestamp indicating the start of an observation</p></td><td class="confluenceTd"><p>START</p><p>BEGIN </p><p>ONSET</p><p>ORIGIN</p></td><td colspan="1" class="confluenceTd"><p>START</p></td><td colspan="1" class="confluenceTd"><p>START_DATE_TS</p></td></tr><tr><td class="confluenceTd"><p>A date/timestamp indicating the end of an observation</p></td><td class="confluenceTd"><p>END</p><p>STOP</p><p>FINISH</p><p>UNTIL</p></td><td colspan="1" class="confluenceTd"><p>END</p></td><td colspan="1" class="confluenceTd"><p>END_DATE_TS</p></td></tr><tr><td colspan="1" class="confluenceTd"><p>A date/timestamp indicating when data has been entered in the source system (not necessarily the same as when the record was created)</p></td><td colspan="1" class="confluenceTd"><p>ENTRY</p><p>INPUT</p><p>DATAENTRY</p><p>ENTERED</p><p>COLLECTED</p></td><td colspan="1" class="confluenceTd"><p>ENTRY</p></td><td colspan="1" class="confluenceTd"><p>ENTRY_DATE_TS</p></td></tr><tr><td colspan="1" class="confluenceTd"><p>A column indicating the sort order (mostly as coming from the source system)</p></td><td colspan="1" class="confluenceTd"><p>SORT</p><p>ORDER</p></td><td colspan="1" class="confluenceTd"><p>SORT</p></td><td colspan="1" class="confluenceTd"><p>DIAG_SORT</p></td></tr><tr><td colspan="1" class="confluenceTd"><p>A role playing dimension link to IL_DIM_ORG, that denotes a department = 'fachliche Organisationseinheit' =  Klinik</p></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>DEPT</p></td><td colspan="1" class="confluenceTd"><p>DEPT_ORG_BK</p></td></tr><tr><td colspan="1" class="confluenceTd"><p>A role playing dimension link to IL_DIM_ORG, that denotes a ward = 'pflegerische Organisationseinheit' =  Standort</p></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>ASSIGN</p></td><td colspan="1" class="confluenceTd"><p>ASSIGN_ORG_BK</p></td></tr><tr><td colspan="1" class="confluenceTd"><p>A column name containing an amount of something quantifiable</p></td><td colspan="1" class="confluenceTd"><p>AMOUNT</p><p>COUNT</p><p>QUANTITY</p></td><td colspan="1" class="confluenceTd"><p>AMOUNT</p></td><td colspan="1" class="confluenceTd">MAP_CALC_APPL_AMOUNT</td></tr><tr><td colspan="1" class="confluenceTd">A column name containing a text value (in case source systems a have different data types for result columns</td><td colspan="1" class="confluenceTd"><p>TEXT</p><p>STRING</p></td><td colspan="1" class="confluenceTd">TEXT</td><td colspan="1" class="confluenceTd">TEXT_VALUE</td></tr><tr><td colspan="1" class="confluenceTd">A column name containing a numeric value (in case source systems a have different data types for result columns)</td><td colspan="1" class="confluenceTd"><p>NUMERIC</p><p>NUMBER</p><p>DIGIT</p></td><td colspan="1" class="confluenceTd">NUMERIC</td><td colspan="1" class="confluenceTd">NUMERIC_VALUE</td></tr></tbody></table></div><h2 id="NamingandTableDesignConventions-DIM/FCTspecific">DIM/FCT specific</h2><h3 id="NamingandTableDesignConventions-Primarykeynames(andtablespecificprefixesforeachcolumn)">Primary key names (and table specific prefixes for each column)</h3><p><strong>Example</strong>: STMT_BK from IL_FCT_SCORE_TOTAL_METAVISION</p><p>Primary keys column names are unique to each table. Their name <strong>sets the table-specific prefix for other column names in the same table</strong>.</p><p>They are to be constructed of (in this order):</p><ol><li>Two letters describing the data entity as in the object's name ('ST' in example) AND</li><li><p>Two letters describing the source system.The 2-letter shortcut to be used for each source system is documented in CDWH.MD_SCHEMA_SOURCE_MAPPING in column BK_SHORTCUT ('MT' in example).</p><p>In case the table is not specific to one source system, expand &quot;1.&quot; to 4 letters to keep the 4 letter length</p></li><li><p>End with &quot;_BK&quot; (=STMT_BK in example, or STMT_ column name prefix)</p></li></ol><h3 id="NamingandTableDesignConventions-Tablespecificprefixesforcolumnnames">Table specific prefixes for column names</h3><p><strong>Example</strong>: STMT_MEASURE_DATE_TS from IL_FCT_SCORE_TOTAL_METAVISION</p><p>The name of the primary key (as defined above) minus the &quot;_BK&quot;-suffix sets the table-specific prefix for other column names in the same table. All colums except technical fields and single role playing dimension keys (see below) should carry that prefix.</p><h3 id="NamingandTableDesignConventions-Foreign/Dimensionkeys">Foreign / Dimension keys</h3><p>I.e. keys that reference from a Fact (or rarely a Dimension) to the primary key of a Dimension table</p><h4 id="NamingandTableDesignConventions-SingleRole">Single Role</h4><p>In case a Fact table has only <strong>one or a clearly dominant role</strong> linked to the same dimension entity, the column name in the Fact table is identifical with the primary key in the Dimension table.</p><p><strong>Example</strong>: LPM_BK from IL_FCT_LABOR_PROCEDURE_RESULT_MLAB referencing to LPM_BK in IL_DIM_LABOR_PROCEDURE_MLAB</p><h4 id="NamingandTableDesignConventions-Roleplayingdimensions">Role playing dimensions</h4><p>In case a table has multiple columns linked to the same dimension entity, the column name in the Fact table should describe the role played. This typically arises with references e.g. to IL_DIM_DAY or IL_DIM_ORG in our setting.</p><p><strong>Example</strong>: from IL_DIM_CASE</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><thead><tr><th class="confluenceTh">Reference</th><th class="confluenceTh">Joined to</th></tr></thead><tbody><tr><td class="confluenceTd">CAS_ADMISSION_DEPT_ORG_BK</td><td class="confluenceTd">IL_DIM_ORG.ORG_BK</td></tr><tr><td class="confluenceTd">CAS_ADMISSION_ASSIGN_ORG_BK</td><td class="confluenceTd">IL_DIM_ORG.ORG_BK</td></tr><tr><td class="confluenceTd">CAS_DISCHARGE_DEPT_ORG_BK</td><td class="confluenceTd">IL_DIM_ORG.ORG_BK</td></tr><tr><td class="confluenceTd">CAS_DISCHARGE_ASSIGN_ORG_BK</td><td class="confluenceTd">IL_DIM_ORG.ORG_BK</td></tr></tbody></table></div><p>In this case, the column name should be constructed:</p><ol><li>Prefix of the table</li><li>Description of the role</li><li>The name of the primary key in the dimension table this column is joined to</li></ol><h2 id="NamingandTableDesignConventions-DMspecific">DM specific</h2><p>Primary keys are unique to each table. Their name sets the table-specific prefix for other column names in the same table. Contrasting to DIM/FCT, they are made of two letters describing the data entity as in the object's name. it contains no mention of the source systems included.</p><p><strong>Example</strong>: MA_BK and MA_START_DAY_BK from V_DM_FCT_MEDI_APPL</p><h1 id="NamingandTableDesignConventions-Orderofcolumnsinatable">Order of columns in a table</h1><p>There are some fixed requirements by the Generator regarding the order of colums: <a href="https://gitlab.uhbs.ch/cdwh/cdwh-generator#how-to-add-new-entities" class="external-link" rel="nofollow">https://gitlab.uhbs.ch/cdwh/cdwh-generator#how-to-add-new-entities</a></p><p>→ best to copy the DDL of an existing table and adapt it.</p><p>Furthermore, as a general principle think about what are the most important colums for an analyst and order them accordingly.</p><ul><li>Typically, the PAT_BK, CAS_BK go first</li><li>dimensional keys describing the the observation</li><li>measured/fact value</li><li>the relevant timestamp(s) associated with the fact measurement</li><li>the user/employee in the source system who entered/created the entry</li></ul><p><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:01</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

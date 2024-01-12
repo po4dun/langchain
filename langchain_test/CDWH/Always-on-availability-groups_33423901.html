@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Always-on availability groups</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Data-Services_33424156.html">Data Services</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Always-on availability groups
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 28, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Some SQL Server based source systems are setup as an <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-availability-groups-sql-server?view=sql-server-2017" class="external-link" rel="nofollow">Always On Availability Group</a>, for instance:</p><ul><li>Meona</li><li>MetaVision</li></ul><p>The CDWH system (as well as CDWH developers) are requested to connect only to the read only replicate database of such systems.</p><h2 id="Always-onavailabilitygroups-ConfigurationinDataServicesdatastores:"><strong>Configuration in DataServices datastores:</strong></h2><ul><li>The datastores need to be configured as ODBC databases (<strong>not</strong> native SQL Server clients).</li><li>The ODBC system DSNs must be <strong>configured identically on the DS servers and the DS Designer workstations</strong>. Currently the following system DSNs are configured on the DS Severs:</li><li>Development (ictsapdaswe01): MEONA_KONS, METAVISION_KONS</li><li>Test (ictsapdaswk01): MEONA_KONS, <strong>R</strong>MEONA_PROD, METAVISION_KONS, METAVISION_PROD</li><li>Prod: (ictsapdaswp02): <strong>R</strong>MEONA_PROD, METAVISION_PROD</li><li>Configure the system DSN on your local VD with the ODBC 17 driver and using the same system DSNs as above. For instance for the Meona and MetaVision databases you will need these system DSNs:<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423901/33443299.png?height=400" data-image-src="attachments/33423901/33443299.png" data-unresolved-comment-count="0" data-linked-resource-id="33443299" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ab06c8a4a3027de179e7feaf15efed13_odbc_config_1.PNG" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="application/binary" data-linked-resource-container-id="33423901" data-linked-resource-container-version="6" data-media-id="e48bf2ab-ed8d-4654-b8c3-ddb45bf8dcfc" data-media-type="file"></span><br/><br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423901/33443293.png?height=400" data-image-src="attachments/33423901/33443293.png" data-unresolved-comment-count="0" data-linked-resource-id="33443293" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="f13f3421bb43d2f0d37ebb68863bf971_2019-10-02_14h34_24.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423901" data-linked-resource-container-version="6" data-media-id="559ecc13-65cd-4fb3-a102-e97ff9978976" data-media-type="file"></span></li><li>Specify the parameters <em>Multi-subnet failover</em> and <em>Application intent = Readonly</em> in the DSN configuration:<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423901/33443311.png?height=400" data-image-src="attachments/33423901/33443311.png" data-unresolved-comment-count="0" data-linked-resource-id="33443311" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="d8faa2e533242376fe8f8af66c200526_odbc_config_2.PNG" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="application/binary" data-linked-resource-container-id="33423901" data-linked-resource-container-version="6" data-media-id="ceff9aa8-4f2e-4623-b152-b469d9c250c2" data-media-type="file"></span></li><li>Make sure, strong encyption is no ticked<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423901/33443305.png?height=400" data-image-src="attachments/33423901/33443305.png" data-unresolved-comment-count="0" data-linked-resource-id="33443305" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="1b42414a6dc89614629aad117cce75d4_2019-10-02_14h34_57.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423901" data-linked-resource-container-version="6" data-media-id="28af76b9-b983-4e9e-a1e2-e48835115cff" data-media-type="file"></span></li><li>Configure the ODBC datastore in DataServices Designer <strong>on the DS server</strong>, using one of the previously defined system DSNs, for instance:<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423901/33443281.png?height=400" data-image-src="attachments/33423901/33443281.png" data-unresolved-comment-count="0" data-linked-resource-id="33443281" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="40e43a2c0e7f6e75f522d61cf6b97815_ds_config_1.PNG" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="application/binary" data-linked-resource-container-id="33423901" data-linked-resource-container-version="6" data-media-id="211f60eb-27b4-4cbe-8606-aee1ae288646" data-media-type="file"></span></li></ul><p><strong>IMPORTANT</strong>: the datastores need to be initially setup on the DS server (ideally on the test server), and not on a VD client</p><ul><li>Add the datastore to the central repostory and from there deploy to the specific repoistories</li><li>Configure the datastore individually for each repository. You can toggle between production and test source system by defining datastore configurations respectively. Each configuration can use a different ODBC system DSN. For instance: <br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423901/33443275.png?height=400" data-image-src="attachments/33423901/33443275.png" data-unresolved-comment-count="0" data-linked-resource-id="33443275" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="af571d351fb07c1dd6cb08d33962b337_ds_config_2.PNG" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="application/binary" data-linked-resource-container-id="33423901" data-linked-resource-container-version="6" data-media-id="7627849a-390b-42b5-be09-48eca3c78b86" data-media-type="file"></span></li></ul><p><strong>Note</strong>: The ODBC driver version 13 will already be installed with the SQL Server Management studio 17.9. Otherwise you can download and install the ODBC driver version 13 from <a href="https://www.microsoft.com/de-de/download/details.aspx?id=50420" class="external-link" rel="nofollow">here</a>.</p><h2 id="Always-onavailabilitygroups-ConfigurationinSQLServerManagementStudio:"><strong>Configuration in SQL Server Management Studio:</strong></h2><p>Specify <em>MultiSubnetFailover=True;ApplicationIntent=ReadOnly</em> as additional connection parameters:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423901/33443287.png?height=400" data-image-src="attachments/33423901/33443287.png" data-unresolved-comment-count="0" data-linked-resource-id="33443287" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="6fee1a5d67a75916f15362eda46e87f0_additional_connection_params.PNG" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="application/binary" data-linked-resource-container-id="33423901" data-linked-resource-container-version="6" data-media-id="4128ee8f-cd7b-4cc6-9746-05629119660f" data-media-type="file"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423901/33443299.png">ab06c8a4a3027de179e7feaf15efed13_odbc_config_1.PNG</a> (application/binary)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423901/33443293.png">f13f3421bb43d2f0d37ebb68863bf971_2019-10-02_14h34_24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423901/33443311.png">d8faa2e533242376fe8f8af66c200526_odbc_config_2.PNG</a> (application/binary)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423901/33443305.png">1b42414a6dc89614629aad117cce75d4_2019-10-02_14h34_57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423901/33443281.png">40e43a2c0e7f6e75f522d61cf6b97815_ds_config_1.PNG</a> (application/binary)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423901/33443275.png">af571d351fb07c1dd6cb08d33962b337_ds_config_2.PNG</a> (application/binary)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423901/33443287.png">6fee1a5d67a75916f15362eda46e87f0_additional_connection_params.PNG</a> (application/binary)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

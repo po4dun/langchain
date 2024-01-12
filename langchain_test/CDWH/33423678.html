@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Add new user to HANA / CDWH schema</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="CDWH_33424168.html">CDWH</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Add new user to HANA / CDWH schema
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Feb. 13, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout two-right-sidebar" data-layout="two-right-sidebar">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="AddnewusertoHANA/CDWHschema-Approvalprocessfornewusers">Approval process for new users </h2><ul><li>Members of the FAS department requiring data from DWH qualify by default</li><li>Persons outside of FAS need an E-Mail approval of Bram Stieltjes for DWH read access in order to proceed: These should fill in an USB &quot;Antrag&quot; on <a href="https://antrag.uhbs.ch/" class="external-link" rel="nofollow">https://antrag.uhbs.ch/</a> for &quot;Datenbank CDWH&quot;. If that persons supervisor approved the account, we receive a ticket in Jira &quot;<a class="external-link" style="text-decoration: none;text-align: left;" href="https://usbch.atlassian.net/browse/ITSM-10344" rel="nofollow">AutoFormularversand DWH</a>&quot;.</li><li>In the Ticket: mention &quot;@Bram Stieltjes &quot; and ask for permission from Bram, which he should approve in the ticket in order to document his decision</li><li>Then save the Ticket as PDF move it in our Sharepoint 0219 in &quot;\Dokumente\CDWH Zugriffsberechtigungen&quot; <strong>; </strong>new folder: <strong><em>Windows AD User_Full name.</em></strong></li></ul><h2 id="AddnewusertoHANA/CDWHschema-Processofusercreation">Process of user creation</h2><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>In general, the database admin is responsible for creation of users and password resets. Everything after that (distributing grants, etc.) is done by us</p></div></div><ol><li>Assess if person qualifies for access (see above), document these necessary steps as described above</li><li><p class="auto-cursor-target">Order a new HANA DB User via E-Mail to <a href="mailto:Thierry.Doppler@usb.ch" class="external-link" rel="nofollow">Thierry.Doppler@usb.ch</a> (substitute: <a href="mailto:ICT_SAP_Technologie@usb.ch" class="external-link" rel="nofollow">ICT_SAP_Technologie@usb.ch</a>). Use the <a href="mailto:cdwh@usb.ch" class="external-link" rel="nofollow">cdwh@usb.ch</a> mailbox for the order.</p><div class="confluence-information-macro confluence-information-macro-information"><p class="title">The following information is required</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><ol><li>Username. Use the Windows AD user, in order to make the user identification easier.</li><li>System(s). Internal employees receive an DB user on DEV, KONS and PROD. For &quot;external&quot; DWH access, only a user on PROD is relevant.</li><li>Technical database user. If it is not a personal account but a technical user for a Interface, indicate this (default is personal). In general, these users have a &quot;IF_&quot; Prefix (e.g. IF_ANTIRESIST)</li></ol></div></div></li><li>After receiving the confirmation, follow the instructions in <a href="Granting-users-and-roles_33423904.html" data-linked-resource-id="33423904" data-linked-resource-version="15" data-linked-resource-type="page">Granting users and roles</a> and grant the applicable access rights. People, which are not part of the CDWH-Team or the FAS department, only receive the <span class="legacy-color-text-default"><em>cdwh_read</em> role (deviations to be discussed with Bram Stieltjes).</span></li><li><span class="legacy-color-text-default">Send an info E-Mail to the requestor, together with <a href="attachments/33423678/33444175.pdf" data-linked-resource-id="33444175" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DBeaver User Documentation_v1.pdf" data-nice-type="PDF Document" data-linked-resource-content-type="application/pdf" data-linked-resource-container-id="33423678" data-linked-resource-container-version="16">DBeaver User Documentation_v1.pdf</a> which includes instructions on how the setup the connection in Dbeaver. There is draft E-mail within the <a href="mailto:cdwh@usb.ch" class="external-link" rel="nofollow">cdwh@usb.ch</a> mailbox called <em>CDWH Zugang</em>, that should be used as a template. Especially the disclaimer for external people is important.</span><span class="legacy-color-text-default"><br/><strong>Note:</strong> the password change via DBeaver might not work. The E-Mail template only contains the workaround link for DWH PROD. The full set of links is:</span><ol><li><span class="legacy-color-text-default">DWHP: <a href="https://ictthdbdwlp1.uhbs.ch:4332/sap/hana/xs/formLogin/login.html" class="external-link" rel="nofollow">https://ictthdbdwlp1.uhbs.ch:4332/sap/hana/xs/formLogin/login.html</a> </span></li><li><span class="legacy-color-text-default">DWHK: <a href="https://ictthdbdwlk1.uhbs.ch:4331/sap/hana/xs/formLogin/login.html" class="external-link" rel="nofollow">https://ictthdbdwlk1.uhbs.ch:4331/sap/hana/xs/formLogin/login.html</a> </span></li><li><span class="legacy-color-text-default">DWHE: <a href="https://ictthdbdwle1.uhbs.ch:4330/sap/hana/xs/formLogin/login.html" class="external-link" rel="nofollow">https://ictthdbdwle1.uhbs.ch:4330/sap/hana/xs/formLogin/login.html</a> </span></li></ol></li><li><span class="legacy-color-text-default">Add Email of the new user to the &quot;cDWH Mailing list&quot; in Outlook: The list is stored in the email account <a href="mailto:cdwh@usb.ch" class="external-link" rel="nofollow">cdwh@usb.ch</a> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" loading="lazy" src="attachments/33423678/132775965.png" data-image-src="attachments/33423678/132775965.png" data-unresolved-comment-count="0" data-linked-resource-id="132775965" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-2-13_13-44-30.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423678" data-linked-resource-container-version="16" data-media-id="c0a34324-97ff-4f69-9d18-809e5f76f340" data-media-type="file"></span></span></li></ol><p><br/></p><h2 id="AddnewusertoHANA/CDWHschema-Differencesbetweentechnicalandpersonalusers">Differences between technical and personal users</h2><h3 id="AddnewusertoHANA/CDWHschema-Personaluser">Personal user</h3><p>Are created with a mandatory requirement for a password change by the user within 7 days, there are regular forced password changes thereafter (password lifetime is set by the DBA, currently 90 days)</p><p>They should <em>not</em> be created as restricted users (the DBA did that in the past), as e.g. JDBC connections are not open for such users (needed for Dbeaver)</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">In case a personal user is requested, the DBA will run this:
+ 
+-- force password change for personalized users
+alter user $user_name$ FORCE PASSWORD CHANGE;</pre>
+</div></div><h3 id="AddnewusertoHANA/CDWHschema-Technicaluser">Technical user</h3><p>These users are set with the default passwords for technical users (in Keepass).</p><p>This default password should not be sent out to any external person and must be changed!</p><p>Additionally, there ist no requirement for mandatory password changes for the future.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">In case a technical user is requested, the DBA will run this:
+
+-- disable enforced password changes in the future
+alter user $user_name$ DISABLE PASSWORD LIFETIME;</pre>
+</div></div><p><br/></p><p><br/></p></div>
+</div>
+<div class="cell aside" data-type="aside">
+<div class="innerCell">
+<p><br/></p></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423678/33444175.pdf">DBeaver User Documentation_v1.pdf</a> (application/pdf)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423678/132775965.png">image2023-2-13_13-44-30.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:01</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

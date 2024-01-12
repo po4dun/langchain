@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : SAP HANA SQL tricks</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="SAP-HANA-stuff_257359936.html">SAP HANA stuff</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : SAP HANA SQL tricks
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Aug. 15, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Here we can store useful SQL for SAP HANA, that might make the life of others  easier <img class="emoticon emoticon-smile" data-emoji-id="1f642" data-emoji-shortname=":slight_smile:" data-emoji-fallback="🙂" src="images/icons/emoticons/smile.png" width="16" height="16" data-emoticon-name="smile" alt="(Lächeln)"/> </p></div></div><ol start="1"><li><p>Shortcuts</p></li></ol><ul><li><p>SQL Code formatieren: 		Markieren, Shift + Ctrl + F</p></li><li><p>Shift + Ctrl + F anpassen: 	Fenster/Window – Einstellungen/Preferences – Editoren/Editors – SQL-Editor – SQL-Formatierung </p></li><li><p>Shortcut einrichten: 		Fenster/Window – Einstellungen/Preferences – User Interface – Tasten/Keys - Komment.../Comment... - ctrl+shift+C oder K</p></li><li><p> convert text to lower: 		ctrl + shift + y</p></li><li><p>CONVERT TEXT TO UPPER: 	CTRL + SHIFT + X</p></li></ul><p /><ol start="1"><li><p>do a LIKE string search across multiple columns</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    *
+FROM
+    cdwh.V_IL_FCT_OPERATION_PART
+WHERE
+    CONTAINS (
+        (
+            OPA_CHIR1_EMP_BK ,
+            OPA_CHIR2_EMP_BK,
+            OPA_CHIR3_EMP_BK ,
+            OPA_CHIR4_EMP_BK
+        ),
+        &#39;%kunzc%&#39;
+    ) ;</pre>
+</div></div></li></ol><p /><p>2. TO_DATE() conversion may be necessary when comparing dates with and without time-stamp</p><p>Reason: dates without time-stamp automatically get a 00:00:00.000 appended to e.g. 2018-06-17<br/>and with BETWEEN queries on START_DATE 2018-06-17 03:55:38.000 they fall then off the table.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">;SELECT
+	CAS_START_DATE_TS
+	, CAS_END_DATE_TS
+	, to_date(CAS_START_DATE_TS)
+	, to_seconddate(to_date(CAS_START_DATE_TS)
+	)
+FROM
+	cdwh.v_IL_DIM_CASE_CID
+WHERE
+	cas_bk = &#39;0086647249&#39;</pre>
+</div></div><p /><p>3. AND / OR</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- switch quickly between ANDs with 1=1:
+;SELECT *
+FROM	loinc.loinc AS loinc
+WHERE	1 = 1
+	--AND &quot;SYSTEM&quot; = &#39;Urine&#39;
+	AND &quot;SYSTEM&quot; LIKE &#39;A%&#39;
+
+-- switch quickly between ANDs with 1=0:
+;SELECT * FROM loinc.loinc AS loinc
+WHERE 1=0
+	--OR &quot;SYSTEM&quot; = &#39;Urine&#39;
+	OR &quot;SYSTEM&quot; like &#39;A%&#39;
+	
+-- AND &amp; OR combination type 1:
+;SELECT DISTINCT DII_DIAG_DESC, DII_DIAG_ICD_ID, DII_DIAG_SORT
+FROM	CDWH.V_IL_FCT_DIAGNOSIS_ISMED
+WHERE	1 = 1
+	AND DII_DIAG_SORT LIKE 1
+	AND (1 = 0
+		OR lower(DII_DIAG_DESC) LIKE &#39;%covid%&#39;
+		OR lower(DII_DIAG_DESC) LIKE &#39;%sars%&#39;)
+
+-- AND &amp; OR combination type 2:
+;SELECT DISTINCT DII_DIAG_DESC,	DII_DIAG_ICD_ID, DII_DIAG_SORT
+FROM	CDWH.V_IL_FCT_DIAGNOSIS_ISMED
+WHERE	(1 = 1
+		AND DII_DIAG_SORT LIKE 1
+		AND lower(DII_DIAG_DESC) LIKE &#39;%covid%&#39;)
+	OR 	(1 = 1
+		AND DII_DIAG_SORT LIKE 1
+		AND lower(DII_DIAG_DESC) LIKE &#39;%sars%&#39;)
+</pre>
+</div></div><p /><ol start="3"><li><p>Assess reasons for Insufficient privileges Error:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"> -- run from user cdwh, replace error details Id with the one from your error message
+ call SYS.GET_INSUFFICIENT_PRIVILEGE_ERROR_DETAILS (&#39;9E91CEB8EED87448B945009907E7FF7F&#39;, ?) ;   </pre>
+</div></div></li></ol>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

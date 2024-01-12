@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : IL_DIM_INSURANCE_RELATIONSHIP Insurance relationships / Krankenkasse</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : IL_DIM_INSURANCE_RELATIONSHIP Insurance relationships / Krankenkasse
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Aug. 14, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This describes some general principles when working with IL_DIM_INSURANCE_RELATIONSHIP</p></div></div><p /><p>In general, Insurance relationships can be very complicated and are manually curated by the the billing department. </p><p>Clinicans see the insurances only via the “Patientenstammblatt”, which is in the Klinische Dashboard. However, the master system for this is SAP and there are many cases, where the information is not equal in both! In this case, SAP is right. The Dimension described is solely based on SAP.</p><p /><h2 id="IL_DIM_INSURANCE_RELATIONSHIPInsurancerelationships/Krankenkasse-Disclaimer">Disclaimer</h2><p>The topic is very detailed and complicated and there  is no such simple thing as “just querying the patients insurance” - you have to understand what is asked and a lot of things are very buisness specific. </p><p>E.g. there can be multiple valid contract types (even of the same type) per case: Allgemein and Zusatzversichung, which can all be timedependent even within a case: e.g. if a case spans over newyear and the patient changed his insurance companies, then he can have multiples for different segments of the case (i.e. the old one valid for the old year and the new one for the new year). Therefore, time has to be considered in some (though unusual) cases as well.</p><p /><h2 id="IL_DIM_INSURANCE_RELATIONSHIPInsurancerelationships/Krankenkasse-ShortIntroduction">Short Introduction </h2><p><strong>(discussed with Francoise Bonato from Finanzen - I am also not very familiar with these terms):</strong></p><p>The most basic form of contract types for Swiss inpatients (stationäre fälle) are Grundversicherung (=Allgemein) und Zusatzversicherung ( =Privat) for Krankheitsfälle, as well as Unfallversicherung for Unfallsfälle. </p><p>For outpatient (ambulante) cases, there is normally Tarmed billing, which should be the same as the Grundversicherung. </p><p>The rules are very different for people insured abroad which include many Germans and French, which typically have their own contract types and agreements. </p><p>Then there also people without insurances, who pay by themself or who partly pay private.</p><p /><h2 id="IL_DIM_INSURANCE_RELATIONSHIPInsurancerelationships/Krankenkasse-Asageneralanalysisruletostartanalysis"><strong>As a general analysis rule to start analysis</strong></h2><p>IRIS_INSURANCE_ORDER descries the order in the GUI and is used in the financial processes to indicate meaning of relationships (however it’s a manual process)</p><p /><p>Query for Stationäre Fälle and subjects insured in Switzerland (the standard case which is mostly asked by studies): </p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT * FROM cdwh.v_IL_DIM_INSURANCE_RELATIONSHIP_CUR WHERE IRIS_INSURANCE_ORDER =1
+
+this should normally results in IRIS_CONTRACT_TYPE=&#39;CGV&#39;, but only in about 95% of cases, 
+the remaining 5% are data entry errors or special situations. Vice versa, not all &#39;CVG&#39; are IRIS_INSURANCE_ORDER =1
+
+These should also be MAIN_INSURANCE_FLAG=1 which is also not very reliable in reality.
+
+You can also play around with these issues with this basequery:
+SELECT a.IRIS_CONTRACT_TYPE_DESCRIPTION , count(*) from  cdwh.V_IL_DIM_INSURANCE_RELATIONSHIP_CUR a
+JOIN cdwh.V_IL_DIM_CASE_CID c ON a.CAS_BK = c.cas_bk
+JOIN cdwh.V_IL_DIM_BUSINESS_PARTNER_CUR b ON a.IRIS_INSURANCE_BPA_BK = b.BPA_BK  
+WHERE c.CAS_TYPE =&#39;stationär&#39;
+  AND YEAR(c.CAS_START_DATE_TS) = 2022
+  AND IRIS_INSURANCE_ORDER &lt;&gt; 1
+GROUP BY a.IRIS_CONTRACT_TYPE_DESCRIPTION;
+ORDER BY 2,3,4;</pre>
+</div></div><p /><p>The most  relevant <code>IRIS_CONTRACT_TYPE, IRIS_CONTRACT_TYPE_DESCRIPTION </code>for inpatiens cases are:</p><p style="margin-left: 30.0px;">CGV	DRG Grundversicherungsanteil<br/>CIV	DRG Invalidenversicherungsanteil<br/>CKT	DRG Kantonsanteil<br/>CUV	DRG Unfallversicherungsanteil<br/>CVV	DRG VVG 2020<br/>CZV	DRG Zusatzversicherung</p><p /><p>There are other <code>IRIS_INSURANCE_ORDER </code>with specific meanings. 99 means selfpay, 98 means partly selfpay (mostly for small items like drinks &amp; food)</p><p /><p /><p />
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

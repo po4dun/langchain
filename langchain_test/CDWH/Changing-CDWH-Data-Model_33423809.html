@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Changing CDWH Data Model</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Powerdesigner_33424152.html">Powerdesigner</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Changing CDWH Data Model
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Juni 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This page describes the CDWH model change process in Powerdesigner</p></div></div><p class="auto-cursor-target"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336132786 {padding: 0px;}
+div.rbtoc1698336132786 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336132786 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336132786'>
+<ul class='toc-indentation'>
+<li><a href='#ChangingCDWHDataModel-ChangeModelinPowerdesigner'>Change Model in Powerdesigner</a></li>
+<li><a href='#ChangingCDWHDataModel-GenerateScriptinPowerdesigner'>Generate Script in Powerdesigner</a></li>
+<li><a href='#ChangingCDWHDataModel-CommitModelChangesinSVNandexitPowerdesigner'>Commit Model Changes in SVN and exit Powerdesigner</a></li>
+<li><a href='#ChangingCDWHDataModel-InstallModelinDatabase'>Install Model in Database</a></li>
+<li><a href='#ChangingCDWHDataModel-GenerateandInstallNewPackages'>Generate and Install New Packages</a></li>
+<li><a href='#ChangingCDWHDataModel-AdaptChangesinTZ-Views'>Adapt Changes in TZ-Views</a></li>
+<li><a href='#ChangingCDWHDataModel-AdaptChangesinCDWHTZLoadWorkflows'>Adapt Changes in CDWH TZ Load Workflows</a></li>
+<li><a href='#ChangingCDWHDataModel-TestinginDEV'>Testing in DEV</a></li>
+<li><a href='#ChangingCDWHDataModel-Check-InChanged-andNewWorkflowsinSAPDS'>Check-In Changed- and New Workflows in SAP DS</a></li>
+<li><a href='#ChangingCDWHDataModel-Check-IntheScriptsinSVN(Tables,PackagesandViewsfromSteps3-5)'>Check-In the Scripts in SVN (Tables, Packages and Views from Steps 3-5)</a></li>
+<li><a href='#ChangingCDWHDataModel-Updatethedeploymentsheet'>Update the deployment sheet</a></li>
+</ul>
+</div></p><hr/></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="ChangingCDWHDataModel-ChangeModelinPowerdesigner"><strong>Change Model in Powerdesigner</strong></h2><p>The CDWH data model is maintained in SAP Powerdesigner and it is under version control in SVN.<br/><strong>Important: To avoid that several developers are changing the data model in parallel, please stick to the following procedure!</strong></p><ul><li>Open Powerdesigner first to ensure, that nobody else is working in Powerdesigner at the same time. If the license is already in use, you will get the following message:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443027.png" data-image-src="attachments/33423809/33443027.png" data-unresolved-comment-count="0" data-linked-resource-id="33443027" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="5c06410e15c6ac9d79dc4bd7165d35af_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="8da6eef6-91d2-46c5-a853-03c0a10c1bf4" data-media-type="file"></span></li><li>Update your local SVN repository:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443035.png" data-image-src="attachments/33423809/33443035.png" data-unresolved-comment-count="0" data-linked-resource-id="33443035" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="1aab6536f6d1e762d14a324ee8d3b833_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="fb4ae469-4e6c-4330-b065-045a469308e5" data-media-type="file"></span></li><li>In Powerdesigner, open the workspace from your local SVN-repository: <strong><code>C:\cdwh2\trunk\R_3_0_0\datamodel\SWS_CDWH.sws</code></strong></li><li>Double click the physical data model (PDM_USB) in your workspace to open the model:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443031.png" data-image-src="attachments/33423809/33443031.png" data-unresolved-comment-count="0" data-linked-resource-id="33443031" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="10c677a089f30ed13bbbca4adba97c59_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="4e3951ca-e882-4d89-93a9-53b1559e1b04" data-media-type="file"></span></li><li>Make your changes in the data model</li></ul><h2 id="ChangingCDWHDataModel-GenerateScriptinPowerdesigner"><strong>Generate Script in Powerdesigner</strong></h2><p>You can generate the scripts for the changed objects out of Powerdesigner.<br/><strong>Caution:</strong> By default, existing objects are dropped and recreated. If you need to preserve historical data, create an ALTER TABLE script manually.<br/>In Powerdesigner, open menu &quot;Database -&gt; Generate Database...&quot; and set the option as followed:<br/>(screenshots pending)</p><h2 id="ChangingCDWHDataModel-CommitModelChangesinSVNandexitPowerdesigner"><strong>Commit Model Changes in SVN and exit Powerdesigner</strong></h2><ul><li>Click &quot;Save all open documents&quot; in Powerdesigner, <strong>but do not close the Powerdesigner yet!</strong> This is to prevent anybody else from opening the model, before you've checked in your changes:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443015.png" data-image-src="attachments/33423809/33443015.png" data-unresolved-comment-count="0" data-linked-resource-id="33443015" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="8eb08b2cf2875802d4cd5de0474e94dd_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="d43cee64-0564-4f96-8596-b59003db94ec" data-media-type="file"></span></li><li>Right click on your SVN repository and choose &quot;SVN Commit...&quot;:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443011.png" data-image-src="attachments/33423809/33443011.png" data-unresolved-comment-count="0" data-linked-resource-id="33443011" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="2b7a09bd5b4cd7316349d318679da04c_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="1ee65c8c-c19c-4d30-9c59-46038552b16b" data-media-type="file"></span></li><li>Enter a check-in comment, <strong>tick all files related to the datamodel</strong> and click OK:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443023.png" data-image-src="attachments/33423809/33443023.png" data-unresolved-comment-count="0" data-linked-resource-id="33443023" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="07be30d510a83ea6eb32f51eb841cdbc_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="ac55e666-6db7-4693-956a-875900ede5fa" data-media-type="file"></span></li><li>Then proceed without an issue number:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443019.png" data-image-src="attachments/33423809/33443019.png" data-unresolved-comment-count="0" data-linked-resource-id="33443019" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="0e7df908fc67dca80896e0413df2cef9_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="cf98d92a-2a3c-4775-a73f-23213b52c7aa" data-media-type="file"></span></li><li>Close the confirmation message with OK:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443059.png" data-image-src="attachments/33423809/33443059.png" data-unresolved-comment-count="0" data-linked-resource-id="33443059" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="25d2c8575c3bf9bb40ce472d5163f5a3_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="dd3d31d2-af83-41d2-8bed-5c3065a2c1e5" data-media-type="file"></span></li><li>Close the Powerdesigner (it should not ask to save the model again!)</li></ul><h2 id="ChangingCDWHDataModel-InstallModelinDatabase"><strong>Install Model in Database</strong></h2><p>Install the new data model in the database, by executing the generated script from SAP Powerdesigner. Preserve the script as we need to check-in the new script in SVN later (Step 10)</p><h2 id="ChangingCDWHDataModel-GenerateandInstallNewPackages"><strong>Generate and Install New Packages</strong></h2><p>Changing the data model invalidates the packages for the tables that have been changed. The packages are used in the CDWH loads to perform the SCD2 loads and to ensure referential integrity (Delete Detection, Dummy Records, Join Checks and Historisation). After the new data model is installed properly, the packages for all tables can be generated as followed:</p><ul><li>Open TOAD and connect to the database of your choice</li><li>Get the latest generator-script from the SVN-repository: C:\cdwh2\trunk\R_3_0_0\database\CDWH\generated\gen_db_objects.sql</li><li>Enable DBMS Output in TOAD:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443055.png" data-image-src="attachments/33423809/33443055.png" data-unresolved-comment-count="0" data-linked-resource-id="33443055" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="1d9daf67de42fe02032d2883a3845720_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="98670548-f05d-4386-9ec6-c3030a71fd90" data-media-type="file"></span></li><li>Execute the scipt in TOAD, the script installs the generator and then asks for the table name of the table that the packages should be generated for. You have to enter the full IL-tablename (i.e. IL_DIM_ATC, IL_FCT_VITAL). <strong>Hint:</strong> To generate the packages for all tables in the data model, enter <strong><code>IL\_%</code></strong> in the prompt as shown below, then click OK:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443067.png" data-image-src="attachments/33423809/33443067.png" data-unresolved-comment-count="0" data-linked-resource-id="33443067" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="54eb1bce52457574e6d0de2608d7e4f6_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="23945cf9-47f4-4cbd-bb81-5d0fd7f61124" data-media-type="file"></span></li><li>The installation script is sent to the DBMS Output window, copy/paste the script for the new package(s) into a file and preserve the script, as we need to check-in the new packages in SVN later (Step 10)</li><li>Execute the script in order to install the new package(s) in the database</li></ul><h2 id="ChangingCDWHDataModel-AdaptChangesinTZ-Views"><strong>Adapt Changes in TZ-Views</strong></h2><p>There is a view in the transition-zone (TZ) for each table in the data model (IL), that contains the business logic and the mappings between the landing-zone (LZ) and tables in the data model (IL). These views are used as source in the CDWH TZ Load Workflows. Make your changes in the views and preserve the changed view-scripts, as we need to check-in the scripts in SVN later (Step 10)</p><h2 id="ChangingCDWHDataModel-AdaptChangesinCDWHTZLoadWorkflows"><strong>Adapt Changes in CDWH TZ Load Workflows</strong></h2><p>Open SAP Data Services and enter the DEV-Repository that is assigned to you. Ensure that your repository has got the latest version of all objects that you need to change:</p><ul><li>Open the Central Object Library:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443063.png" data-image-src="attachments/33423809/33443063.png" data-unresolved-comment-count="0" data-linked-resource-id="33443063" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="96badae4eb83364d941966a23f163ccd_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="55bca28b-6af6-46de-8c54-98f862c49330" data-media-type="file"></span></li><li>Get the latest version with dependents:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443043.png" data-image-src="attachments/33423809/33443043.png" data-unresolved-comment-count="0" data-linked-resource-id="33443043" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="a746613145517e6553668a0b60cad9a6_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="f7ca53e8-38cf-4374-9ba8-e7795ab2aa53" data-media-type="file"></span></li><li>Check-out the objects (with dependents), that you need to change through the Central Object Library:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443039.png" data-image-src="attachments/33423809/33443039.png" data-unresolved-comment-count="0" data-linked-resource-id="33443039" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="04af18f9d13e3b07da4cc19cbebbc33b_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="5c4855e2-1de5-49e9-8de4-ff9a9e87580c" data-media-type="file"></span></li><li>Make your changes and save the repository</li></ul><h2 id="ChangingCDWHDataModel-TestinginDEV"><strong>Testing in DEV</strong></h2><p>Test your changes in DEV environment, by running the jobs and checking the results in the database. <strong>Hint:</strong> Please keep in mind that the tests have to be repeated after the deployments to KONS and PROD. It's maybe helpful to document the tests and/or preserve the check-scripts for later testing</p><h2 id="ChangingCDWHDataModel-Check-InChanged-andNewWorkflowsinSAPDS"><strong>Check-In Changed- and New Workflows in SAP DS</strong></h2><p>When all changes are made and testing was completed successfully:</p><ul><li>Check-in the changed objects in the central object library:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443051.png" data-image-src="attachments/33423809/33443051.png" data-unresolved-comment-count="0" data-linked-resource-id="33443051" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="9cec4130884b46526106f702631de881_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="40cba111-2277-426e-9e09-8976e9d97810" data-media-type="file"></span></li><li>Add a reasonable comment about your change:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423809/33443047.png" data-image-src="attachments/33423809/33443047.png" data-unresolved-comment-count="0" data-linked-resource-id="33443047" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="14057c90be951a3f00980894f3ae3372_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423809" data-linked-resource-container-version="4" data-media-id="51b8cab7-d603-4625-b953-0979eeaa518e" data-media-type="file"></span></li></ul><h2 id="ChangingCDWHDataModel-Check-IntheScriptsinSVN(Tables,PackagesandViewsfromSteps3-5)"><strong>Check-In the Scripts in SVN (Tables, Packages and Views from Steps 3-5)</strong></h2><p>All changed database scripts also have to be changed- and checked-in in SVN. Before you start to replace/change the scripts in your local SVN-copy, update your copy and get the latest versions of the scripts from the SVN-repository (remember to adapt headers as well accordingly to other similar scripts e.g. DIM or FCT objects). Then integrate the changes and scripts you preserved in steps 4-6. Check-in your changes and add a reasonable comment about your changes</p><h2 id="ChangingCDWHDataModel-Updatethedeploymentsheet"><strong>Update the deployment sheet</strong></h2><p>In SVN, there is an excel sheet that contains all information about changed objects and their deployment status. Update the sheet according to the changes you made and check-in the excel sheet in SVN. Deployments to KONS and PROD need to be coordinated in the development team. The documentation of this process can be found here: <a rel="nofollow">GoTo</a> (documentation pending)</p></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443027.png">5c06410e15c6ac9d79dc4bd7165d35af_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443035.png">1aab6536f6d1e762d14a324ee8d3b833_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443031.png">10c677a089f30ed13bbbca4adba97c59_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443015.png">8eb08b2cf2875802d4cd5de0474e94dd_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443011.png">2b7a09bd5b4cd7316349d318679da04c_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443023.png">07be30d510a83ea6eb32f51eb841cdbc_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443019.png">0e7df908fc67dca80896e0413df2cef9_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443059.png">25d2c8575c3bf9bb40ce472d5163f5a3_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443055.png">1d9daf67de42fe02032d2883a3845720_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443067.png">54eb1bce52457574e6d0de2608d7e4f6_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443063.png">96badae4eb83364d941966a23f163ccd_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443043.png">a746613145517e6553668a0b60cad9a6_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443039.png">04af18f9d13e3b07da4cc19cbebbc33b_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443051.png">9cec4130884b46526106f702631de881_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423809/33443047.png">14057c90be951a3f00980894f3ae3372_image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

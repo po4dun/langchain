@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : DBeaver CDWH-Project</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="33424146.html">Application install/setup</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : DBeaver CDWH-Project
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Richard Marti</span>, last modified on Apr. 11, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>There is a CDWH-Project that can be imported in DBeaver. The Project contains all necessary Database-Connections to the HANA-Database and all relevant Source-System-Databases. All connections are already fully configured, what makes it obsolete to configure all connections manually and saves a lot of time.</p><p>Prerequisites:</p><ul><li><p>You’ve already installed DBeaver: <a href="DBeaver-install_33423924.html" data-linked-resource-id="33423924" data-linked-resource-version="5" data-linked-resource-type="page">DBeaver install</a> </p></li><li><p>You’ve already installed the Oracle Driver: <a href="Oracle-install_33423832.html" data-linked-resource-id="33423832" data-linked-resource-version="7" data-linked-resource-type="page">Oracle install</a> </p></li></ul><p><strong>Be aware, that the CDWH-Project also stores the passwords for each connection!</strong></p><p>Therefore, this is a sensitive task, please follow the instructions carefully:</p><ul><li><p>Copy the file <strong>DBeaver_CDWH_Project.zip</strong> from L:\DICT\FuAS\CDWH\Software\DBeaver_CDWH_Project\ <strong>to your local drive</strong> (i.e. C:\Temp\)</p></li><li><p>Unzip the project file <strong>on your local drive</strong>, using the top secret password <img class="emoticon emoticon-wink" data-emoji-id="1f609" data-emoji-shortname=":wink:" data-emoji-fallback="😉" src="images/icons/emoticons/wink.png" width="16" height="16" data-emoticon-name="wink" alt="(Zwinkern)"/><br/>(same password like KeePass-Database, ask your colleagues)</p></li><li><p><strong>The project file may never be stored on a network-drive, not for one second!</strong></p></li><li><p>In DBeaver, choose “Import” from the “File”-Menu</p></li><li><p>Choose “DBeaver Project” in the following dialogue:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/169738318.png" data-image-src="attachments/169836555/169738318.png" data-height="543" data-width="510" data-unresolved-comment-count="0" data-linked-resource-id="169738318" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-072501.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="dde77efc-0a3d-4896-bc82-629bce0ae825" data-media-type="file"></span></li><li><p>Clicking “Next” will open another dialogue:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/169705537.png" data-image-src="attachments/169836555/169705537.png" data-height="541" data-width="510" data-unresolved-comment-count="0" data-linked-resource-id="169705537" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-072717.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="c6e327c4-3796-4a1b-875c-93e3e7b60704" data-media-type="file"></span><ul><li><p>Browse to the unzipped project File</p></li><li><p>Tick the box to also import driver libraries</p></li><li><p>Tick the box in the original name field</p></li><li><p>Choose a target name for your Project, default is CDWH</p></li></ul></li><li><p>Clicking “Finish” will import the project and you shoud get this message:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/169705543.png" data-image-src="attachments/169836555/169705543.png" data-height="143" data-width="519" data-unresolved-comment-count="0" data-linked-resource-id="169705543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-073030.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="17f23bb9-a159-47e7-96e3-dcf3052bcf33" data-media-type="file"></span></li><li><p>Activate “Database Navigator” and “Projects” from the Windows-Menu:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/169967649.png" data-image-src="attachments/169836555/169967649.png" data-height="153" data-width="214" data-unresolved-comment-count="0" data-linked-resource-id="169967649" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-073414.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="579b5fbb-1940-4a4a-81c3-321194d4667c" data-media-type="file"></span></li><li><p>In the “Projects”-Area you will find two projects, the Default-Project “General” and the newly imported CDWH-Project. Activate the CDWH-Project, by right clicking on it and choosing “Set Active Project”:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/170065979.png" data-image-src="attachments/169836555/170065979.png" data-height="125" data-width="314" data-unresolved-comment-count="0" data-linked-resource-id="170065979" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-073832.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="96e8d87e-33f8-4b84-8692-8671fe4013ba" data-media-type="file"></span></li><li><p>Only one project can be active at a time (the active project appears in bold letters). Active projects cannot be deleted, you can delete the Default-Project “General” after activating the CDWH-Project (right click):</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/170000449.png" data-image-src="attachments/169836555/170000449.png" data-height="285" data-width="296" data-unresolved-comment-count="0" data-linked-resource-id="170000449" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-074328.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="3b2d2c71-1b00-4dc5-b792-a1c7d3dc7c30" data-media-type="file"></span></li><li><p>In the “Database Navigator” you will find this folder structure for the Connections:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/170065987.png" data-image-src="attachments/169836555/170065987.png" data-height="212" data-width="208" data-unresolved-comment-count="0" data-linked-resource-id="170065987" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-074903.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="630ddea2-4e16-418e-a640-e097c2a3fd82" data-media-type="file"></span><ul><li><p>In the upper part you find the connections to the different HANA-Environments</p></li><li><p>In the lower part there are two separate folders for KONS- and PROD-Connections to CDWH Source System Databases</p></li></ul></li><li><p>You will get a personal user/schema on HANA, the connections are prepared (see yellow highlighted entries below), update user/password of those entries and rename the entries accordingly:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/169836555/170426422.png" data-image-src="attachments/169836555/170426422.png" data-height="1195" data-width="515" data-unresolved-comment-count="0" data-linked-resource-id="170426422" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230405-111816.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="169836555" data-linked-resource-container-version="5" data-media-id="b1468045-8a4a-48ac-904c-c6b18b574da7" data-media-type="file"></span><p /></li><li><p><strong>DELETE the unzipped Project File from your local drive!</strong></p></li></ul><h2 id="DBeaverCDWH-Project-DBeaver-Bug:TNS-Updates">DBeaver-Bug: TNS-Updates</h2><p>DBeaver stores the configuration from the TNS-File together with the connection. When the TNS-File changes, DBeaver does not automatically read the updated TNS-Entry and the connection becomes invalid. If you encounter invalid Oracle-Connections in DBeaver, do the following:</p><ul><li><p>Edit the connection and press the button “Test Connection”</p></li><li><p>This action “forces” DBeaver to read the configuration from the TNS-File again</p></li><li><p>If the connection can be established successfully, click OK and done</p></li><li><p>If the connection cannot be established, you:</p><ul><li><p>either have an outdated TNS-File (Check this article: <a href="Oracle-install_33423832.html" data-linked-resource-id="33423832" data-linked-resource-version="7" data-linked-resource-type="page">Oracle install</a> )</p></li><li><p>or the password has changed (Check KeePass to get the new password)</p></li></ul></li></ul><p /><p />
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/169738318.png">image-20230405-072501.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/169705537.png">image-20230405-072717.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/169705543.png">image-20230405-073030.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/169967649.png">image-20230405-073414.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/170065979.png">image-20230405-073832.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/170000449.png">image-20230405-074328.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/170065987.png">image-20230405-074903.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/169836555/170426422.png">image-20230405-111816.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

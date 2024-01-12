@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : RIS Queries</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Protokolle_33423571.html">Protokolle</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Fabian-test_33423458.html">Fabian test</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : RIS Queries
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Juli 01, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><br/></p><p>Falls Anfragen zu Daten aus RIS von Antonino Citrano kommen (er ist unser Ansprechpartner und alle Anfragen sollten über ihn laufen). Es gibt keine konkrete Anfrage zu erwarten, er hat aber um einen Backup Contact während meinen Ferien geben:</p><p><br/></p><ul><li>Es gibt 2 Views in meinem Schema, die dem CDWH User gegranted sind: ORU und ORM</li><li>Falls eine Anfrage kommt, welche eine Anpassung an den Views nötig macht: Ablehnen und auf mich verweisen.</li><li>Ev. wollen sie ein paar Bedingungen im WHERE, da muss er aber genau sagen was (inhaltliche Entscheidungen sind von ihm zu treffen)</li></ul><p><br/></p><h3 id="RISQueries-Queriessindsozumachen:">Queries sind so zu machen:</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>ORM</b></div><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+        INSTITUTION_NAME,
+        ISSUER,
+        PATIENTID_STRINGPREFIX,
+        PATIENTID,
+        PATIENTNAME,
+        DATEOFBIRTH,
+        PATIENTSEX,
+        DECEASEINDICATOR,
+        DECEASEDATETIME,
+        STUDYDATE,
+        STUDYTIME,
+        ACCESSIONNUMBER,
+        STUDYID,
+        EXAMCODE,
+        EXAMDESCRIPTION,
+        REASONFORSTUDY,
+        BODYPART,
+        STATIONNAME,
+        ARBEITSPLATZ,
+        EXAMSTATUS,
+        MODALITIESINSTUDY,
+        PRIORITY,
+        PATIENTLOCATION,
+        REFERRINGPHYSICIAN,
+        STUDYCOMMENTS,
+        ABTEILUNG,
+        PROTOCOLTEXT,
+        LABORINFO,
+        INSTITUTSBEREICH,
+        ANAMNESIS,
+        ANFNAME,
+        ANFTELEFON,
+        VERSKLASSE,
+        PATRISIKEN,
+        UNTERSRISIKEN,
+        PATGEBURTSNAME,
+        DIKTIERER,
+        SCHREIBER,
+        SIGNIERER,
+        FREIGEBER,
+        LESER,
+        GEGENLESER
+    FROM
+        franzeckf.orm
+    WHERE
+		AUSSCHLUSS_MIGRATION &lt;&gt; 1 -- diese Bedingung sollte immer aktiv sein
+   		-- AND STUDYDATE BETWEEN &#39;20220620&#39; AND &#39;20220626&#39;  -- zu antizipieren: Daten aus einem gewissen Zeitraum
+		-- AND EXAMSTATUS =&#39;f&#39; -- zu antizipieren:  Daten mit einem definierten EXAMSTATUS: f= finalisiert, &lt;&gt; &#39;f&#39; --&gt; nicht finalisiert
+    ORDER BY ACCESSIONNUMBER;</pre>
+</div></div><h3 id="RISQueries-unddiezweite:">und die zweite:</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>ORU</b></div><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+	INSTITUTION_NAME,
+ 	ISSUER,
+	PATIENTID_STRINGPREFIX,
+    PATIENTID,
+    PATIENTNAME,
+    DATEOFBIRTH,
+    PATIENTSEX,
+    STUDYDATE,
+    STUDYTIME,
+    ACCESSIONNUMBER,
+    STUDYID,
+    EXAMCODE,
+    EXAMDESCRIPTION,
+    EXAMSTATUS,
+    MODALITIESINSTUDY,
+    REFERRINGPHYSICIAN,
+    REPORTTEXT,
+    SIGNDATETIME,
+    SIGNINGPHYSICIAN
+FROM
+    franzeckf.oru a
+WHERE
+	AUSSCHLUSS_MIGRATION &lt;&gt; 1 -- diese Bedingung sollte immer aktiv sein
+   	-- AND STUDYDATE BETWEEN &#39;20220620&#39; AND &#39;20220626&#39;  -- zu antizipieren: Daten aus einem gewissen Zeitraum
+	-- AND EXAMSTATUS =&#39;f&#39; -- zu antizipieren:  Daten mit einem definierten EXAMSTATUS: f= finalisiert, &lt;&gt; &#39;f&#39; --&gt; nicht finalisiert
+ORDER BY ACCESSIONNUMBER;</pre>
+</div></div><p><br/></p><h2 id="RISQueries-FürdenExport">Für den Export</h2><p>Bitte als CSV aus Dbeaver exportieren, mit exakt diesen Export Settings (ihr CSV Parser ist mega heikel, so funktionierts einfach reibungslos).</p><p>Filenaming hab ich jeweils so gemacht (Datum= Exportdatum):</p><ul><li>20220620_ORU.csv</li><li>20220620_ORM.csv</li></ul><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" loading="lazy" src="attachments/33423641/33437657.png" data-image-src="attachments/33423641/33437657.png" data-unresolved-comment-count="0" data-linked-resource-id="33437657" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-1_9-9-20.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423641" data-linked-resource-container-version="3" data-media-id="e598545c-4b50-43d2-9bb3-9106de940e1f" data-media-type="file"></span></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" loading="lazy" src="attachments/33423641/33437615.png" data-image-src="attachments/33423641/33437615.png" data-unresolved-comment-count="0" data-linked-resource-id="33437615" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-1_8-55-16.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423641" data-linked-resource-container-version="3" data-media-id="160db08e-5a45-4c48-80e3-7107cbdba86e" data-media-type="file"></span></p><p><br/></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="531" width="1101" loading="lazy" src="attachments/33423641/33437603.png?width=1101" data-image-src="attachments/33423641/33437603.png" data-unresolved-comment-count="0" data-linked-resource-id="33437603" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-1_8-55-34.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423641" data-linked-resource-container-version="3" data-media-id="f2da8e51-7d28-4a48-aba0-e9bda0b76131" data-media-type="file"></span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423641/33437615.png">image2022-7-1_8-55-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423641/33437603.png">image2022-7-1_8-55-34.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423641/33437657.png">image2022-7-1_9-9-20.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

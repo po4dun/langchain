@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : ISMed NFZ Overview (NoFasy Modul)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="ISMED-data_257097771.html">ISMED data</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : ISMed NFZ Overview (NoFasy Modul)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Alexander Kleer</span> on Juni 19, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>The NFZ is using a separate ISMed Modul called “NoFasy”. The data is stored in the form <strong>300</strong>.</p><p>For reporting purposes we implemented a view, which gathers most of the relevant NFZ related information. The view is stored within the technical schema “IF_BUSINESS_OBJECT” (dedicated for SAP BO BI usage). How ever, since the view is not available for “normal” users, here is the code for further usage (we should think about adding a similar version as V_DM onto the CDWH schema):</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">WITH &quot;SUBCASE_ISMED_NFZ&quot; AS (SELECT
+	    i_sub.PAT_BK, -- PATFALL.PATNR
+	    i_sub.CAS_BK, -- PATFALL.FALLNR, wichtig für den JOIN_CHECK
+	    max(i_sub.SCIM_BK) AS SCIM_BK, -- FALLFACH.recid, wichtig für den JOIN_CHECK
+	    i_sub.CAIM_BK, -- PATFALL.FALLNR, wichtig für den JOIN_CHECK
+	    i_sub.SCIM_ASSIGN_ORG_BK, -- STANDORT.STAOCDADMIN via FALLFACH.STAO_RECID
+	    MIN(i_sub.SCIM_START_DATE_TS) AS NFZ_START_DATE_TS, -- FALLFACH.FACHEINDATUM
+	    MIN(i_sub.SCIM_START_DAY_BK) AS NFZ_START_DAY_BK,
+	    MIN(i_sub.SCIM_START_TIM_BK) AS NFZ_START_TIM_BK,
+	    MAX(i_sub.SCIM_END_DATE_TS) AS NFZ_END_DATE_TS, -- FALLFACH.FACHAUSDATUM
+	    MAX(i_sub.SCIM_END_DAY_BK) AS NFZ_END_DAY_BK,
+	    MAX(i_sub.SCIM_END_TIM_BK) AS NFZ_END_TIM_BK
+	FROM
+	    CDWH.V_IL_DIM_SUBCASE_ISMED_CID AS i_sub
+	    INNER JOIN (
+			SELECT DISTINCT
+				m.CAS_BK
+			FROM cdwh.V_IL_FCT_MOVEMENT AS m -- In general, Cases can be modified IN SAP, AFTER they were entered in ISMed &amp; transferred. Patient movement IS one OF these ATTRIBUTES.
+	    	WHERE
+	    		m.MOV_ASSIGN_ORG_BK = &#39;00004800&#39;
+	    ) AS mov_sub
+	    	ON mov_sub.CAS_BK = i_sub.CAS_BK
+	WHERE
+		i_sub.SCIM_ASSIGN_ORG_BK = &#39;00004800&#39;
+		AND i_sub.SCIM_DEPT_ORG_BK IN (&#39;00000751&#39;, &#39;00000752&#39;, &#39;00000753&#39;)
+		GROUP BY i_sub.PAT_BK, i_sub.CAS_BK, --i_sub.SCIM_BK,
+		 i_sub.CAIM_BK, i_sub.SCIM_ASSIGN_ORG_BK), &quot;SAP_STATIONARY_STAY_NFZ&quot; AS (SELECT
+		stay.CAS_BK,
+		MIN(stay.SO_BEGIN) AS SAP_NFZ_STAY_BEGIN_TS,
+		MIN(stay.SO_END) AS SAP_NFZ_STAY_END_TS,
+		MIN(SO_END_MOV_BK) AS SAP_MOV_BK_NEXT_ORG_BK
+	FROM cdwh.V_DM_FCT_STAY_BY_ORG AS stay
+	WHERE
+		stay.SO_ASSIGN_ORG_BK = &#39;00004800&#39;
+	GROUP BY stay.CAS_BK), &quot;NFZ_STAY&quot; AS (SELECT
+	subcase_i_n.CAS_BK,
+    ci.PAT_BK,
+    subcase_i_n.SCIM_BK,
+    ci.CAIM_BK,
+	CASE
+		WHEN sap_c.CAS_TYPE_ID = 1 THEN sap_stay.SAP_NFZ_STAY_BEGIN_TS -- sap stationary stay
+		WHEN sap_c.CAS_TYPE_ID in (2,3) THEN subcase_i_n.NFZ_START_DATE_TS -- ismed ambulant AND partially stationary stay
+		ELSE sap_stay.SAP_NFZ_STAY_BEGIN_TS
+	END AS CDWH_NFZ_STAY_BEGIN_TS,
+	CASE
+		WHEN sap_c.CAS_TYPE_ID = 1 THEN sap_stay.SAP_NFZ_STAY_END_TS -- sap stationary stay 
+		WHEN sap_c.CAS_TYPE_ID in (2,3) AND LENGTH(ci.CAIM_INFORMATION_BLOCKER) &lt;= 4 THEN subcase_i_n.NFZ_END_DATE_TS -- ismed ambulant AND partially stationary 
+		WHEN sap_c.CAS_TYPE_ID in (2,3) AND LENGTH(ci.CAIM_INFORMATION_BLOCKER) &gt; 4 THEN CAST(LEFT(ci.CAIM_INFORMATION_BLOCKER, 14) AS SECONDDATE) -- ismed ambulant AND partially stationary
+		ELSE sap_stay.SAP_NFZ_STAY_END_TS
+	END AS CDWH_NFZ_STAY_END_TS,
+    ci.CAIM_STATUS_ID, -- wird später im WHERE benötigt
+    subcase_i_n.NFZ_START_DATE_TS AS ISMED_NFZ_STAY_START_DATE_TS,
+    subcase_i_n.NFZ_START_DAY_BK AS ISMED_NFZ_STAY_START_DAY_BK,
+    subcase_i_n.NFZ_START_TIM_BK AS ISMED_NFZ_STAY_START_TIM_BK,
+    subcase_i_n.NFZ_END_DATE_TS AS ISMED_NFZ_STAY_END_DATE_TS,
+    subcase_i_n.NFZ_END_DAY_BK AS ISMED_NFZ_STAY_END_DAY_BK,
+    subcase_i_n.NFZ_END_TIM_BK AS ISMED_NFZ_STAY_END_TIM_BK
+	FROM cdwh.V_IL_DIM_CASE_ISMED_CID AS ci
+	INNER JOIN subcase_ismed_nfz AS subcase_i_n
+		ON subcase_i_n.CAIM_BK = ci.CAIM_BK	
+	INNER JOIN cdwh.V_IL_DIM_CASE_CID AS sap_c
+		ON sap_c.CAS_BK = subcase_i_n.CAS_BK
+	LEFT JOIN sap_stationary_stay_nfz AS sap_stay
+		ON sap_stay.CAS_BK = subcase_i_n.CAS_BK
+	WHERE
+		YEAR(ci.CAIM_START_DATE_TS) &gt;= 2015), &quot;MAX_NFZ_FORM_ISMED&quot; AS (SELECT
+	fct_form.FOIM_BK,
+	fct_form.CAS_BK,
+	fct_form.FRIM_BK,
+	fct_form.FOIM_FORM_CREATE_DATE_TS,
+	fct_form.FOIM_FORM_CREATE_USER_BK,
+	fct_form.FOIM_FORM_MUTATION_DATE_TS,
+	fct_form.FOIM_FORM_MUTATION_USER_BK,
+	fct_form.FOIM_FIELD_VALUE,
+	fct_form.FOIM_FIELD_VALUE_TEXT,
+	fct_form.FOIM_FIELD_INSERT_DATE_TS,
+	fct_form.FOIM_FIELD_UPDATE_DATE_TS
+	FROM CDWH.V_IL_FCT_FORM_ISMED AS fct_form
+	INNER JOIN (
+			SELECT
+				sub.CAS_BK,
+				sub.FRIM_BK,
+				MAX(sub.FOIM_NK) AS MAX_FOIM_NK
+			FROM CDWH.V_IL_FCT_FORM_ISMED AS sub
+			WHERE 1=1
+				AND sub.FOIM_SYS_NK = &#39;ISM&#39;
+				AND sub.FOIM_FORM_ID = 300
+				AND (sub.FRIM_BK LIKE &#39;ISM|300|%&#39; OR sub.FRIM_BK LIKE &#39;ISM|350|%&#39;)
+			GROUP BY sub.CAS_BK, sub.FRIM_BK
+		) AS unique_FRIM_VALUE
+			ON unique_FRIM_VALUE.MAX_FOIM_NK = fct_form.FOIM_NK), &quot;MIN_NFZ_FORM_ISMED&quot; AS (SELECT
+	fct_form.FOIM_BK,
+	fct_form.CAS_BK,
+	fct_form.FRIM_BK,
+	fct_form.FOIM_FORM_CREATE_DATE_TS,
+	fct_form.FOIM_FORM_CREATE_USER_BK,
+	fct_form.FOIM_FORM_MUTATION_DATE_TS,
+	fct_form.FOIM_FORM_MUTATION_USER_BK,
+	fct_form.FOIM_FIELD_VALUE,
+	fct_form.FOIM_FIELD_VALUE_TEXT,
+	fct_form.FOIM_FIELD_INSERT_DATE_TS,
+	fct_form.FOIM_FIELD_UPDATE_DATE_TS
+	FROM CDWH.V_IL_FCT_FORM_ISMED AS fct_form
+	INNER JOIN (
+			SELECT
+				sub.CAS_BK,
+				sub.FRIM_BK,
+				MIN(sub.FOIM_NK) AS MIN_FOIM_NK
+			FROM CDWH.V_IL_FCT_FORM_ISMED AS sub
+			WHERE 1=1
+				AND sub.FOIM_SYS_NK = &#39;ISM&#39;
+				AND sub.FOIM_FORM_ID = 300
+				AND (sub.FRIM_BK LIKE &#39;ISM|300|%&#39; OR sub.FRIM_BK LIKE &#39;ISM|350|%&#39;)
+			GROUP BY sub.CAS_BK, sub.FRIM_BK
+		) AS unique_FRIM_VALUE
+			ON unique_FRIM_VALUE.MIN_FOIM_NK = fct_form.FOIM_NK), &quot;ISMED_PATIENTPATH_DESIGNATED_STATION&quot; AS (SELECT
+	padded_sub.CAS_BK,
+	padded_sub.PAT_BK,
+	padded_sub.CAIM_BK,
+	IFNULL(sap_org.ORG, padded_sub.FOIM_FIELD_VALUE) AS ISMED_DESIGNATED_STATION,
+	padded_sub.FOIM_FIELD_INSERT_DATE_TS AS ISMED_DESIGNATED_STATION_INSERT_DATE_TS,
+	padded_sub.FOIM_FIELD_UPDATE_DATE_TS AS ISMED_DESIGNATED_STATION_UPDATE_DATE_TS
+	FROM (
+		SELECT
+		nfz_s.CAS_BK,
+		nfz_s.PAT_BK,
+		nfz_s.SCIM_BK,
+		nfz_s.CAIM_BK,
+		CASE
+			WHEN FOIM_FIELD_VALUE LIKE_REGEXPR &#39;[a-zA-Z\.]&#39; THEN FOIM_FIELD_VALUE ELSE CAST(lpad(FOIM_FIELD_VALUE, 8, &#39;0&#39;) AS nvarchar(8))
+		END AS FOIM_FIELD_VALUE,
+		f_patpath.FOIM_FIELD_INSERT_DATE_TS,
+		f_patpath.FOIM_FIELD_UPDATE_DATE_TS
+		FROM nfz_stay AS nfz_s
+		LEFT JOIN max_nfz_form_ismed AS f_patpath
+			ON f_patpath.CAS_BK = nfz_s.CAS_BK
+			AND f_patpath.FRIM_BK = &#39;ISM|300|3015&#39; -- NFS Patientenpfad vorgesehene Station 
+		WHERE
+			nfz_s.CAIM_STATUS_ID = &#39;31&#39;
+			AND FOIM_FIELD_VALUE IS NOT NULL
+	) AS padded_sub
+	LEFT JOIN cdwh.V_IL_DIM_ORG_CID AS sap_org
+		ON sap_org.ORG_BK = padded_sub.FOIM_FIELD_VALUE), &quot;SAP_NEXT_DESIGNATED_STATION&quot; AS (SELECT
+		sap_stay.CAS_BK,
+		O.ORG AS SAP_NEXT_ORG
+	FROM SAP_STATIONARY_STAY_NFZ AS sap_stay
+	INNER JOIN CDWH.V_IL_FCT_MOVEMENT AS M
+		ON M.MOV_BK = sap_stay.SAP_MOV_BK_NEXT_ORG_BK
+	INNER JOIN CDWH.V_IL_DIM_ORG_CID AS O
+		ON O.ORG_BK = m.MOV_ASSIGN_NEXT_ORG_BK) SELECT
+	nfz_s.CAS_BK,
+	nfz_s.PAT_BK,
+	YEARS_BETWEEN(sap_p.PAT_BIRTH_DATE, TO_DATE(nfz_s.CDWH_NFZ_STAY_BEGIN_TS)) AS PATIENT_AGE_NFZ_STAY_BEGIN, -- Auf basis von CDWH_NFZ_STAY_BEGIN_TS
+	nfz_s.CAIM_BK,
+	nfz_s.CDWH_NFZ_STAY_BEGIN_TS,
+	nfz_s.CDWH_NFZ_STAY_END_TS,
+	nfz_s.ISMED_NFZ_STAY_START_DATE_TS,
+	nfz_s.ISMED_NFZ_STAY_START_DAY_BK,
+	nfz_s.ISMED_NFZ_STAY_START_TIM_BK,
+	nfz_s.ISMED_NFZ_STAY_END_DATE_TS,
+	nfz_s.ISMED_NFZ_STAY_END_DAY_BK,
+	nfz_s.ISMED_NFZ_STAY_END_TIM_BK,
+	CASE
+		WHEN m_f_behst.FOIM_FIELD_VALUE = &#39;3&#39; THEN IFNULL(m_f_behst.FOIM_FIELD_UPDATE_DATE_TS, m_f_behst.FOIM_FIELD_INSERT_DATE_TS)
+	END AS green_status_date_ts,
+	CASE WHEN nfz_s.CDWH_NFZ_STAY_BEGIN_TS &gt; nfz_s.CDWH_NFZ_STAY_END_TS
+	       OR      round(SECONDS_BETWEEN(nfz_s.CDWH_NFZ_STAY_BEGIN_TS, nfz_s.CDWH_NFZ_STAY_END_TS) / 60, 0) &gt; 10*24*60 THEN NULL ELSE --10 Tage maxi
+	          CAST(round(SECONDS_BETWEEN(nfz_s.CDWH_NFZ_STAY_BEGIN_TS, nfz_s.CDWH_NFZ_STAY_END_TS) / 60, 0) AS integer)
+	END AS CDWH_LOS_NFZ_MINUTES,
+	CASE
+		WHEN m_f_behst.FOIM_FIELD_VALUE = &#39;3&#39; AND round(SECONDS_BETWEEN(cas_ismed.CAIM_START_DATE_TS, IFNULL(m_f_behst.FOIM_FIELD_UPDATE_DATE_TS, m_f_behst.FOIM_FIELD_INSERT_DATE_TS)) / 60, 0) BETWEEN 0 AND 14400 --0 bis 10 Tage maxi
+		                                THEN CAST(round(SECONDS_BETWEEN(cas_ismed.CAIM_START_DATE_TS, IFNULL(m_f_behst.FOIM_FIELD_UPDATE_DATE_TS, m_f_behst.FOIM_FIELD_INSERT_DATE_TS)) / 60, 0) AS integer)
+		                                ELSE NULL
+	END AS GREEN_STATUS_LOS_NFZ_MINUTES,
+	CAST(m_f_esi.FOIM_FIELD_VALUE AS nvarchar(4)) AS ESI_SCORE,
+	CAST(m_f_behpf.FOIM_FIELD_VALUE AS nvarchar(50)) AS Behandlungspfad,
+	CAST(m_f_behst.FOIM_FIELD_VALUE_TEXT AS nvarchar(50)) AS Behandlungsstatus,
+	CAST(m_f_cfs.FOIM_FIELD_VALUE_TEXT AS nvarchar(50)) AS CFS_Wert,
+	CAST(m_f_news.FOIM_FIELD_VALUE_TEXT AS nvarchar(4)) AS News_Score,
+	CAST(m_f_vigilanz.FOIM_FIELD_VALUE_TEXT AS nvarchar(50)) AS Vigilanz_AVPUC,
+	m_f_jetziges_leiden.FOIM_FIELD_VALUE AS ISMed_NFZ_Jetziges_Leiden,
+	m_f_persoenliche_anamnese.FOIM_FIELD_VALUE AS ISMed_NFZ_persoenliche_anamnese,
+	CAST(m_f_icd10_code.FOIM_FIELD_VALUE AS nvarchar(50)) AS ISMed_NFZ_Diagnose_ICD10_Code,
+	CAST(m_f_icd10_text.FOIM_FIELD_VALUE AS nvarchar(150)) AS ISMed_NFZ_Diagnose_ICD10_Text,
+	CAST(
+	concat_naz(m_f_diagnose_text.FOIM_FIELD_VALUE,&#39;
+&#39; || m_f_diagnosedetails.FOIM_FIELD_VALUE) AS nvarchar(5000)
+	) AS ISMed_NFZ_Diagnose_Text,
+CASE WHEN f_arztuserid.FOIM_FIELD_INSERT_DATE_TS = NULL OR cas_ismed.CAIM_START_DATE_TS &gt; f_arztuserid.FOIM_FIELD_INSERT_DATE_TS THEN NULL ELSE 
+  CAST(round(seconds_between(cas_ismed.CAIM_START_DATE_TS, f_arztuserid.FOIM_FIELD_INSERT_DATE_TS) / 60, 0) AS integer)
+END AS Dauer_Eintritt_bis_Behandlungsbegin_AA_in_Minuten, --MIN(FOIM_NK) oder MAX(FOIM_NK) ? Sieht eher nach Min aus.
+CAST(
+CASE WHEN (SELECT count(*) FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D WHERE D.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK AND DII_IS_MAIN_DIAGNOSIS = 1) = 0 --keine markierte Hauptdiagnose
+THEN
+	(SELECT concat_naz (concat_naz(upper(min(DII_DIAG_TEXT)),&#39;   --
+&#39; || min(DII_DIAG_DESC)), &#39;                                      --
+ToDo                                                             --
+&#39; || min(DII_DIAG_TODO))                                         --
+                              FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D WHERE D.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK AND D.DII_DIAG_SORT = 
+ (SELECT min(DII_DIAG_SORT) FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D2 WHERE D2.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK)) --erste Diagnose als Hauptdiagnose nehmen
+else
+	(SELECT concat_naz (concat_naz(upper(min(DII_DIAG_TEXT)),&#39;   --
+&#39; || min(DII_DIAG_DESC)), &#39;                                      --
+ToDo                                                             --
+&#39; || min(DII_DIAG_TODO))                                         --
+ FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D WHERE D.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK AND DII_IS_MAIN_DIAGNOSIS = 1) END AS nvarchar(5000)) AS ISMed_1_KG_Hauptdiagnose_Text, 
+CASE WHEN (SELECT count(*) FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D WHERE D.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK AND DII_IS_MAIN_DIAGNOSIS = 1) = 0 --keine markierte Hauptdiagnose
+THEN
+ (SELECT STRING_AGG(CASE WHEN lower(DII_DIAG_TEXT) LIKE &#39;%nebendiagnosen%&#39; OR lower(DII_DIAG_TEXT) LIKE &#39;%weitere diagnosen%&#39; THEN --Titel und Detail
+upper(DII_DIAG_TEXT) || &#39; *
+&#39; || DII_DIAG_DESC || &#39;
+&#39;                                                                                                              ELSE --nur Titel
+upper(DII_DIAG_TEXT) || &#39; 
+&#39;                  end ORDER BY D2.DII_DIAG_SORT)
+ FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D2 WHERE D2.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK AND D2.DII_DIAG_SORT &lt;&gt; 
+ (SELECT min(DII_DIAG_SORT) FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D3 WHERE D3.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK)) --erste Diagnose als Nebendiagnose ausschliessen
+else
+ (SELECT STRING_AGG(CASE WHEN lower(DII_DIAG_TEXT) LIKE &#39;%nebendiagnosen%&#39; OR lower(DII_DIAG_TEXT) LIKE &#39;%weitere diagnosen%&#39; THEN --Titel und Detail
+upper(DII_DIAG_TEXT) || &#39; *
+&#39; || DII_DIAG_DESC || &#39;
+&#39;                                                                                                              ELSE --nur Titel
+upper(DII_DIAG_TEXT) || &#39; 
+&#39;                  end ORDER BY D2.DII_DIAG_SORT)
+ FROM CDWH.V_IL_FCT_DIAGNOSIS_ISMED D2 WHERE D2.CAS_BK = nfz_s.CAS_BK AND SCIM_BK = nfz_s.SCIM_BK AND DII_IS_MAIN_DIAGNOSIS = 0) END AS ISMed_1_KG_Nebendiagnosen_Text, --letzte eKG
+--
+     (SELECT min(DIA)    FROM CDWH.V_IL_FCT_DIAGNOSIS D
+ 	                     JOIN CDWH.V_IL_DIM_DIAGNOSIS_CID DD ON DD.DIA_BK = D.dia_bk 
+ 	                                                    WHERE D.CAS_BK = nfz_s.CAS_BK AND DIG_RANK = &#39;Hauptdiagnose&#39; AND DIG_STORNO_FLAG = 0) AS SAP_Hauptdiagnose_ICD10_Text,
+     (SELECT MIN(DIA_NK) FROM CDWH.V_IL_FCT_DIAGNOSIS D WHERE D.CAS_BK = nfz_s.CAS_BK AND DIG_RANK = &#39;Hauptdiagnose&#39; AND DIG_STORNO_FLAG = 0) AS SAP_Hauptdiagnose_ICD10_Code,
+pds.ISMED_DESIGNATED_STATION AS ISMED_Patientenpfad_vorhergesehene_Station,
+sap_next_org.SAP_NEXT_ORG,
+O_Fachdisziplin.ORG AS SAP_Entlassende_Fachdisziplin,
+O_Abteilung.ORG AS SAP_Entlassende_Abteilung,
+M.MOV_REASON1 AS SAP_Entlassungsgrund_1,
+M.MOV_REASON2 as SAP_Entlassungsgrund_2,
+CAST((SELECT STRING_AGG(CASE WHEN f300.FOIM_FIELD_VALUE_TEXT = &#39;n.a.&#39; THEN 
+f300.FOIM_FIELD_VALUE || &#39;
+&#39; else 
+ f300.FOIM_FIELD_VALUE_TEXT || &#39;
+&#39;                 end ORDER BY f300.FRIM_BK)
+ FROM CDWH.V_IL_FCT_FORM_ISMED f300 WHERE F300.CAS_BK = nfz_s.CAS_BK AND f300.FRIM_BK LIKE &#39;ISM|300|%&#39;) AS nvarchar(5000)) AS Nofasy_Formular_Inhalte, --ohne Feldnamen
+ (SELECT STRING_AGG(CASE WHEN f300.FOIM_FIELD_VALUE_TEXT = &#39;n.a.&#39; THEN 
+f300.FOIM_FIELD_VALUE || &#39;
+&#39; else 
+ f300.FOIM_FIELD_VALUE_TEXT || &#39;
+&#39;                 end ORDER BY f300.FRIM_BK)
+ FROM CDWH.V_IL_FCT_FORM_ISMED f300 WHERE F300.CAS_BK = nfz_s.CAS_BK AND f300.FRIM_BK LIKE &#39;ISM|350|%&#39;) AS Nofasy_Teamleaderblatt_Inhalte --ohne Feldnamen
+FROM nfz_stay AS nfz_s
+INNER JOIN cdwh.V_IL_DIM_PATIENT_CID AS sap_p
+	ON sap_p.PAT_BK = nfz_s.PAT_BK
+LEFT JOIN max_nfz_form_ismed AS m_f_esi
+	ON m_f_esi.CAS_BK = nfz_s.CAS_BK
+	AND m_f_esi.FRIM_BK = &#39;ISM|300|3021&#39; -- ESI Score
+LEFT JOIN max_nfz_form_ismed AS m_f_behpf
+	ON m_f_behpf.CAS_BK = nfz_s.CAS_BK
+	AND m_f_behpf.FRIM_BK = &#39;ISM|300|3123&#39; -- Behandlungspfad
+LEFT JOIN max_nfz_form_ismed AS m_f_behst
+	ON m_f_behst.CAS_BK = nfz_s.CAS_BK
+	AND m_f_behst.FRIM_BK = &#39;ISM|300|3022&#39; -- Behandlungsstatus
+LEFT JOIN max_nfz_form_ismed AS m_f_cfs
+	ON m_f_cfs.CAS_BK = nfz_s.CAS_BK
+	AND m_f_cfs.FRIM_BK = &#39;ISM|300|3133&#39; --  CFS Wert
+LEFT JOIN max_nfz_form_ismed AS m_f_news
+	ON m_f_news.CAS_BK = nfz_s.CAS_BK
+	AND m_f_news.FRIM_BK = &#39;ISM|300|3134&#39; --  News Score
+LEFT JOIN max_nfz_form_ismed AS m_f_vigilanz
+	ON m_f_vigilanz.CAS_BK = nfz_s.CAS_BK
+	AND m_f_vigilanz.FRIM_BK = &#39;ISM|300|3132&#39; --  Vigilanz AVPUC
+LEFT JOIN max_nfz_form_ismed AS m_f_jetziges_leiden
+	ON m_f_jetziges_leiden.CAS_BK = nfz_s.CAS_BK
+	AND m_f_jetziges_leiden.FRIM_BK = &#39;ISM|300|3108&#39; -- Jetziges_Leiden
+LEFT JOIN max_nfz_form_ismed AS m_f_persoenliche_anamnese
+	ON m_f_persoenliche_anamnese.CAS_BK = nfz_s.CAS_BK
+	AND m_f_persoenliche_anamnese.FRIM_BK = &#39;ISM|300|3109&#39; -- Persoenliche_Anamnese
+LEFT JOIN max_nfz_form_ismed AS m_f_icd10_code
+	ON m_f_icd10_code.CAS_BK = nfz_s.CAS_BK
+	AND m_f_icd10_code.FRIM_BK = &#39;ISM|300|3024&#39; -- ICD10_Code
+LEFT JOIN max_nfz_form_ismed AS m_f_icd10_text
+	ON m_f_icd10_text.CAS_BK = nfz_s.CAS_BK
+	AND m_f_icd10_text.FRIM_BK = &#39;ISM|300|3025&#39; -- ICD10_Text
+LEFT JOIN max_nfz_form_ismed AS m_f_diagnose_text
+	ON m_f_diagnose_text.CAS_BK = nfz_s.CAS_BK
+	AND m_f_diagnose_text.FRIM_BK = &#39;ISM|300|3129&#39; -- Diagnose_Text
+LEFT JOIN max_nfz_form_ismed AS m_f_diagnosedetails
+	ON m_f_diagnosedetails.CAS_BK = nfz_s.CAS_BK
+	AND m_f_diagnosedetails.FRIM_BK = &#39;ISM|300|3125&#39; -- Diagnosedetails
+LEFT JOIN min_nfz_form_ismed AS f_arztuserid
+	ON f_arztuserid.CAS_BK = nfz_s.CAS_BK
+	AND f_arztuserid.FRIM_BK = &#39;ISM|300|3026&#39; -- ArztUserID
+LEFT JOIN max_nfz_form_ismed AS f_300
+	ON f_300.CAS_BK = nfz_s.CAS_BK
+	AND f_300.FRIM_BK like &#39;ISM|350|%&#39; -- 
+LEFT JOIN CDWH.V_IL_FCT_MOVEMENT AS M
+	ON M.CAS_BK = nfz_s.CAS_BK
+	AND M.CAS_TYPE_ID &lt;&gt; 2
+	and MOV_TYPE_ID = 2 --Entlassung
+LEFT JOIN CDWH.V_IL_DIM_ORG_CID AS O_Fachdisziplin
+	ON O_Fachdisziplin.ORG_BK = M.MOV_DEPT_ORG_BK
+LEFT JOIN CDWH.V_IL_DIM_ORG_CID AS O_Abteilung
+	ON O_Abteilung.ORG_BK = M.MOV_ASSIGN_ORG_BK
+LEFT JOIN ISMED_PATIENTPATH_DESIGNATED_STATION AS pds
+	ON pds.CAS_BK = nfz_s.CAS_BK
+LEFT JOIN SAP_NEXT_DESIGNATED_STATION AS sap_next_org
+	ON sap_next_org.CAS_BK = nfz_s.CAS_BK
+LEFT JOIN cdwh.V_IL_DIM_CASE_ISMED_CID AS cas_ismed
+	ON cas_ismed.CAIM_BK = nfz_s.CAIM_BK
+WHERE
+	nfz_s.CAIM_STATUS_ID = &#39;31&#39;
+	AND sap_p.PAT_BIRTH_DATE IS NOT NULL
+	AND sap_p.PAT_STORNO_FLAG = 0
+	AND sap_p.PAT_IS_VALID_FLAG = 1
+	AND sap_p.PAT_BIRTH_DAY_BK &lt;&gt; &#39;19000101&#39;
+	AND sap_p.PAT_BIRTH_DAY_BK &gt; &#39;18500101&#39;
+	AND nfz_s.CDWH_NFZ_STAY_BEGIN_TS &lt; NOW() ORDER BY nfz_s.CAS_BK
+;</pre>
+</div></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Research Security Concept</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="CDWH_33424168.html">CDWH</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Research Security Concept
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>There is a table with table name RESEARCH_SECURITY in the schema RESEARCH_SECURITY. In this table, PAT_BKs can be stored for every research project (this is the row-level security filter afterwards).</p><p>Here is an example with the research project RESEARCH_CDWH (this is our test research project):</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423890/33442776.png" data-image-src="attachments/33423890/33442776.png" data-unresolved-comment-count="0" data-linked-resource-id="33442776" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="e60cb981ce5992fca93b7bc52666dac3_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423890" data-linked-resource-container-version="3" data-media-id="4e62089d-03ae-46bc-8f32-644b7598fa1a" data-media-type="file"></span></p><p>The project RESEARCH_CDWH has the permission to read the patient information from PID 0002081811 over the whole DWH. This table can be maintained over the CDWH and the RESEARCH_SECURITY User. The maintenance is done manually via Insert-SQL-Scripts.</p><p>In the schema RESEARCH_VIEWS is a corresponding View for every DWH table. For dimensions a view with the name V_[DIM_TABLE_NAME]_CUR and for facts a view with the name V_[FCT_TABLE_NAME] is created via the DWH-generator after every release.</p><p>The view code looks as follows:</p><p /><p /><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- Dimensionen:
+CREATE OR replace VIEW research_views.V_IL_DIM_PATIENT_CUR
+AS
+SELECT p.*
+FROM cdwh.IL_DIM_PATIENT p
+JOIN research_security.RESEARCH_SECURITY rs
+ON p.pat_bk = rs.pat_bk
+AND rs.DATABASE_USER = CURRENT_USER 
+WHERE p.DWH_IS_CURRENT = 1
+AND p.DWH_IS_DELETED = 0
+AND p.DWH_IS_EARLY_ARRIVE = 0
+
+-- Fakten:
+CREATE OR replace VIEW research_views.V_IL_FCT_MEDI_APPL_MEONA
+AS
+SELECT m.*
+FROM cdwh.V_IL_FCT_MEDI_APPL_MEONA m
+JOIN research_security.RESEARCH_SECURITY rs
+ON m.pat_bk = rs.pat_bk
+AND rs.DATABASE_USER = CURRENT_USER</pre>
+</div></div><p /><p><code>
+</code></p><p>Over the filter CURRENT_USER the logged-in DB-schema is being read at runtime and afterwards a join is made to the table RESEARCH_SECURITY and the PAT_BKs filtered for the logged-in DB-schema, which are permissioned for this research project.</p><p>E.g. if you login with the user RESEARCH_CDWH and you select e.g. the view research_views.V_IL_DIM_PATIENT_CUR, only one patient is being selected.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423890/33442770.png" data-image-src="attachments/33423890/33442770.png" data-unresolved-comment-count="0" data-linked-resource-id="33442770" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="7e09ad3f57022b0ff473c4b8aee661ba_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423890" data-linked-resource-container-version="3" data-media-id="3d1d13c5-5dd0-4c2c-aa85-65cd4183982c" data-media-type="file"></span></p><p>The naming convention for new Research projects is this: RESEARCH_[PROJEKT_NAME]</p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423890/33442776.png">e60cb981ce5992fca93b7bc52666dac3_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423890/33442770.png">7e09ad3f57022b0ff473c4b8aee661ba_image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:01</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

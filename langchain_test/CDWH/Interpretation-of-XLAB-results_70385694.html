@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Interpretation of XLAB results</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Laboratory-data_257032245.html">Laboratory data</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Interpretation of XLAB results
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Nov. 16, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>The results in XLAB are a string, that can contain a big variety of results: numeric ones, qualitative ones, invalid ones, etc. In <code>IL_FCT_LABOR_RESULT_XLAB</code> we already generate <code>LRX_RESULT_VALUE_NUMERIC</code>  within the DWH which parses numeric values out of the string. </p><p>The interpretation of results is summarised here, however this is only a incomplete suggestion to start with (however covering most of the frequently asked labcodes) and the lab continously adds new ones.</p><p /><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    r.LRX_RESULT_VALUE AS LRX_RESULT_VALUE_ORIG,
+    r.LRX_RESULT_VALUE_NUMERIC , 
+    r.LRX_RESULT_VALUE_COMPARATOR,
+    CASE
+        WHEN lower(r.LRX_RESULT_VALUE) IN (
+            &#39;negativ&#39; , &#39;+&#39; , &#39;++&#39; , &#39;+++&#39; , &#39;++++&#39; , &#39;-&#39; , &#39;+-&#39;, &#39;-+&#39;, &#39;+/-&#39;, &#39;neg.&#39;
+        ) 
+        OR lower(r.LRX_RESULT_VALUE) LIKE &#39;%pos%&#39;
+        OR lower(r.LRX_RESULT_VALUE) LIKE &#39;%neg%&#39; 
+        OR lower(r.LRX_RESULT_VALUE) = &#39;mässig&#39;
+        THEN r. LRX_RESULT_VALUE
+        WHEN r.LRX_RESULT_VALUE = &#39;4+&#39; THEN &#39;++++&#39;
+        WHEN r.LRX_RESULT_VALUE = &#39;3+&#39; THEN &#39;+++&#39;
+        WHEN r.LRX_RESULT_VALUE = &#39;2+&#39; THEN &#39;++&#39;
+        WHEN r.LRX_RESULT_VALUE IN (&#39;1+&#39;, &#39;(+)&#39;) THEN &#39;+&#39;
+        ELSE NULL
+    END AS LRX_RESULT_VALUE_qualitative
+    ,
+    CASE
+        WHEN r.LRX_RESULT_VALUE IN (
+            &#39;/ Blut geronnen&#39; , &#39;/Blut geronnen&#39;, &#39;/ Hamo&#39; , &#39;s.text&#39;, &#39;v&#39; , &#39;nw&#39; , &#39;nnw&#39; , &#39;nicht beurteilbar&#39; , &#39;n/&#39; , &#39;lipämisch&#39; , &#39;geronne&#39; , &#39;erled.&#39; , &#39;/Hnbb&#39; , &#39;(hnbb&#39;, &#39;hnbb&#39;, &#39;******&#39;, &#39;*****.&#39;, &#39;*-----&#39;, &#39;*fmat&#39;, &#39;*kein Material&#39;, &#39;*nicht beschriftet&#39;, &#39;.&#39;, &#39;..&#39;, &#39;.....&#39;, &#39;/&#39;, &#39;/g&#39;, &#39;/geronnen&#39;, &#39;/hbb&#39;, &#39;/hbbb&#39;, &#39;/hkme&#39;, &#39;/hmnb&#39;, &#39;/hnbb&#39;, &#39;/hnbbb&#39;, &#39;/hnnb&#39;, &#39;/hver&#39;, &#39;/hzw&#39;, &#39;/hzwm&#39;, &#39;/kmat&#39;, &#39;/kme&#39;, &#39;/mlv&#39;, &#39;/n&#39;, &#39;/nb&#39;, &#39;/nbb&#39;, &#39;/verd&#39;, &#39;/verdünnt&#39;, &#39;/zwM&#39;, &#39;/zwm&#39;, &#39;?.....&#39;, &#39;Auf Station&#39;, &#39;Auftrag&#39;, &#39;Auftrag gelöscht&#39;, &#39;Auftrag gelöscht,&#39;, &#39;Auftrag gelöscht:&#39;, &#39;Augtrag&#39;, &#39;Blut&#39;, &#39;Blut abgelaufen&#39;, &#39;Blut auf Station verwechselt&#39;, &#39;EF&#39;, &#39;ERROR&#39;, &#39;FEHLERHAFT&#39;, &#39;FEHLERHAFT; &gt;120&#39;, &#39;G.2&#39;, &#39;GD&#39;, &#39;GER&#39;, &#39;Gerinn&#39;, &#39;Gerinnsel&#39;, &#39;Geräteproblem&#39;, &#39;Im Labor verunglückt&#39;, &#39;KME&#39;, &#39;Labor&#39;, &#39;ME&#39;, &#39;MLE&#39;, &#39;MLV&#39;, &#39;MNB&#39;, &#39;Man.Sediment!&#39;, &#39;Mat. n.beschriftet&#39;, &#39;Mat.fehlt&#39;, &#39;Mat.verschickt&#39;, &#39;Material im Labor verunglückt&#39;, &#39;Material verunreinigt&#39;, &#39;Material zu alt&#39;, &#39;Messfehler: kein Wert&#39;, &#39;NB&#39;, &#39;Nicht korrekte Blutentnahme, Rö&#39;, &#39;REJECT&#39;, &#39;S&#39;, &#39;SNB&#39;, &#39;ST&#39;, &#39;Station&#39;, &#39;Station.&#39;, &#39;T&#39;, &#39;Test&#39;, &#39;Text&#39;, &#39;UF-Eryt&#39;, &#39;Verdünnt&#39;, &#39;Verdünnt?&#39;, &#39;Versand&#39;, &#39;Verwec&#39;, &#39;Verwechsl.&#39;, &#39;Verwechslung&#39;, &#39;Verwechslung ?&#39;, &#39;Verwechslung auf Station&#39;, &#39;Verwechslung?&#39;, &#39;Wert unplausibel&#39;, &#39;Werte gelöscht&#39;, &#39;Zwm&#39;, &#39;altel Material&#39;, &#39;altes&#39;, &#39;altes Mat&#39;, &#39;altes Mat.&#39;, &#39;altes Material&#39;, &#39;altes mat.&#39;, &#39;angef.&#39;, &#39;auf&#39;, &#39;auf Stat.&#39;, &#39;auf Station&#39;, &#39;auf stat.&#39;, &#39;ausgelaufen&#39;, &#39;b&#39;, &#39;blutig&#39;, &#39;c&#39;, &#39;entfällt&#39;, &#39;falsch&#39;, &#39;falsch.&#39;, &#39;falsch.Mat&#39;, &#39;falsch.Mat.&#39;, &#39;falsches Mat.&#39;, &#39;falsches Material&#39;, &#39;fehlt&#39;, &#39;fm&#39;, &#39;fmat&#39;, &#39;folgt&#39;, &#39;g&#39;, &#39;gd&#39;, &#39;gelösc&#39;, &#39;gelöscht&#39;, &#39;gelöscht.&#39;, &#39;gelöscht:&#39;, &#39;gereonnen&#39;, &#39;geronn&#39;, &#39;geronnen&#39;, &#39;geroonen&#39;, &#39;gerronen&#39;, &#39;hkme&#39;, &#39;hmlv&#39;, &#39;hnbb&#39;, &#39;hvd&#39;, &#39;hver&#39;, &#39;hzwm&#39;, &#39;hämolytisch&#39;, &#39;im Labor verunglückt&#39;, &#39;k&#39;, &#39;k.Ang.&#39;, &#39;k.Erg!&#39;, &#39;k.Mat&#39;, &#39;k.Mat.&#39;, &#39;k.Mat./kme&#39;, &#39;k.mat&#39;, &#39;kProbe&#39;, &#39;kill&#39;, &#39;kma&#39;, &#39;kme&#39;, &#39;leicht häm.&#39;, &#39;loeschen&#39;, &#39;löschen !&#39;, &#39;m&#39;, &#39;mb&#39;, &#39;meg&#39;, &#39;mlv&#39;, &#39;mm`&#39;, &#39;mnb&#39;, &#39;mv&#39;, &#39;n&#39;, &#39;n. bes&#39;, &#39;n. best&#39;, &#39;n. best.&#39;, &#39;n.best&#39;, &#39;n.best.&#39;, &#39;nb&#39;, &#39;nbb&#39;, &#39;nbb /bl&#39;, &#39;nbr&#39;, &#39;ndu&#39;, &#39;nicht auswertbar&#39;, &#39;nicht beschriftet&#39;, &#39;nicht bestimmbar&#39;, &#39;nicht bestimmbar / Blutig&#39;, &#39;nicht bestimmbar / blutig&#39;, &#39;nicht durchgeführt&#39;, &#39;nicht mess&#39;, &#39;nicht messbar&#39;, &#39;nicht nötig&#39;, &#39;nicht verrechnen&#39;, &#39;nm&#39;, &#39;nn&#39;, &#39;präanalytischer Fehler&#39;, &#39;rozyten&#39;, &#39;s. Text&#39;, &#39;s.Test&#39;, &#39;s.Text&#39;, &#39;siehe Text&#39;, &#39;snb&#39;, &#39;te&#39;, &#39;text&#39;, &#39;unbeschriftet&#39;, &#39;verdün&#39;, &#39;verdünn&#39;, &#39;verdünnt&#39;, &#39;verdünnt?&#39;, &#39;verdünnt??&#39;, &#39;verunglückt,sorry&#39;, &#39;verw&#39;, &#39;verwech.&#39;, &#39;verwechselt!!&#39;, &#39;verwechsl.&#39;, &#39;verwechslung&#39;, &#39;verwechslung?&#39;, &#39;von der Station&#39;, &#39;vverwechsl.&#39;, &#39;x&#39;, &#39;zu wenig Material&#39;, &#39;zu wenig Probenmaterial&#39;, &#39;zwM&#39;, &#39;zwm&#39;, &#39;überfüllt&#39;
+        )
+    THEN r.LRX_RESULT_VALUE
+        ELSE NULL
+    END AS LRX_RESULT_VALUE_INVALID
+FROM
+    CDWH.V_IL_FCT_LABOR_RESULT_XLAB r
+</pre>
+</div></div><p />
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

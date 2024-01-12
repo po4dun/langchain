@@ -26,7 +26,8 @@ index = VectorstoreIndexCreator().from_loaders([loader])
 embeddings = OpenAIEmbeddings()
 vectors = FAISS.from_documents(data, embeddings)
 chain = ConversationalRetrievalChain.from_llm(
-   llm=ChatOpenAI(model="gpt-3.5-turbo"),
+     # llm=ChatOpenAI(model="gpt-3.5-turbo"),
+   llm=ChatOpenAI(model="gpt-4"),
    retriever=index.vectorstore.as_retriever(search_kwargs={"k": 1}),
  )
 

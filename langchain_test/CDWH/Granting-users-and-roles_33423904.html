@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Granting users and roles</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="CDWH_33424168.html">CDWH</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Granting users and roles
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 08, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Based on issue #182</p><h2 id="Grantingusersandroles-Granting">Granting</h2><div class="confluence-information-macro confluence-information-macro-note"><p class="title">Important</p><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Important: Use only the <strong>cdwh-user</strong> for all granting stuff - do it on <strong>every needed environment manually</strong>.</p></div></div><p><br/></p><p>To grant new users (only the grants <em>select</em> and <em>select metadata</em>) to the cdwh/lz you have the following possibilities:</p><ul><li>cdwh access<ul><li><p class="auto-cursor-target">full schema cdwh (not for general power users outside of the CDWH core team)</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">grant select, select metadata, execute on schema cdwh to [USERNAME];</pre>
+</div></div></li><li><p class="auto-cursor-target">only cdwh-views (v_il_<em>) (role </em>cdwh_read*) - for general poweruser outside of the CDWH core team</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">grant cdwh.cdwh_read to [USERNAME];
+-- the deploy tool will care about updating this groups with all the views</pre>
+</div></div></li><li><p class="auto-cursor-target">cdwh_prov schema (only for testing purposes)</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">grant select, select metadata on schema cdwh_prov to [USERNAME];</pre>
+</div></div></li><li><p class="auto-cursor-target">Per default, sensitive data (e.g. patient name) within the CDWH views are masked for everyone. In order to read the unmasked data, grant the following role:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">grant cdwh.READ_UNMASKED to [USERNAME];</pre>
+</div></div></li></ul></li><li>lz access<ul><li><p class="auto-cursor-target">all lz (role <em>lz_read</em>)</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">grant cdwh.lz_read to [USERNAME];</pre>
+</div></div></li><li><p class="auto-cursor-target">list of lz's</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">grant select, select metadata on schema [lz] to [USERNAME];</pre>
+</div></div></li></ul></li><li><p class="auto-cursor-target">For SPHN, login with the <em>SPHN</em> user (see KeyPass for login details)</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">grant select on schema SPHN to [USERNAME];</pre>
+</div></div></li></ul><ul><li><p class="auto-cursor-target">For the CDWH_SHARE schema, login with the <em>CDWH_SHARE</em> user (see KeyPass for login details)</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">GRANT CREATE ANY, EXECUTE, CREATE VIRTUAL PACKAGE, SELECT CDS METADATA, SELECT METADATA, SELECT, INSERT, UPDATE, DELETE, DROP, REFERENCES, INDEX, TRIGGER, ALTER, UNMASKED, CREATE OBJECT STRUCTURED PRIVILEGE, CLIENTSIDE ENCRYPTION COLUMN KEY ADMIN, CREATE TEMPORARY TABLE 
+	ON SCHEMA CDWH_SHARE to [USERNAME];</pre>
+</div></div></li></ul><p>You can track all the current permissions with (only perms given with the cdwh user or use a system user to see everything): (the grants given with cdwh should be enough, if we give the grant like we defined above - everything should be tracked) At the moment, on DEV we can see all the grants, but not in K/P. This need the System Role Monitoring.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">select
+      grantor
+    , grants
+    , grantee_type
+    , object_type
+    , STRING_AGG(schema_name, &#39;, &#39;) as schemas
+    , grantee
+    , is_grantable 
+from (
+    select
+          grantor
+        , grantee
+        , grantee_type
+        , object_type
+        , schema_name
+        , is_grantable
+        , STRING_AGG(privilege, &#39;, &#39;) as grants
+    from sys.granted_privileges
+    group by grantee, grantee_type, grantor, object_type, schema_name, is_grantable
+    UNION ALL
+    select
+          grantor
+        , grantee
+        , grantee_type
+        , &#39;ROLE&#39; as object_type
+        , role_name as SCHEMAS
+        , is_grantable
+        , null as grants
+    from sys.granted_roles
+)
+where 1=1
+--  and grantee like &#39;HADORNTEST&#39;
+    and grantor like &#39;CDWH&#39;
+group by grantee, grantee_type, grantor, object_type, is_grantable, grants
+order by grantee, grantee_type, grantor, object_type, is_grantable, grants
+;</pre>
+</div></div><p><br/></p><pre><code class="language-sql">
+</code></pre><h2 id="Grantingusersandroles-Userhandling">User handling</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">create user $user_name$ PASSWORD &quot;$password$&quot;;
+
+-- for technical-users, use lifetime password
+alter user $user_name$ DISABLE PASSWORD LIFETIME;
+
+-- force password change for personalized users
+alter user $user_name$ FORCE PASSWORD CHANGE;
+
+-- revoke access to own schema if needed
+alter user $user_name$ REVOKE CREATE ANY ON OWN SCHEMA;
+
+-- change password
+alter user $user_name$ PASSWORD &quot;$password$&quot;;
+
+
+-- for normal users only on PRD, ask Thierry incl. full name of access person
+create user THUERINGT PASSWORD [PASSWORD];
+-- alter user THUERINGT DISABLE PASSWORD LIFETIME;
+alter user THUERINGT FORCE PASSWORD CHANGE;
+
+</pre>
+</div></div><p><br/></p><h2 id="Grantingusersandroles-LZdefaultpermission">LZ default permission</h2><p>Bei der Bestellung wie folge angeben:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">-- für Thierry as sys-user
+create schema [LZ];  -- as system user
+grant ALL PRIVILEGES on schema [LZ] to CDWH with grant OPTION;
+
+-- durch uns: Anschliessend die folgenden Berechtigungen hinzufügen:
+grant select, select metadata on schema [LZ] to cdwh.lz_read;
+grant select, select metadata on schema [LZ] to cdwh.lz_grant with grant OPTION;  -- this is only used by the DTB_HANA_R User
+
+-- then also add the new schema as LZ
+INSERT INTO CDWH.MD_SCHEMA_LIST
+  (SCHEMA_NAME, USE_DEPLOYMENT, USE_PREFECT, REMOTE_SOURCE_NAME, IS_LZ, REMOTE_DATABASE_NAME) VALUES
+  (&#39;LZ_NAME&#39;, 1, 0, null, 1, null)
+;</pre>
+</div></div><p><br/></p><pre><code class="language-sql">
+</code></pre><h2 id="Grantingusersandroles-Createnewschema(forprojekt/interface)">Create new schema (for projekt / interface)</h2><ul><li>order schema by Thierry</li><li>defines name, environments, password life time, default password, own schema</li></ul><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">-- run with newly created user
+create schema [INTERFACE];
+create user [INTERFACE_USER] PASSWORD [PW]; -- if needed
+grant ALL PRIVILEGES on schema owner_test_schema to owner_test_user with grant OPTION;
+grant ALL PRIVILEGES on schema owner_test_schema to CDWH with grant OPTION;
+
+-- allow interface-users (IF_) if needed
+grant select, select metadata on schema [schema] to [IF_USERNAME];
+
+-- only needed if we do not create the views with the cdwh user
+-- grant cdwh.cdwh_read to [schema];</pre>
+</div></div><p><br/></p><pre><code class="language-sql">
+</code></pre><h2 id="Grantingusersandroles-grantpermissionstoresearchviewsfornewresearchprojects:">grant permissions to research views for new research projects:</h2><ul><li>order schema by Thierry</li><li>define name(RESEARCH_[PROJECT_NAME]), environments (normaly only DWHP), password life time, default password, own schema</li></ul><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Eclipse" data-theme="Eclipse">-- do all logged in as CDWH
+-- allow research project to select the reserach views
+grant select, select metadata on schema RESEARCH_VIEWS to RESEARCH_[PROJECT_NAME];
+
+-- insert PIDs into research_security.RESEARCH_SECURITY
+INSERT INTO research_security.RESEARCH_SECURITY VALUES (&#39;[PAT_BK]&#39;,&#39;RESEARCH_[PROJECT_NAME]&#39;);
+...</pre>
+</div></div><p><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:01</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

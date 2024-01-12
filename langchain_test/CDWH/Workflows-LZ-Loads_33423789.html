@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Workflows LZ Loads</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Data-Services_33424156.html">Data Services</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Workflows LZ Loads
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified by <span class='editor'> Richard Marti</span> on Jan. 03, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p><strong>Table of contents</strong></p><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336124608 {padding: 0px;}
+div.rbtoc1698336124608 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336124608 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336124608'>
+<ul class='toc-indentation'>
+<li><a href='#WorkflowsLZLoads-LZJobs'>LZ Jobs</a></li>
+<li><a href='#WorkflowsLZLoads-LZMajorWorkflow'>LZ Major Workflow</a></li>
+<li><a href='#WorkflowsLZLoads-LZParallelWorkflow(s)'>LZ Parallel Workflow(s)</a></li>
+<li><a href='#WorkflowsLZLoads-LZLoadWorkflows'>LZ Load Workflows</a></li>
+<li><a href='#WorkflowsLZLoads-DevelopingLZLoadWorkflow'>Developing LZ Load Workflow</a></li>
+</ul>
+</div></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="WorkflowsLZLoads-LZJobs">LZ Jobs</h2><ul><li>There is a seperate job per source system, that contains the log tasks and one major workflow:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33442967.png" data-image-src="attachments/33423789/33442967.png" data-unresolved-comment-count="0" data-linked-resource-id="33442967" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="098a31641770bf6b6b1843834965029a_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="1cb75aba-0fd0-40fd-9de0-cff6c61f49c0" data-media-type="file"></span><ul><li><strong>Log Tasks:</strong> They call the same custom function <strong>CF_MD_JOB_CONTROL</strong> with parameter <code>('start')</code> in the beginning of the workflow or <code>('end')</code> at the end of the workflow. At start, the function gets a new Job ID, has some logic to prevent the same job to run in parallel multiple times and the functions sends emails to operation. At the end, the function collects the runtime information (start/end time, duration) and sends emails to operation</li><li><strong>Try/Catch:</strong> This is to catch errors that happen between try and catch. In case of an error, the catch task calls the custom function <strong>CF_MD_JOB_CONTROL</strong> with parameter <code>('error')</code> in order to update the job control table accordingly and to send an error-mail to operations</li><li><strong>Major Workflow</strong> There is one major workflow, that usually contains one or more parallel workflows</li></ul></li></ul></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="WorkflowsLZLoads-LZMajorWorkflow">LZ Major Workflow</h2><ul><li>The major workflow contains one or more parallel workflows, to group or separate the loads from the source system:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33442963.png" data-image-src="attachments/33423789/33442963.png" data-unresolved-comment-count="0" data-linked-resource-id="33442963" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ca668030f71d5227e1f75f7b888e9b11_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="21393910-c5ad-4b9a-9ce2-f0c9a567e0f8" data-media-type="file"></span><ul><li><strong>Log Tasks:</strong> They call the same custom function <strong>CF_MD_WF_CONTROL</strong> with parameter <code>('start')</code> in the beginning of the workflow or <code>('end')</code> at the end of the workflow. At start, the function inserts a new row in the log table. At the end, the function collects and updates the runtime information in the log table (start/end time, duration)</li><li><strong>Try/Catch:</strong> This is to catch errors that happen between try and catch. In case of an error, the catch task calls the custom function <strong>CF_MD_WF_CONTROL</strong> with parameter <code>('error')</code> in order to update the log table accordingly</li></ul></li></ul></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="WorkflowsLZLoads-LZParallelWorkflow(s)">LZ Parallel Workflow(s)</h2><ul><li>The parallel workflows are the containers that have the load-workflows in it:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33442999.png" data-image-src="attachments/33423789/33442999.png" data-unresolved-comment-count="0" data-linked-resource-id="33442999" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="adc50602cd44202e2af48aa4ec73aa0a_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="5f05133e-e6e0-4716-9547-6143a5b7f753" data-media-type="file"></span></li><li>They have no logic like Try/Catch or logging tasks</li><li>They are just containers to group data loads that can run in parallel, or to sequence depending data loads</li></ul></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="WorkflowsLZLoads-LZLoadWorkflows">LZ Load Workflows</h2><ul><li>The load workflows contain the data flows, that loads the data from the source system to the CDWH landing zone (LZ):<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33442995.png" data-image-src="attachments/33423789/33442995.png" data-unresolved-comment-count="0" data-linked-resource-id="33442995" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="5c4d8205c09b16f7c05401bff92206c3_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="564d9ffc-ab63-4148-b55c-55b8ae4017f0" data-media-type="file"></span><ul><li><strong>Log Tasks:</strong> They call the same custom function <strong>CF_MD_WF_CONTROL</strong> with parameter <code>('start')</code> in the beginning of the workflow or <code>('end')</code> at the end of the workflow. At start, the function inserts a new row in the log table. At the end, the function collects and updates the runtime information in the log table (start/end time, duration)</li><li><strong>Try/Catch:</strong> This is to catch errors that happen between try and catch. In case of an error, the catch task calls the custom function <strong>CF_MD_WF_CONTROL</strong> with parameter <code>('error')</code> in order to update the log table accordingly</li><li><strong>Audit:</strong> This task calls the custom function <strong>CF_MD_AUDIT_TABLE</strong> that inserts the records in the flow statistics table. The audit table contains information like names of source- and target-tables, number of records and more</li><li><strong>Data Flow:</strong> Definition of the data load that includes the mapping of the columns:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33443007.png" data-image-src="attachments/33423789/33443007.png" data-unresolved-comment-count="0" data-linked-resource-id="33443007" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="c0dec6bb0fe752443baeba0e0b911cbf_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="ad882561-f65a-45aa-bf92-597ab7771b06" data-media-type="file"></span></li></ul></li></ul></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="WorkflowsLZLoads-DevelopingLZLoadWorkflow">Developing LZ Load Workflow</h2><ul><li>Always Replicate an existing LZ Load Workflow as a first step to develop a new workflow. The only things to change in a second step are the object names and the data flow, all surroundings (log, audit, try/catch) are dynamic and can remain as they are</li><li>Delete the data flow from the replicated workflow and create a new one</li><li>Drag the new table from the datastore of the source system and drop it in the data flow as &quot;Source&quot;</li><li>Insert a new template table as &quot;Target&quot;</li><li>Insert a new Query Transform and connect the three objects: Source -&gt; Query Transform -&gt; Target (see picture above)</li><li>Open the Query Transform and add a new column &quot;T_JOB_ID&quot; with datatype int</li><li>Save the new column and assign the Variable $G_JOB_ID to it (in the Mapping-Tab)</li><li>When you double click the column again, it should look like this:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33443003.png" data-image-src="attachments/33423789/33443003.png" data-unresolved-comment-count="0" data-linked-resource-id="33443003" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="12fdaa893c4d5515560661d7f1df8870_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="632b034b-1d5d-4c3a-abf8-5599e531bb91" data-media-type="file"></span></li><li>Select all columns from the input schema and drag/drop them to the output schema</li><li>Set the Primary Key of the target table</li><li>Special Case: When there are input columns of datatype &quot;long&quot;, we usually change the target datatype to varchar(5000) (which is the limit of HANA) and apply a function in the mapping for this column (Mapping-Tab): long_to_varchar(FIELD_NAME,1,5000). When the information is used and when it needs more than 5000 characters, it need a custom development (i.e. split the content up, load, concatinate back to original string in HANA)</li><li>Save and execute the dataflow, in order to create the physical target table in the database</li><li>Change the template table to a real table by importing the table:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33442991.png" data-image-src="attachments/33423789/33442991.png" data-unresolved-comment-count="0" data-linked-resource-id="33442991" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ebd9f19c529bd92df1c8837998666232_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="a219454f-729b-4886-8814-2fff21755e4a" data-media-type="file"></span></li><li>Change the &quot;Bulk load&quot; field to &quot;API&quot; and &quot;Truncate&quot; in &quot;BulkLoaderOptions&quot;:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423789/33442983.jpg" data-image-src="attachments/33423789/33442983.jpg" data-unresolved-comment-count="0" data-linked-resource-id="33442983" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="bb9618d2e0fe44509466db4c88c67bb7_bulk_load.JPG" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="application/binary" data-linked-resource-container-id="33423789" data-linked-resource-container-version="4" data-media-id="7fed5eb8-1453-4e64-b632-3d79f068ba25" data-media-type="file"></span></li><li>Place the new workflow in the appropriate parallel workflow</li></ul></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33442967.png">098a31641770bf6b6b1843834965029a_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33442963.png">ca668030f71d5227e1f75f7b888e9b11_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33442999.png">adc50602cd44202e2af48aa4ec73aa0a_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33442995.png">5c4d8205c09b16f7c05401bff92206c3_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33443007.png">c0dec6bb0fe752443baeba0e0b911cbf_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33443003.png">12fdaa893c4d5515560661d7f1df8870_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33442991.png">ebd9f19c529bd92df1c8837998666232_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423789/33442983.jpg">bb9618d2e0fe44509466db4c88c67bb7_bulk_load.JPG</a> (application/binary)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

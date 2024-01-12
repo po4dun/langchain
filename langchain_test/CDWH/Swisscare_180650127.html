@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Swisscare</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Interfaces_33424004.html">Interfaces</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Swisscare
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Juli 24, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p /><p /><p /><p /><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336163522 {padding: 0px;}
+div.rbtoc1698336163522 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336163522 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336163522'>
+<ul class='toc-indentation'>
+<li><a href='#Swisscare-Projectdescription'>Project description</a></li>
+<li><a href='#Swisscare-Contactpersons'>Contact persons</a></li>
+<li><a href='#Swisscare-Generaldataflowdescription'>General dataflow description</a></li>
+<li><a href='#Swisscare-Webapplicationfordataentryandviewing'>Web application for dataentry and viewing</a></li>
+<li><a href='#Swisscare-Tasks&amp;Responsibilities'>Tasks &amp; Responsibilities</a></li>
+<li><a href='#Swisscare-DatasetspecificationasdefinedbySwisscare'>Dataset specification as defined by Swisscare</a>
+<ul class='toc-indentation'>
+<li><a href='#Swisscare-TabularversionofSWISSCARE_REGISTRY_V1_EN(furtherrulesin.txtabove)'>Tabular version of SWISSCARE_REGISTRY_V1_EN (further rules in .txt above)</a></li>
+<li><a href='#Swisscare-DataderivationfromCardioappvariales'>Data derivation from Cardioapp variales</a></li>
+</ul>
+</li>
+<li><a href='#Swisscare-DerivationLogicforIV_TYPE'>Derivation Logic for IV_TYPE</a></li>
+<li><a href='#Swisscare-Pseudonymisationindeclinedconsents'>Pseudonymisation in declined consents</a></li>
+</ul>
+</div><h2 id="Swisscare-Projectdescription">Project description</h2><p>Swisscare is the registry of the Schweizer Gesellschaft für Kardiologie collecting data on coronary artery catheterisations. </p><p>The datamanagement is outsourced to SwissRDL: <a href="https://swisscare.swissrdl.unibe.ch/" class="external-link" rel="nofollow">Projectwebsite</a></p><p>Description from the website: SwissCaRe wurde 2022 durch die <a href="http://www.swisscardio.ch/" class="external-link" rel="nofollow"><strong>Schweizerische Gesellschaft für Kardiologie (SGK)</strong></a> und deren Arbeitsgruppe für interventionelle Kardiologie ins Leben gerufen, um den steigenden Anforderungen an medizinische Qualitätssicherung und -verbesserung von Seiten der Ärzteschaft, Behörden und Gesellschaft gerecht zu werden. Bei der SGK handelt es sich um den Berufsverband der Schweizer Kardiologen und einen wissenschaftlichen Verein gemäss Art. 60 ff. SwissCaRe wird von <a href="http://www.swissrdl.unibe.ch/" class="external-link" rel="nofollow"><strong>SwissRDL</strong></a> im Auftrag der SGK geführt. Bei SwissRDL handelt es sich um einen Dienstleister des Instituts für Sozial- und Präventivmedizin der Universität Bern, welches grosse Erfahrung im Führen medizinischer Register besitzt.</p><p /><h2 id="Swisscare-Contactpersons">Contact persons</h2><div class="table-wrap"><table data-layout="default" data-local-id="4c3d3ccb-3f81-451e-a74a-8d00d2ac15d4" class="confluenceTable"><colgroup><col style="width: 340.0px;"/><col style="width: 340.0px;"/></colgroup><tbody><tr><th data-highlight-colour="#f0f0f0" class="confluenceTh"><p>Department</p></th><th data-highlight-colour="#f0f0f0" class="confluenceTh"><p>Contact</p></th></tr><tr><td class="confluenceTd"><p>Cardiology</p></td><td class="confluenceTd"><p>Dr. Michael Zellweger</p></td></tr><tr><td class="confluenceTd"><p>IT</p></td><td class="confluenceTd"><p>Schiemann Denis (Coordinator for whole issue)</p><p>Daniel von Sievers (Cardioapp)</p><p>Fabian Franzeck (Dataset generation)</p><p>Johannes Frei (Data Transfer via API)</p></td></tr><tr><td class="confluenceTd"><p>SwissRDL</p></td><td class="confluenceTd"><p><a href="mailto:camille.blochet@ispm.unibe.ch" class="external-link" rel="nofollow">camille.blochet@ispm.unibe.ch</a></p></td></tr><tr><td class="confluenceTd"><p>SGK</p></td><td class="confluenceTd"><p><a href="mailto:luisa.schaefer@swisscardio.ch" class="external-link" rel="nofollow">luisa.schaefer@swisscardio.ch</a></p></td></tr></tbody></table></div><p /><h2 id="Swisscare-Generaldataflowdescription">General dataflow description</h2><p /><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/180650127/188482423.png" data-image-src="attachments/180650127/188482423.png" data-height="148" data-width="848" data-unresolved-comment-count="0" data-linked-resource-id="188482423" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="swisscare flow.drawio.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="180650127" data-linked-resource-container-version="40" data-media-id="66c30347-0f01-463e-9a57-1cdbea0246f0" data-media-type="file"></span><p /><h2 id="Swisscare-Webapplicationfordataentryandviewing">Web application for dataentry and viewing</h2><p><a href="https://memdocdemo.memdoc.org/" data-card-appearance="inline" class="external-link" rel="nofollow">https://memdocdemo.memdoc.org/</a> </p><p>(login credentrials in ………………)</p><p /><h2 id="Swisscare-Tasks&amp;Responsibilities">Tasks &amp; Responsibilities</h2><div class="table-wrap"><table data-layout="default" data-local-id="444a60f6-95d4-4f30-a6c8-96dcdae6d7d1" class="confluenceTable"><colgroup><col style="width: 50.0px;"/><col style="width: 454.0px;"/><col style="width: 252.0px;"/></colgroup><tbody><tr><th data-highlight-colour="#ececf1" class="confluenceTh"><p>Nr.</p></th><th data-highlight-colour="#ececf1" class="confluenceTh"><p>Task</p></th><th data-highlight-colour="#ececf1" class="confluenceTh"><p>Responsible</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Setup and maintenance of appropriate data collection procedures</p></td><td class="confluenceTd"><p>Cardiology</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Data collection in clinical routine using Cardioapp</p></td><td class="confluenceTd"><p>Cardiology</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Daily data load to CDWH</p></td><td class="confluenceTd"><p>IT department</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>Interpretation/Transformation of Cardioapp data in Schema CDWH</p></td><td class="confluenceTd"><p>IT department</p></td></tr><tr><td class="confluenceTd"><p>5</p></td><td class="confluenceTd"><p>Further transformation in Schema SWISSCARE according to the dataset definitions</p></td><td class="confluenceTd"><p>Technical: CDWH</p><p>Content defintion: Cardiology</p></td></tr><tr><td class="confluenceTd"><p>6</p></td><td class="confluenceTd"><p>Setting timepoints for dataset generation and transfer</p></td><td class="confluenceTd"><p>Cardiology</p></td></tr><tr><td class="confluenceTd"><p>7</p></td><td class="confluenceTd"><p>Dataset generation &amp; Transfer to Cardiology</p></td><td class="confluenceTd"><p>CDWH</p></td></tr><tr><td class="confluenceTd"><p>8</p></td><td class="confluenceTd"><p>Final approval/validation of dataset</p></td><td class="confluenceTd"><p>Cardiology</p></td></tr><tr><td class="confluenceTd"><p>9</p></td><td class="confluenceTd"><p>Transfer of validated dataset to Schnittstellenteam for data transfer via API to SwissRDL</p></td><td class="confluenceTd"><p>Schnittstellen Team USB</p></td></tr><tr><td class="confluenceTd"><p>10</p></td><td class="confluenceTd"><p>Management of data quality feedback</p></td><td class="confluenceTd"><p>Cardiology</p></td></tr></tbody></table></div><p /><h2 id="Swisscare-DatasetspecificationasdefinedbySwisscare">Dataset specification as defined by Swisscare</h2><p />
+
+    
+    
+
+<div class="plugin_attachments_container">
+    <div class="plugin_attachments_table_container">
+        <fieldset class="hidden">
+            <input type="hidden" class="plugin_attachments_macro_render_param" name="pageId" value="180650127">
+            <input type="hidden" class="plugin_attachments_macro_render_param" name="totalPages" value="1">
+            <input type="hidden" name="deleteConfirmMessage" value="Wollen Sie die angehängte Datei "{0}" wirklich in den Papierkorb verschieben? Dieser Vorgang kann nur von einem Bereichsadministrator rückgängig gemacht werden."/>
+                                                    <input type="hidden" name="outputType" value="html_export">
+        </fieldset>
+                
+
+
+
+
+
+
+    
+
+
+<table class="attachments aui"
+    data-sort-by="date"
+    data-sort-order=""
+    data-tablesorter-headers='{"0": {"sorter": false}}'>
+        <tr class="header-row">
+        <th class="expand-column attachment-summary-toggle">&nbsp;</th>
+        <th class="filename-column">
+            Datei
+        </th>
+        <th class="modified-column">
+            Geändert
+        </th>
+    </tr>
+
+        
+    <tbody>
+                    
+                                
+            <tr id="attachment-187925394"
+                class="attachment-row"
+                data-attachment-id="187925394">
+
+                <td class="attachment-summary-toggle">
+                    <span class="icon icon-section-closed" title="Mehr Details" role="button" aria-expanded="false"></span>
+
+                                        <div class="attachment-summary attachment-summary-187925394 hidden attachment-details-wrapper"
+                        data-attachment-id="187925394"
+                        data-attachment-filename="SWISSCARE_REGISTRY_V1_EN.txt">
+
+                        
+                                                <p class="attachment-labels">Stichwörter</p>
+                        
+<div class="labels-section-content content-column" entityid="187925394" entitytype="attachment">
+	<div class="labels-content">
+		
+    
+    <ul class="label-list  has-pen" >
+            <li class="no-labels-message">
+            Keine Stichwörter
+        </li>
+                <li class="labels-edit-container">
+            <a  aria-describedby="attach-187925394" href="#" class="show-labels-editor" title="Stichwörter bearbeiten" role="button">
+                <span class="aui-icon aui-icon-small aui-iconfont-edit-small">Stichwörter bearbeiten</span>
+            </a>
+        </li>
+        </ul>
+    </div>
+</div>
+
+                                                    <div class="attachment-history-wrapper"></div>
+                        
+                                                    <div class="attachment-buttons">
+                                                                    <a class="aui-button previewAttachmentLink"
+                                       data-filename="SWISSCARE_REGISTRY_V1_EN.txt"
+                                       data-file-src="/wiki/download/attachments/180650127/SWISSCARE_REGISTRY_V1_EN.txt?api=v2"
+                                       data-linked-resource-default-alias="SWISSCARE_REGISTRY_V1_EN.txt"
+                                       data-mime-type="text/plain"
+                                       data-linked-resource-container-id="180650127"
+                                       data-linked-resource-id="187925394"
+                                       role="button">Preview</a>
+                                
+                                                                                                                                                                                                                            
+                                    <a class="aui-button " href="$itemRenderedUrl"                          data-file-src="/download/attachments/180650127/SWISSCARE_REGISTRY_V1_EN.txt?version=1"
+                                data-linked-resource-container-id="180650127"
+                                data-linked-resource-default-alias="SWISSCARE_REGISTRY_V1_EN.txt"
+                                data-linked-resource-id="187925394"
+                                data-linked-resource-type="attachment"
+                                role="button"
+                         >$itemLabel</a>
+                                                                                                                                                                                                                                                                
+                                    <a class="aui-button editAttachmentLink" href="$itemRenderedUrl&amp;isFromPageView=true"                          role="button"
+                         >$itemLabel</a>
+                                                                                                                                                                                                                            
+                                    <a class="aui-button removeAttachmentLink" href="$itemRenderedUrl&amp;isFromPageView=true"                          role="button"
+                         >$itemLabel</a>
+                                                            </div>
+                                            </div>
+
+                </td>
+
+                <td class="filename-column">
+                    <p>
+                    
+
+    
+
+
+<span class="aui-icon content-type-attachment-text" title="Textdatei" role="img">Textdatei</span>                    <a class="filename" href="attachments/180650127/187925394.txt" title="Herunterladen" data-filename="SWISSCARE_REGISTRY_V1_EN.txt" data-type="text/plain" data-linked-resource-container-id="180650127">
+                        SWISSCARE_REGISTRY_V1_EN.txt
+                    </a>
+                                                            
+                                        </p>
+                </td>
+
+                <td class="attachment-created modified-column" data-sort-value="1683296283542">
+                                        <span>Mai 05, 2023</span>
+                    <span>by</span>
+                        <a     href="/wiki/people/60a225229da6d500708e943e"
+                       class="url fn confluence-userlink" data-account-id="60a225229da6d500708e943e"
+                            >Fabian Franzeck</a>                </td>
+            </tr>
+            
+                                
+            <tr id="attachment-188482423"
+                class="attachment-row"
+                data-attachment-id="188482423">
+
+                <td class="attachment-summary-toggle">
+                    <span class="icon icon-section-closed" title="Mehr Details" role="button" aria-expanded="false"></span>
+
+                                        <div class="attachment-summary attachment-summary-188482423 hidden attachment-details-wrapper"
+                        data-attachment-id="188482423"
+                        data-attachment-filename="swisscare flow.drawio.png">
+
+                                                    <div class="attachment-image-preview"></div>
+                        
+                                                <p class="attachment-labels">Stichwörter</p>
+                        
+<div class="labels-section-content content-column" entityid="188482423" entitytype="attachment">
+	<div class="labels-content">
+		
+    
+    <ul class="label-list  has-pen" >
+            <li class="no-labels-message">
+            Keine Stichwörter
+        </li>
+                <li class="labels-edit-container">
+            <a  aria-describedby="attach-188482423" href="#" class="show-labels-editor" title="Stichwörter bearbeiten" role="button">
+                <span class="aui-icon aui-icon-small aui-iconfont-edit-small">Stichwörter bearbeiten</span>
+            </a>
+        </li>
+        </ul>
+    </div>
+</div>
+
+                                                    <div class="attachment-history-wrapper"></div>
+                        
+                                                    <div class="attachment-buttons">
+                                                                    <a class="aui-button previewAttachmentLink"
+                                       data-filename="swisscare flow.drawio.png"
+                                       data-file-src="/wiki/download/attachments/180650127/swisscare%20flow.drawio.png?api=v2"
+                                       data-linked-resource-default-alias="swisscare flow.drawio.png"
+                                       data-mime-type="image/png"
+                                       data-linked-resource-container-id="180650127"
+                                       data-linked-resource-id="188482423"
+                                       role="button">Preview</a>
+                                
+                                                                                                                                                                                                                            
+                                    <a class="aui-button " href="$itemRenderedUrl&amp;isFromPageView=true"                          data-file-src="/download/attachments/180650127/swisscare+flow.drawio.png?version=1"
+                                data-linked-resource-container-id="180650127"
+                                data-linked-resource-default-alias="swisscare+flow.drawio.png"
+                                data-linked-resource-id="188482423"
+                                data-linked-resource-type="attachment"
+                                role="button"
+                         >$itemLabel</a>
+                                                                                                                                                                                                                                                                
+                                    <a class="aui-button editAttachmentLink" href="$itemRenderedUrl&amp;isFromPageView=true&amp;isFromPageView=true"                          role="button"
+                         >$itemLabel</a>
+                                                                                                                                                                                                                            
+                                    <a class="aui-button removeAttachmentLink" href="$itemRenderedUrl&amp;isFromPageView=true&amp;isFromPageView=true"                          role="button"
+                         >$itemLabel</a>
+                                                            </div>
+                                            </div>
+
+                </td>
+
+                <td class="filename-column">
+                    <p>
+                    
+
+    
+
+
+<span class="aui-icon content-type-attachment-image" title="PNG-Datei" role="img">PNG-Datei</span>                    <a class="filename" href="attachments/180650127/188482423.png" title="Herunterladen" data-filename="swisscare flow.drawio.png" data-type="image/png" data-linked-resource-container-id="180650127">
+                        swisscare flow.drawio.png
+                    </a>
+                                                            
+                                        </p>
+                </td>
+
+                <td class="attachment-created modified-column" data-sort-value="1683299310938">
+                                        <span>Mai 05, 2023</span>
+                    <span>by</span>
+                        <a     href="/wiki/people/60a225229da6d500708e943e"
+                       class="url fn confluence-userlink" data-account-id="60a225229da6d500708e943e"
+                            >Fabian Franzeck</a>                </td>
+            </tr>
+                        </tbody>
+</table>
+
+
+    </div>
+    <div class="plugin_attachments_upload_container">
+                                <div class="attachments-table-drop-zone">
+                                <li class="drop-zone-text">
+                    <div class="drop-zone-image"></div>
+                    <span>Ziehen Sie Dateien an diese Stelle, um sie hochzuladen, oder <a class="aui-button aui-button-link browse-files">Dateien suchen</a></span>
+                    <img src="images/icons/wait.gif" class="plugin_attachments_dropzone_uploadwaiticon"/>
+                </li>
+                <form method="POST" class="plugin_attachments_uploadform aui hidden" action="/wiki/pages/plugins/attachments/doattachfile.action?pageId=180650127" enctype="multipart/form-data">
+                        <input type="hidden" name="atl_token" value="${xsrfTokenGenerator.generateToken($req)}">
+                    <div class="field-group">
+                        <label>Datei hochladen</label>
+                        <input type="file" name="file_0" size="30">
+                    </div>
+                    <div class="field-group">
+                        <label>Dateibeschreibung</label>
+                        <input type="text" class="blank-search text" name="comment_0" size="20" placeholder="Kommentar" >
+                        <input type="hidden" name="labels" value="$macroParams.labels"/>
+                    </div>
+                    <div class="field-group">
+                        <input type="submit" class="submit aui-button" name="confirm" value="Hochladen">
+                    </div>
+                    <iframe class="plugin_attachments_uploadiframe hidden" name="OEMIS93FVrYCU4Y3CrLvFsp60N9iaGbDd0OGsnILuyBvaH00m7K076uitxOXPrPN" src=""></iframe>
+                </form>
+            </div>
+            </div>
+
+    <div>
+                    <a class="download-all-link" href="/wiki/download/all_attachments?pageId=180650127" title="Alle neuesten Versionen von Anhängen auf dieser Seite als einzelne zip-Datei herunterladen.">Alle herunterladen</a>
+            </div>
+</div>
+
+<p>Cave: The rules specified are not always correct - they dont necessarily reflect the validstion logic used in the API</p><p /><h3 id="Swisscare-TabularversionofSWISSCARE_REGISTRY_V1_EN(furtherrulesin.txtabove)">Tabular version of SWISSCARE_REGISTRY_V1_EN (further rules in .txt above)</h3><div class="table-wrap"><table data-layout="full-width" data-local-id="bac6dc83-9189-4059-a9eb-7b77991b6e92" class="confluenceTable"><colgroup><col style="width: 217.0px;"/><col style="width: 212.0px;"/><col style="width: 129.0px;"/><col style="width: 418.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Swisscare Parameter</strong></p></th><th class="confluenceTh"><p><strong>Description</strong></p></th><th class="confluenceTh"><p><strong>Entry Type</strong></p></th><th class="confluenceTh"><p><strong>Allowable Answers</strong></p></th></tr><tr><td class="confluenceTd"><p>IV_TYPE</p></td><td class="confluenceTd"><p>1.Procedure</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Coronary angiography only, 2 = Coronary angiography and PCI, 3 = Staged PCI (planned PCI)</p></td></tr><tr><td class="confluenceTd"><p>CVRF</p></td><td class="confluenceTd"><p>2.cvRF</p></td><td class="confluenceTd"><p> Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Arterial hypertension, 2 = Diabetes requiring medication, 3 = Dyslipidemia, 4 = Smoking, 5 = Family history</p></td></tr><tr><td class="confluenceTd"><p>PATIENT_HISTORY</p></td><td class="confluenceTd"><p>3.Patient history</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Prior PCI, 2 = Prior CABG</p></td></tr><tr><td class="confluenceTd"><p>LVEF</p></td><td class="confluenceTd"><p>4.LVEF</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Normal (50-70%), 2 = Mildly reduced (40-49%), 3 = Moderately reduced (30-39%), 4 = Severely reduced (&lt;30%)</p></td></tr><tr><td class="confluenceTd"><p>OOH_CARDIAC_ARREST_YN</p></td><td class="confluenceTd"><p>5.Out of hospital cardiac arrest</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = No, 1 = Yes</p></td></tr><tr><td class="confluenceTd"><p>INTUBATED_YN</p></td><td class="confluenceTd"><p>6.Intubated</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = No, 1 = Yes</p></td></tr><tr><td class="confluenceTd"><p>CARDIOGENIC_SHOCK_YN</p></td><td class="confluenceTd"><p>7.Cardiogenic shock</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = No, 1 = Yes</p></td></tr><tr><td class="confluenceTd"><p>MECHANICAL_SUPPORT_DEVICES</p></td><td class="confluenceTd"><p>8.Mechanical support device(s)</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Impella, 2 = ECMO</p></td></tr><tr><td class="confluenceTd"><p>INDICATION</p></td><td class="confluenceTd"><p>9.Indication</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Clinical presentation as ACS, 2 = Suspected CAD or suspected progression of known CAD, 3 = Planned valvular heart disease intervention, 4 = Follow-up after HTX, 5 = Heart failure, 6 = Routine follow-up, 7 = Tachy- or bradyarrhythmia, 8 = Planned vascular surgery, 9 = Planned major surgery</p></td></tr><tr><td class="confluenceTd"><p>ACS</p></td><td class="confluenceTd"><p>10. ACS, please specify</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Unstable angina pectoris, 2 = Non-STEMI, 3 = STEMI</p></td></tr><tr><td class="confluenceTd"><p>CAD_TESTS</p></td><td class="confluenceTd"><p>11. Coronary angiography-preceeding test(s) suggesting CAD</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Treadmill indicating ischemia, 2 = CCTA with significant stenoses, 3 = Stress MRI with ischemia, 4 = Stress TTE with ischemia, 5 = TTE with hypokinesia, 6 = Nuclear test with ischemia</p></td></tr><tr><td class="confluenceTd"><p>DYSPNOE_YN</p></td><td class="confluenceTd"><p>12. Dyspnoe</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = No, 1 = Yes</p></td></tr><tr><td class="confluenceTd"><p>ANGINA_PECTORIS_YN</p></td><td class="confluenceTd"><p>13a. Angina pectoris</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = No, 1 = Yes</p></td></tr><tr><td class="confluenceTd"><p>CCS</p></td><td class="confluenceTd"><p>13b. CCS</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = I, 2 = II, 3 = III, 4 = IV</p></td></tr><tr><td class="confluenceTd"><p>ANTI_ANGINAL_DRUGS_YN</p></td><td class="confluenceTd"><p>13c. Anti-anginal drugs (prior or current)</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = No, 1 = Yes</p></td></tr><tr><td class="confluenceTd"><p>SYMPTOMS_ONSET_DATE</p></td><td class="confluenceTd"><p>14a. Date of symptoms onset</p></td><td class="confluenceTd"><p>Date</p></td><td class="confluenceTd"><p> </p></td></tr><tr><td class="confluenceTd"><p>SYMPTOMS_ONSET_TIME</p></td><td class="confluenceTd"><p>14b. Time of symptoms onset [hh:mm]</p></td><td class="confluenceTd"><p>String</p></td><td class="confluenceTd"><p> </p></td></tr><tr><td class="confluenceTd"><p>HOSP_ENTRY_DATE</p></td><td class="confluenceTd"><p>15a. Date of hospital entry</p></td><td class="confluenceTd"><p>Date</p></td><td class="confluenceTd"><p> </p></td></tr><tr><td class="confluenceTd"><p>HOSP_ENTRY_TIME</p></td><td class="confluenceTd"><p>15b. Time of hospital entry [hh:mm]</p></td><td class="confluenceTd"><p>String</p></td><td class="confluenceTd"><p> </p></td></tr><tr><td class="confluenceTd"><p>RECANALIZATION_DATE</p></td><td class="confluenceTd"><p>16a. Date of recanalization</p></td><td class="confluenceTd"><p>Date</p></td><td class="confluenceTd"><p> </p></td></tr><tr><td class="confluenceTd"><p>RECANALIZATION_TIME</p></td><td class="confluenceTd"><p>16b. Time of recanalization [hh:mm]</p></td><td class="confluenceTd"><p>String</p></td><td class="confluenceTd"><p> </p></td></tr><tr><td class="confluenceTd"><p>ECG_CA_INTERVAL_DURATION</p></td><td class="confluenceTd"><p>17. Time between first ECG and coronary angiography</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = &lt;24 hours, 2 = 24-48 hours, 3 = &gt;48 hours</p></td></tr><tr><td class="confluenceTd"><p>IV_DATE_QUESTION</p></td><td class="confluenceTd"><p>18. Date of procedure</p></td><td class="confluenceTd"><p>Date</p></td><td class="confluenceTd"><p> </p></td></tr><tr><td class="confluenceTd"><p>ACCESS</p></td><td class="confluenceTd"><p>19. Access</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Femoral, 2 = Radial</p></td></tr><tr><td class="confluenceTd"><p>DOSE</p></td><td class="confluenceTd"><p>20a. Dose (rounded to nearest)</p></td><td class="confluenceTd"><p>Integer</p></td><td class="confluenceTd"><p>N/A</p></td></tr><tr><td class="confluenceTd"><p>DOSE_UNIT</p></td><td class="confluenceTd"><p>20b. Dose unit</p></td><td class="confluenceTd"><p>radio</p></td><td class="confluenceTd"><p>1 = mGycm2, 2 = cGycm2 or uGym2</p></td></tr><tr><td class="confluenceTd"><p>INTRACORONARY_PHYSIOLOGY</p></td><td class="confluenceTd"><p>21. Intracoronary physiology</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Resting index (iFR/RFR), 2 = FFR</p></td></tr><tr><td class="confluenceTd"><p>INTRACORONARY_IMAGING</p></td><td class="confluenceTd"><p>22. Intracoronary imaging</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = IVUS, 2 = OCT</p></td></tr><tr><td class="confluenceTd"><p>TREATED_LESIONS_NR</p></td><td class="confluenceTd"><p>23. Number of treated lesions</p></td><td class="confluenceTd"><p>Integer</p></td><td class="confluenceTd"><p>Min-Max answers : 1 to 7</p></td></tr><tr><td class="confluenceTd"><p>TREATED_VESSELS_NR</p></td><td class="confluenceTd"><p>24. Number of treated vessels</p></td><td class="confluenceTd"><p>Integer</p></td><td class="confluenceTd"><p>Min-Max answers : 1 to 4</p></td></tr><tr><td class="confluenceTd"><p>LMS_TREATED_YN</p></td><td class="confluenceTd"><p>25. Unprotected left main stenosis treated</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = No, 1 = Yes</p></td></tr><tr><td class="confluenceTd"><p>IMPLANTED_STENTS_NR</p></td><td class="confluenceTd"><p>26. Number of implanted stents</p></td><td class="confluenceTd"><p>Integer</p></td><td class="confluenceTd"><p>Min-Max answers : 0 to 12</p></td></tr><tr><td class="confluenceTd"><p>DRUG_ELUTING_BALLOONS_NR</p></td><td class="confluenceTd"><p>27. Number of used drug-eluting balloons</p></td><td class="confluenceTd"><p>Integer</p></td><td class="confluenceTd"><p>Min-Max answers : 0 to 5</p></td></tr><tr><td class="confluenceTd"><p>STENT_FAILURE_INTERVENTIONS</p></td><td class="confluenceTd"><p>28. Intervention(s) for stent failure</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Restenosis, 2 = Stent thrombosis</p></td></tr><tr><td class="confluenceTd"><p>CTO_PROCEDURE</p></td><td class="confluenceTd"><p>29. CTO procedure</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = None, 1 = Antegrade, 2 = Retrograde</p></td></tr><tr><td class="confluenceTd"><p>CALCIUM_MODIFICATION</p></td><td class="confluenceTd"><p>30. Calcium modification</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Cutting balloon, 2 = Scoring balloon, 3 = Rotablation, 4 = Lithotripsy, 5 = Orbital atherectomy</p></td></tr><tr><td class="confluenceTd"><p>BIFURCATION</p></td><td class="confluenceTd"><p>31. Bifurcation</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>0 = None, 1 = 1 stent, 2 = 2 stents</p></td></tr><tr><td class="confluenceTd"><p>CAD_TREATMENT</p></td><td class="confluenceTd"><p>32. Treatment in case of CAD/ACS</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Conservative, 2 = CABG, 3 = PCI</p></td></tr><tr><td class="confluenceTd"><p>MAJOR_COMPLICATIONS</p></td><td class="confluenceTd"><p>33. Major complications</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>0 = None, 1 = Emergency open heart surgery, 2 = Clinically overt stroke, 3 = Procedural death</p></td></tr><tr><td class="confluenceTd"><p>DISCHARGE_MEDICATION</p></td><td class="confluenceTd"><p>34. Prescribed discharge medication (in cathlab)</p></td><td class="confluenceTd"><p>Checkbox</p></td><td class="confluenceTd"><p>1 = ASA, 2 = P2Y12 inhibitor, 3 = N/OAC, 4 = Statin</p></td></tr><tr><td class="confluenceTd"><p>P2Y12_INHIBITOR</p></td><td class="confluenceTd"><p>35. P2Y12 inhibitor</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Clopidogrel, 2 = Prasugrel, 3 = Ticagrelor, 88 = Other</p></td></tr><tr><td class="confluenceTd"><p>STATIN_THERAPY</p></td><td class="confluenceTd"><p>36. Statin therapy</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = Low-intensity, 2 = High-intensity</p></td></tr><tr><td class="confluenceTd"><p>DUAL_ANTIPLATELET_DURATION</p></td><td class="confluenceTd"><p>37a. Dual antiplatelet therapy duration</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = &lt;1 month, 2 = 1 month, 3 = 3 months, 4 = 6 months, 5 = 12 months, 6 = &gt;12 months</p></td></tr><tr><td class="confluenceTd"><p>TRIPLE_ANTIPLATELET_DURATION</p></td><td class="confluenceTd"><p>37b. Triple antiplatelet</p></td><td class="confluenceTd"><p>Radiobutton</p></td><td class="confluenceTd"><p>1 = &lt;1 week, 2 = 1 month, 3 = 3 months, 4 = 6 months</p></td></tr></tbody></table></div><p /><p /><h3 id="Swisscare-DataderivationfromCardioappvariales">Data derivation from Cardioapp variales</h3><div class="table-wrap"><table data-layout="full-width" data-local-id="e51c52ce-e832-4e1c-8b9d-d050b255227f" class="confluenceTable"><colgroup><col style="width: 217.0px;"/><col style="width: 176.0px;"/><col style="width: 269.0px;"/><col style="width: 379.0px;"/><col style="width: 140.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Swisscare Parameter</strong></p></th><th class="confluenceTh"><p><strong>Derived from Cardioapp Parameter</strong></p></th><th class="confluenceTh"><p><code>SWISSCARE</code><strong> Data View</strong></p></th><th class="confluenceTh"><p><strong>Mapping Rules</strong></p></th><th class="confluenceTh"><p><strong>Todo</strong></p></th></tr><tr><td class="confluenceTd"><p>IV_TYPE</p></td><td class="confluenceTd"><p>EXC_DATE_TS</p></td><td class="confluenceTd"><p>V_SWISSCARE_LIKA_PTCA_COMBINATION</p></td><td class="confluenceTd"><p>An angiography (= LIKA) without PCI (= PTCA) on the same calender or within 4h after angiography (sometimes  the angiography is before midnight and the PCI after midnight) is classified as '1'</p><p>An angiography (= LIKA) with PCI (= PTCA) on the same calender or within 4h after angiography is classified as '2'</p><p>A PCI without a preceding angiography on the same calender day or within 4h beforehand is classified as '3'</p><p /><p>Problem: sometimes there are multiple exams per day and the order LIKA-PTCA is not held (e.g. PTCA-LIKA-PTCA on the same day).</p><p /><p>More detailed description of the logic below this table</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>CVRF</p></td><td class="confluenceTd"><p>'uKAArtHypertonie', 'uKADiabetes', 'uKAFamBelastung', 'uKAHypercholesterinaemie', 'uKANikotinabusus', 'uRSCHA2D2DiabetesMellitus', 'uRSCHA2D2Hypertonie', 'uRSEuroIIDiabetesMitInsulintherapie'</p></td><td class="confluenceTd"><p>V_SWISSCARE_PATIENT_RF</p></td><td class="confluenceTd"><p>Any of those Riskfactor is considered present if it was present in at least 1 form in Cardioapp +/- 90 days around LIKA/PTCA.</p><p>If no risk factors documented: assumed to be none present and set to '0'</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>PATIENT_HISTORY</p></td><td class="confluenceTd"><p>'uKAFruehereKoroEingriffe'</p></td><td class="confluenceTd"><p>V_SWISSCARE_PATIENT_HISTORY</p></td><td class="confluenceTd"><p>Dropdown in Cardioapp with either PCI or CABG: In Swisscare, both could be selected together: We only have one option and can’t create a list.</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>IN</strong> ('Nein') <strong>THEN</strong> '0'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>IN</strong> ('PCI') <strong>THEN</strong> '1'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>IN</strong> ('AKB') <strong>THEN</strong> '2'</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>LVEF</p></td><td class="confluenceTd"><p>'CAR|LIKA|Ventrikulogramm|n.a.|n.a.|uVentriEF', 'CAR|KurzTTE|LV|n.a.|n.a.|uLVEF' , 'CAR|TTE|LV|n.a.|n.a.|uLVEF'</p></td><td class="confluenceTd"><p>V_SWISSCARE_LVEF</p></td><td class="confluenceTd"><p>Closest value +/- 30d around the index LIKA/PTCA, as assessed from TTE, KurzTTE or invasive Ventriculogram</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>OOH_CARDIAC_ARREST_YN</p></td><td class="confluenceTd"><p>'uIndikationStatusNachREA'</p></td><td class="confluenceTd"><p>V_SWISSCARE_INDICATION1</p></td><td class="confluenceTd"><p>Value (yes or no) selected from current exam</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>INTUBATED_YN</p></td><td class="confluenceTd"><p>'uIndikationIntubiert'</p></td><td class="confluenceTd"><p>V_SWISSCARE_INDICATION1</p></td><td class="confluenceTd"><p>Value (yes or no) selected from current exam</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>CARDIOGENIC_SHOCK_YN</p></td><td class="confluenceTd"><p>'uIndikationKardiogenerSchock'</p></td><td class="confluenceTd"><p>V_SWISSCARE_INDICATION1</p></td><td class="confluenceTd"><p>Value (yes or no) selected from current exam</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>MECHANICAL_SUPPORT_DEVICES</p></td><td class="confluenceTd"><p>'CAR|PTCA|Prozedere|n.a.|n.a.|uProzedereImpella'</p></td><td class="confluenceTd"><p>V_SWISSVARE_MECHANICAL_SUPPORT</p></td><td class="confluenceTd"><p>Value (yes or no) selected from current exam</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>IS</strong> <strong>NULL</strong> <strong>OR</strong> v.EVC_TEXT_VALUE='Nein' <strong>THEN</strong> '0'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'Impella ja' <strong>THEN</strong> '1'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'ECMO ja' <strong>THEN</strong> '2'</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>INDICATION</p></td><td class="confluenceTd"><p>'CAR|LIKA|Indikation|n.a.|n.a.|uIndikationIndikationAuswahl', 'CAR|PTCA|Indikation|n.a.|n.a.|uIndikationIndikationAuswahl'</p></td><td class="confluenceTd"><p>V_SWISSCARE_INDICATION2</p></td><td class="confluenceTd"><p>Selected from current exam</p><p>not all options in Swisscare available 1 on 1 in Cardioapp</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>IN</strong> ('Chronische Angina pectoris', 'Geplante 2. Intervention', 'Stumme Ischämie', 'Ausschluss KHK') <strong>THEN</strong> 'Suspected CAD or suspected progression of known CAD'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>IN</strong> ('STEMI', 'ACS Trop +/ EKG +', 'ACS Trop +/ EKG -', 'ACS Trop -/ EKG -', 'Subak. Myokardinfarkt', 'Kardiogener Schock', 'ACS Trop -/ EKG +', 'Postinfarkt-Angina', 'Subak. Myokardinf. Mit Lyse') <strong>THEN</strong> 'Clinical presentation as ACS'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'Präoperative Abklärung (Gefässchirurgie)' <strong>THEN</strong> 'Planned vascular surgery'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'Herzinsuffizienzabklärung' <strong>THEN</strong> 'Heart failure'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'Kontrollangiographie' <strong>THEN</strong> 'Routine follow-up'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'TAVI-Abklärung' <strong>THEN</strong> 'Planned valvular heart disease intervention'</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>ACS</p></td><td class="confluenceTd"><p>'CAR|LIKA|Indikation|n.a.|n.a.|uIndikationIndikationAuswahl', 'CAR|PTCA|Indikation|n.a.|n.a.|uIndikationIndikationAuswahl'</p></td><td class="confluenceTd"><p>V_SWISSCARE_INDICATION2</p></td><td class="confluenceTd"><p>Selected from current exam</p><p>not all options in Swisscare available 1 on 1 in Cardioapp</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'ACS Trop -/ EKG -' <strong>THEN</strong> 'Unstable angina pectoris'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>IN</strong> ('ACS Trop +/ EKG +' , 'ACS Trop +/ EKG -' , 'ACS Trop -/ EKG +') <strong>THEN</strong> 'Non-STEMI'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE = 'STEMI' <strong>THEN</strong> 'STEMI'</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>CAD_TESTS</p></td><td class="confluenceTd"><p>'CAR|LIKA|Funkt. Diagnostik|n.a.|n.a.|uFDTest', 'CAR|PTCA|Funkt. Diagnostik|n.a.|n.a.|uFDTest'</p></td><td class="confluenceTd"><p>no data</p></td><td class="confluenceTd"><p>no data entered in Cardioapp? Likely technical issue to be resolved with application support</p></td><td class="confluenceTd"><p>no values available?</p></td></tr><tr><td class="confluenceTd"><p>DYSPNOE_YN</p></td><td class="confluenceTd"><p>'CAR|LIKA|Kardiale Anamnese|n.a.|n.a.|uKADyspnoe'</p></td><td class="confluenceTd"><p>V_SWISSCARE_SYMPTOMS</p></td><td class="confluenceTd"><p>Value (yes or no) selected from current exam</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>ANGINA_PECTORIS_YN</p></td><td class="confluenceTd"><p>'CAR|LIKA|Kardiale Anamnese|n.a.|n.a.|uKAAnginaPectoris'</p></td><td class="confluenceTd"><p>V_SWISSCARE_SYMPTOMS</p></td><td class="confluenceTd"><p>Value (yes or no) selected from current exam</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>CCS</p></td><td class="confluenceTd"><p>'CAR|LIKA|Kardiale Anamnese|n.a.|n.a.|uKACCSclass'</p></td><td class="confluenceTd"><p>V_SWISSCARE_SYMPTOMS</p></td><td class="confluenceTd"><p>Value (yes or no) selected from current exam</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>ANTI_ANGINAL_DRUGS_YN</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>no data</p></td><td class="confluenceTd"><p>not available</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>SYMPTOMS_ONSET_DATE</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>no data</p></td><td class="confluenceTd"><p>not available</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>SYMPTOMS_ONSET_TIME</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>no data</p></td><td class="confluenceTd"><p>not available</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>HOSP_ENTRY_DATE</p></td><td class="confluenceTd"><p>'CAR|PTCA|Indikation|n.a.|n.a.|uIndikationTimeDoor'</p></td><td class="confluenceTd"><p>V_SWISSCARE_DATE</p></td><td class="confluenceTd"><p>Door date of the current PTCA</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>HOSP_ENTRY_TIME</p></td><td class="confluenceTd"><p>'CAR|PTCA|Indikation|n.a.|n.a.|uIndikationTimeDoor'</p></td><td class="confluenceTd"><p>V_SWISSCARE_DATE</p></td><td class="confluenceTd"><p>Door time of the current PTCA</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>RECANALIZATION_DATE</p></td><td class="confluenceTd"><p>'CAR|PTCA|Indikation|n.a.|n.a.|uIndikationTimeBaloon'</p></td><td class="confluenceTd"><p>V_SWISSCARE_DATE</p></td><td class="confluenceTd"><p>Balloon date of the current PTCA</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>RECANALIZATION_TIME</p></td><td class="confluenceTd"><p>'CAR|PTCA|Indikation|n.a.|n.a.|uIndikationTimeBaloon'</p></td><td class="confluenceTd"><p>V_SWISSCARE_DATE</p></td><td class="confluenceTd"><p>Balloon time of the current PTCA</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>ECG_CA_INTERVAL_DURATION</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>V_SWISSCARE_ECG</p></td><td class="confluenceTd"><p>After discussion with Michael  Zellweger, we do not deliver this variable, as we would have to infer the timepoint of the first ECG, which might not be a meaningful ECG, which in turn could inflate this time interval.</p><p /><p>From SEMA: Time intervals from 1st ECG in case (“Fallnummer”) until LIKA/PTCA</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>IV_DATE_QUESTION</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>The date of the LIKA/PTCA </p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>ACCESS</p></td><td class="confluenceTd"><p>'uKATHPunktionsort'</p></td><td class="confluenceTd"><p>V_SWISSCARE_ACCESS</p></td><td class="confluenceTd"><p><strong>WHEN</strong> EVC_TEXT_VALUE <strong>IN</strong> ('Wechsel radial zu femoral' , 'Arteria femoralis li' , 'Arteria femoralis re') <strong>THEN</strong> '1'</p><p><strong>WHEN</strong> EVC_TEXT_VALUE <strong>IN</strong> ('Arteria radialis re' , 'Arteria radialis li', 'Arteria brachialis li' , 'Arteria brachialis re') <strong>THEN</strong> '2'</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>DOSE</p></td><td class="confluenceTd"><p>'uDosis'</p></td><td class="confluenceTd"><p>V_SWISSCARE_DOSE</p></td><td class="confluenceTd"><p>The radiation dose as captured in the parameter Dosis since 2023. If a combined Lika/PTCA was done in one session, Cardoapp records the same dose twice: Once in Lika, once in PTCA: In this case, only one is counted, not the sum.</p><p>If in a combined intervention doesnt have the same radiation dose for both Lika and PTCA, then the sum is counted.</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>DOSE_UNIT</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>V_SWISSCARE_DOSE</p></td><td class="confluenceTd"><p>Hardcoded as  1 = mGycm2, in case a dose is documented</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>INTRACORONARY_PHYSIOLOGY</p></td><td class="confluenceTd"><p>'uLIKASpezKoroDiag|LIKASpezKoroDiagAuswahl1'</p></td><td class="confluenceTd"><p>V_SWISSCARE_INTRACORONARY_TEST</p></td><td class="confluenceTd"><p>The value of this parameter in the current LIKA are queried if it contains ‘IFR’ and ‘FFR’. In case both are present, they are concatenated</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>INTRACORONARY_IMAGING</p></td><td class="confluenceTd"><p>'uLIKASpezKoroDiag|LIKASpezKoroDiagAuswahl1'</p></td><td class="confluenceTd"><p>V_SWISSCARE_INTRACORONARY_TEST</p></td><td class="confluenceTd"><p>The value of this parameter in the current LIKA is queried if it contains ‘IVUS’ and ‘OCT’. In case both are present, they are concatenated.</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>TREATED_LESIONS_NR</p></td><td class="confluenceTd"><p>'gefAnzeigeBypass', 'gefAnzeigeNativgefaess'</p></td><td class="confluenceTd"><p>V_SWISSCARE_LESION</p></td><td class="confluenceTd"><p>The granularity of ‘Gefäss’ (translates as ‘vessel’) documentation in Cardioapp is actually corresponding to a ‘segment’ (part of a vessel), not ‘vessel’ (e.g. ‘ACD distal’, whereas ‘ACD’ is the vessel).</p><p>According to Michael Zellweger, we count the number of segments treated and assume those are lesions (a ‘lesion’ granularity doesnt exist in Cardioapp). Therefore we count distinct Text values for these parameters results and interprete it as number of lesion treated.</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>TREATED_VESSELS_NR</p></td><td class="confluenceTd"><p>'gefAnzeigeBypass', 'gefAnzeigeNativgefaess'</p></td><td class="confluenceTd"><p>V_SWISSCARE_VESSEL</p></td><td class="confluenceTd"><p>As explained above, the ‘Gefäss’ Documentation in Cardioapp is actually a segment documentation. Gefässe are one level up the anatomy hierarchy, therefore we have to group segments to count vessels.</p><p>According to Michael Zellweger, we count as 'Vessels' (not clearly defined by Swisscare): ACD, RIVA, RCX, left main and R. intermedius (Intermediärast).</p><p /><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>LIKE</strong> '%ACD%' <strong>OR</strong> EVC_TEXT_VALUE <strong>IN</strong> ('R. post. lat. d.', 'RIVPO', 'RV-Ast') <strong>THEN</strong> 'ACD'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>LIKE</strong> '%RIVA%' <strong>OR</strong> v.EVC_TEXT_VALUE <strong>LIKE</strong> '%R. diagonalis%' <strong>OR</strong> v.EVC_TEXT_VALUE <strong>LIKE</strong> '%Diagonal%' <strong>THEN</strong> 'RIVA'</p><p><strong>WHEN</strong> v.EVC_TEXT_VALUE <strong>LIKE</strong> '%RCX%' <strong>OR</strong> v.EVC_TEXT_VALUE <strong>LIKE</strong> '%R. marginalis%' <strong>OR</strong> v.EVC_TEXT_VALUE <strong>LIKE</strong> '%Marginal%' <strong>THEN</strong> 'RCX'</p><p><strong>WHEN</strong> EVC_TEXT_VALUE <strong>IN</strong> ('linker Hauptstamm') <strong>THEN</strong> 'Left Main'</p><p><strong>WHEN</strong> EVC_TEXT_VALUE <strong>IN</strong> ('Intermediärast') <strong>THEN</strong> 'Intermediärast'</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>LMS_TREATED_YN</p></td><td class="confluenceTd"><p>EPC_BK <strong>LIKE</strong> '%uKorotabRIVA%AKB' <strong>OR</strong> v.EPC_BK <strong>LIKE</strong> '%uKorotabRCX%AKB'</p><p>EPC_BK <strong>LIKE</strong> '%uKorotabRIVA%Stenose' <strong>OR</strong> v.EPC_BK <strong>LIKE</strong> '%uKorotabRCX%Stenose'</p><p /><p>'gefAnzeigeNativgefaess'</p></td><td class="confluenceTd"><p>V_SWISSCARE_LEFT_MAIN_UNPROTECT</p></td><td class="confluenceTd"><p>Unprotected Main definiert von Michael Zellweger: Entweder a) kein Bypass auf RIVA oder RCX, oder b) alle Bypass auf RIVA oder RCX mit 100% Stenose drin</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>IMPLANTED_STENTS_NR</p></td><td class="confluenceTd"><p>'gefStentsReport'</p></td><td class="confluenceTd"><p>V_SWISSCARE_STENT</p></td><td class="confluenceTd"><p>Here we count the number of Stents recorded in the current PTCA</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>DRUG_ELUTING_BALLOONS_NR</p></td><td class="confluenceTd"><p>'gefBalloneReport'</p><p><strong>lower</strong>(EVC_TEXT_VALUE) <strong>LIKE</strong> '%dcb%' -- Drug eluting ballone werden im Namen so gekennzeichnet (dcb im Namen)</p></td><td class="confluenceTd"><p>V_SWISSCARE_BALLOON</p></td><td class="confluenceTd"><p>if the string ‘dcb’ is present in the name of the balloon, this indicates one of the balloons of interest: We count only those.</p><p>In order for this to work, the naming of balloons in Cardioapp has to follow this convention</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>STENT_FAILURE_INTERVENTIONS</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>no data</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>CTO_PROCEDURE</p></td><td class="confluenceTd"><p>'gefCTOIntervention'</p></td><td class="confluenceTd"><p>V_SWISSCARE_CTO</p></td><td class="confluenceTd"><p>antegrad = 1</p><p>retrograd = 2</p><p>missing = 0</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>CALCIUM_MODIFICATION</p></td><td class="confluenceTd"><p>'gefZusatzmaterial' </p><p> EVC_TEXT_VALUE = 'Rotablator'</p></td><td class="confluenceTd"><p>V_SWISSCARE_CALCIUM_MODIFICATION</p></td><td class="confluenceTd"><p>nur Rotablator vorhanden unter Zusatzmaterial</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>BIFURCATION</p></td><td class="confluenceTd"><p>'gefBifurkation'</p></td><td class="confluenceTd"><p>V_SWISSCARE_BIFURCATION</p></td><td class="confluenceTd"><p>Wird auf Ebene Gefäss dokumentiert, d.h. multiple pro PTCA möglich (wenn auch klinisch nicht sinnvoll): Es wird der maximale Wert pro PTCA genommen:</p><p /><p><strong>WHEN</strong> b.EVC_TEXT_VALUE <strong>IN</strong> ('Nein') <strong>OR</strong> b.EVC_TEXT_VALUE <strong>IS</strong> <strong>NULL</strong> <strong>THEN</strong> '0'</p><p><strong>WHEN</strong> b.EVC_TEXT_VALUE <strong>IN</strong> ('1 Stent') <strong>THEN</strong> '1'</p><p><strong>WHEN</strong> b.EVC_TEXT_VALUE <strong>IN</strong> ('2 Stent') <strong>THEN</strong> '2'</p></td><td class="confluenceTd"><p>exact</p></td></tr><tr><td class="confluenceTd"><p>CAD_TREATMENT</p></td><td class="confluenceTd"><p>'uProzedereBesprechung', 'uProzederePTCA'</p></td><td class="confluenceTd"><p>V_SWISSCARE_CAD_TREATMENT</p></td><td class="confluenceTd"><p>We create a list of all IV_TYPE=1 (according to specs/forms Variable is only allowable to be set to these). Then we make a list of values of 'uProzedereBesprechung', 'uProzederePTCA' and take the maximum of the mapped values. If there is neither HEART team nor ad hoc PTCA, then = conservative</p><p><strong>WHEN </strong>d.EVC_TEXT_VALUE<strong> like '%Team%' THEN</strong> '2' -- = Heart Team besprechung =  CABG</p><p><strong>WHEN</strong> d.EVC_TEXT_VALUE<strong> IN ('Ad hoc PTCA', 'PTCA morgen', 'PTCA in 4 Wochen') THEN</strong> '3' -- = PCI</p><p><strong>ELSE </strong>'1' -- = Conservative, this IS WITH the max above ONLY selected, WHEN NO 2 OR 3 ARE documented ON this exc_bk</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>MAJOR_COMPLICATIONS</p></td><td class="confluenceTd"><p>Outcomestatistik, manuell von Daniel von Sievers</p></td><td class="confluenceTd"><p>V_SWISSCARE_COMPLICATIONS</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>resolve some questions, particularly regarding periprocedural death</p></td></tr><tr><td class="confluenceTd"><p>DISCHARGE_MEDICATION</p></td><td class="confluenceTd"><p>'uProzedereLipidsenkerAuswahl', 'uProzedereAspirin', 'uProzedereAggregationshemmerAuswahl', 'uProzedereTripelTherapie'</p></td><td class="confluenceTd"><p>V_SWISSCARE_DISCHARGE_MED</p></td><td class="confluenceTd"><p>‘uProzedereAspirin’ = 1</p><p>'uProzedereAggregationshemmerAuswahl'=2</p><p>'uProzedereTripelTherapie' = 1,2,3</p><p>‘uProzedereLipidsenkerAuswahl’ =4</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>P2Y12_INHIBITOR</p></td><td class="confluenceTd"><p>'uProzedereAggregationshemmerAuswahl'</p></td><td class="confluenceTd"><p>V_SWISSCARE_P2Y12</p></td><td class="confluenceTd"><p>WHEN EVC_TEXT_VALUE LIKE '%Clopidogrel%' THEN '1'</p><p>WHEN EVC_TEXT_VALUE LIKE '%Prasugrel%' THEN '2'<br/>WHEN EVC_TEXT_VALUE LIKE '%Ticagrelor%' THEN '3'<br/><br/></p></td><td class="confluenceTd"><p>list mapping</p></td></tr><tr><td class="confluenceTd"><p>STATIN_THERAPY</p></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p /></td><td class="confluenceTd"><p>no data on dose collected, however according to Michael Zellweger, all Statin therapies are to be considered “high-dose”: Therefore we set Value =2 whenever a Statin is listed in DISCHARGE_MEDICATION</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>DUAL_ANTIPLATELET_DURATION</p></td><td class="confluenceTd"><p>'uProzedereAggregationshemmerAuswahl'</p></td><td class="confluenceTd"><p>V_SWISSCARE_DUAL_ANTIPLATE_DURATION</p></td><td class="confluenceTd"><p>Only works for the List of pre-selected durations. If “Andere” is selected, we don’t get any value. (no unreliable and unpredictable analysis of free text for an automated job) </p><p><strong>WHEN</strong> EVC_TEXT_VALUE <strong>LIKE</strong> '%4 Wochen%' <strong>THEN</strong> '2'</p><p><strong>WHEN</strong> EVC_TEXT_VALUE <strong>LIKE</strong> '%6 Monate%' <strong>THEN</strong> '4'</p><p><strong>WHEN</strong> EVC_TEXT_VALUE <strong>LIKE</strong> '%12 Monate%' <strong>THEN</strong> '5'</p><p><strong>ELSE</strong> <strong>NULL</strong></p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>TRIPLE_ANTIPLATELET_DURATION</p></td><td class="confluenceTd"><p>‘uProzedereTripelTherapie’</p></td><td class="confluenceTd"><p>V_SWISSCARE_TRIPLE_ANTIPLATE_DURATION</p></td><td class="confluenceTd"><p>Depends on values of that parameter and might change in the future. Currently, </p><p>there is two values indicating time: they are both mapped to 1 = &lt;1 week (next higher is 1 month)</p><p>'Aspirin 1 Woche, Plavix 75mg 12 Monate, Eliquis',</p><p>'Aspirin 1 Woche, Plavix 75mg 6 Monate, Eliquis'</p></td><td class="confluenceTd"><p>Info Michael</p></td></tr></tbody></table></div><h2 id="Swisscare-DerivationLogicforIV_TYPE">Derivation Logic for IV_TYPE</h2><p /><p>At USB, Lika and ptca are documentd as two distinct examinations with no clear link between them, even when they are done together in one session. Therefore we need to derive which exams belong together.</p><p>Lika is a diagnostic exam, ptca a therapeutic intervention after lika and they are often done together in one session in the intervention room. When done together, logically first is lika then ptca.  For Swisscare, exams need to be classified if 1) it is just a lika 2) lika + ptca 3) just a ptca (Parameter IV_TYPE).</p><p>Typically, there is one lika and one ptca per calenderday. Theoretically the lika can also be before midnight and the ptca after midnight (emergencies at night) and those should be associated together still. Therefore, we cant just put them together using calender dates but also need to use a reasonable timeinterval to link them over 2 adjacent calenderdates (4hours)</p><p> </p><p>We have to artificially classify the relationships between lika and ptca. There can be multiple likas and multiple ptcas per day with numbers not necessarily matching. However, one lika can should only be matched once to ptca and vice versa. Also the order is not necessarily documented in a correct manner (eg ptca can have an earlier timestamp in the data than lika, even though the real order was the other way around). This creates problems in the classification we need to do, particularly when there are multiples per day: The logical order is lost and automatic interpretation becomes very complex and we will not do that.</p><p> </p><p>Thus I defined the logic for classification of IV_TYPE:</p><ol start="1"><li><p>if there is exactly one lika and exactly one ptca on one calender day, we associate them together, no matter their order!!: IV_TYPE =2</p></li><li><p>If there is lika only per calender date and no ptca within 4h of lika: we classify as IV_TYPE =1</p></li><li><p>If there is only a PTCA on a day and no Lika within 4h preceding the ptca, then we classify as IV_TYPE=3</p></li><li><p>When there are multiple Likas per day, they associate to the closest following ptca on the same day or within 4h of lika. if there is two likas, eg. one at 1pm and 5pm and a ptca at 6pm, the lika at 1pm is classified as iv_type=1 and  the lika  at 5pm is associated with the ptca at 6pm to be classified as iv_type=2</p></li><li><p>if there are multiple ptcas and less likas, eg a lika at 4pm, and ptca at 2pm and 6pm: the ptca at 2 pm is classified as iv_type =3 and the lika at 4 pm is associated with the ptca at 6pm to be classified as IV_TYPE=2</p></li></ol><p> </p><p>Obviously, order plays a matter in this logic (if there is not just one lika and one ptca per day) and the cardiologists know this needs to documented right in order for this to work properly. However, even if the order is not documented correctly (which is the case sometimes), this is only a minor issue, as it is a rare case anyway</p><p> </p><p> </p><p> </p><h2 id="Swisscare-Pseudonymisationindeclinedconsents">Pseudonymisation in declined consents</h2><p>In the meeting with Luisa Schäfer, M. Zellweger and F. Franzeck from July 20th 2023, it was decided by M. Zellweger:</p><p>There are 3 possible consent status (specific consent for this registry):</p><ol start="1"><li><p>Nein</p></li><li><p>Ja</p></li><li><p>Notfall </p></li></ol><p /><p>In case of Nein: Names are changed to “consent_declined”, Date of birth is changed to the January 1st of the same calender year as the patients birthdate, PAT_BK is changed to a peppered HASH of the original PAT_BK (i.e. adding a fixed string to the pat_bk and the then run the hash function) - the hashed pat_bk needs to be stable over time so the information how many exams a patient had is still retained.</p><p /><p>In case of Ja/Notfall: All information are sent (specifically the “Notfall” ones do need accept consent, but it was decided to treat them as “Ja”</p><p />
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/180650127/188285099.png">swisscare flow.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/180650127/187925394.txt">SWISSCARE_REGISTRY_V1_EN.txt</a> (text/plain)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/180650127/188482423.png">swisscare flow.drawio.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

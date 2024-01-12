@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Laboratory data introduction</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Laboratory-data_257032245.html">Laboratory data</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Laboratory data introduction
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Aug. 14, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This site gives an introduction to the analysis of laboratory results</p></div></div><p /><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336165969 {padding: 0px;}
+div.rbtoc1698336165969 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336165969 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336165969'>
+<ul class='toc-indentation'>
+<li><a href='#Laboratorydataintroduction-Clinicalapplicationswithlaboratorydata'>Clinical applications with laboratory data</a></li>
+<li><a href='#Laboratorydataintroduction-Specificsforanalysis'>Specifics for analysis</a>
+<ul class='toc-indentation'>
+<li><a href='#Laboratorydataintroduction-XLAB'>XLAB</a>
+<ul class='toc-indentation'>
+<li><a href='#Laboratorydataintroduction-Problematicdataissues'>Problematic data issues</a>
+<ul class='toc-indentation'>
+<li><a href='#Laboratorydataintroduction-Labmethod/teststandardisation'>Lab method/test standardisation</a></li>
+<li><a href='#Laboratorydataintroduction-Labresultsstructure'>Lab results structure</a></li>
+</ul>
+</li>
+<li><a href='#Laboratorydataintroduction-Fulfillingatypicaldatarequest'>Fulfilling a typical data request</a></li>
+<li><a href='#Laboratorydataintroduction-Examplequeriesfordatarequests'>Example queries for data requests</a></li>
+</ul>
+</li>
+<li><a href='#Laboratorydataintroduction-MLAB'>MLAB</a></li>
+<li><a href='#Laboratorydataintroduction-Pathowin'>Pathowin</a></li>
+</ul>
+</li>
+</ul>
+</div><p /><p /><h1 id="Laboratorydataintroduction-Clinicalapplicationswithlaboratorydata">Clinical applications with laboratory data</h1><p>We have 3 applications loaded to CDWH that contain laboratory data. However, these 3 do not contain 100% of all laboratory tests done at USB: There is some specialised systems, some of which were used mostly historically. Items not covered are e.g. among others genomics data, specialised hematology data (results often given just in PDFs) and IMM (Institute for medical microbiology, a.k.a “Institut am Petersplatz”) which provided virology and specialised microbiology results until December 2018</p><div class="table-wrap"><table data-layout="default" data-local-id="56d33172-e28b-48cf-b828-3c550fafc497" class="confluenceTable"><colgroup><col style="width: 104.0px;"/><col style="width: 290.0px;"/><col style="width: 368.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Application</strong></p></th><th class="confluenceTh"><p><strong>Content</strong></p></th><th class="confluenceTh"><p><strong>DWH entities</strong></p></th></tr><tr><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>Clinical chemistry, hematology, immunology, virology, serology, blood gas analysis</p></td><td class="confluenceTd"><p>IL_DIM_LABOR_METHOD_XLAB<br/>IL_DIM_LABOR_ORDER_XLAB<br/>IL_FCT_LABOR_RESULT_XLAB</p></td></tr><tr><td class="confluenceTd"><p>MLAB</p></td><td class="confluenceTd"><p>Microbiology, partly also virological data (multiplex PCRs)</p></td><td class="confluenceTd"><p>IL_DIM_LABOR_ANTIBIOGRAM_MLAB<br/>IL_DIM_LABOR_GERM_MLAB<br/>IL_DIM_LABOR_MICROSCOPY_MLAB<br/>IL_DIM_LABOR_ORDER_MLAB<br/>IL_DIM_LABOR_PROCEDURE_MLAB<br/>IL_DIM_LABOR_PROCEDURE_RESULT_TEXT_MLAB<br/>IL_DIM_LABOR_SAMPLE_MLAB<br/>IL_FCT_LABOR_ANTIBIOGRAM_RESULT_MLAB<br/>IL_FCT_LABOR_GERM_RESULT_MLAB<br/>IL_FCT_LABOR_MICROSCOPY_RESULT_MLAB<br/>IL_FCT_LABOR_PROCEDURE_RESULT_MLAB</p></td></tr><tr><td class="confluenceTd"><p>Pathowin</p></td><td class="confluenceTd"><p>Histological / Microscopic examination of tissues/biopsies and body fluids</p></td><td class="confluenceTd"><p>IL_DIM_LABOR_BLOCK_PATHOLOGY<br/>IL_DIM_LABOR_ORDER_PATHOLOGY<br/>IL_DIM_LABOR_SAMPLE_PATHOLOGY<br/>IL_DIM_LABOR_SLICE_PATHOLOGY<br/>IL_FCT_LABOR_REPORT_PATHOLOGY</p></td></tr></tbody></table></div><p /><h1 id="Laboratorydataintroduction-Specificsforanalysis">Specifics for analysis</h1><h2 id="Laboratorydataintroduction-XLAB">XLAB</h2><p>The data is organised around a fact table containing the individual results, a DIM with details for the laboratory order and another DIM with details for the laboratory tests/methods used.</p><h3 id="Laboratorydataintroduction-Problematicdataissues">Problematic data issues</h3><h4 id="Laboratorydataintroduction-Labmethod/teststandardisation">Lab method/test standardisation</h4><p>The most problematic issue for analysts is the lack of standardisation of laboratory tests and the change of laboratory test codes over time. The type of sample is also included in the lab method: For example, you can measure ‘<strong>Natrium</strong>' in Urine, Plasma, Sweat, etc. and each of these has his own code. The metadata containing these data are not very straightforward to handle. For SPHN, these lab methods were mapped to LOINC (an international standard mostly for laboratory data) - you can of course also access these LOINC mappings, however, most researchers at USB would not know about LOINC, thus it is often of little help for internal projects.</p><p /><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- a quick look for all Natrium lab tests:
+SELECT LMX_BK,
+    LMX_LABOR,
+    LMX_METHOD_SHORT_NAME,
+    LMX_METHOD, LMX_MATERIAL_NAME 
+FROM
+    cdwh.V_IL_DIM_LABOR_METHOD_XLAB_CUR vidlmxc
+WHERE
+    LMX_METHOD LIKE &#39;%Natrium%&#39; ;
+    LMX_METHOD_SHORT_NAME IN (
+        &#39;C-PH-NA-01&#39;, &#39;NA&#39;
+)</pre>
+</div></div><p>There are about 50 results - however for some research questions, only one or two are of relevance and it is the job of the data requestor to specify this! This is just a few example rows: <strong>There is a very big potential to deliver wrong data if you do something overly simple as</strong> <code>WHERE LMX_METHOD LIKE '%Natrium%'</code> !  </p><div class="table-wrap"><table data-layout="default" data-local-id="096a7626-32b0-4737-8702-a4f4bbf040f2" class="confluenceTable"><tbody><tr><th class="confluenceTh"><p>LMX_BK</p></th><th class="confluenceTh"><p>LMX_LABOR</p></th><th class="confluenceTh"><p>LMX_METHOD_SHORT_NAME</p></th><th class="confluenceTh"><p>LMX_METHOD</p></th><th class="confluenceTh"><p>LMX_MATERIAL_NAME</p></th></tr><tr><td class="confluenceTd"><p>16</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>R243</p></td><td class="confluenceTd"><p>Natrium</p></td><td class="confluenceTd"><p>Heparin grün, 4.7ml</p></td></tr><tr><td class="confluenceTd"><p>362</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>R250</p></td><td class="confluenceTd"><p>Natrium/Kalium</p></td><td class="confluenceTd"><p>Heparin grün, 4.7ml</p></td></tr><tr><td class="confluenceTd"><p>416</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>V-Natrium</p></td><td class="confluenceTd"><p>V-Natrium</p></td><td class="confluenceTd"><p>Vollblut ABG</p></td></tr><tr><td class="confluenceTd"><p>4962</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>NA</p></td><td class="confluenceTd"><p>Natrium</p></td><td class="confluenceTd"><p>Heparin grün, 4.7ml</p></td></tr><tr><td class="confluenceTd"><p>5733</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>VNA</p></td><td class="confluenceTd"><p>Natrium</p></td><td class="confluenceTd"><p>Blutgase art. orange</p></td></tr><tr><td class="confluenceTd"><p>5782</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>VNAV</p></td><td class="confluenceTd"><p>Natrium venös</p></td><td class="confluenceTd"><p>Blutgase ven. orange</p></td></tr><tr><td class="confluenceTd"><p>6291</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>UNA</p></td><td class="confluenceTd"><p>U-Natrium</p></td><td class="confluenceTd"><p>Urin (quant) gelb, 8.5ml</p></td></tr><tr><td class="confluenceTd"><p>7348</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>NA-P</p></td><td class="confluenceTd"><p>Natrium Punktat</p></td><td class="confluenceTd"><p>Punktat,EDTA lila, 2.7ml</p></td></tr><tr><td class="confluenceTd"><p>7349</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>NA-D</p></td><td class="confluenceTd"><p>Natrium Dialysat</p></td><td class="confluenceTd"><p>Dialysat Haematologie</p></td></tr><tr><td class="confluenceTd"><p>25464</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>R244</p></td><td class="confluenceTd"><p>Natrium Punktat</p></td><td class="confluenceTd"><p>Punktat,EDTA lila, 2.7ml</p></td></tr><tr><td class="confluenceTd"><p>25465</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>R246</p></td><td class="confluenceTd"><p>Natrium Dialysat</p></td><td class="confluenceTd"><p>Dialysat Haematologie</p></td></tr><tr><td class="confluenceTd"><p>25466</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>R248</p></td><td class="confluenceTd"><p>Natriumfluoridzahl</p></td><td class="confluenceTd"><p>Heparin grün, 4.7ml</p></td></tr><tr><td class="confluenceTd"><p>25467</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>R252</p></td><td class="confluenceTd"><p>Natrium/Karlium Punktat</p></td><td class="confluenceTd"><p>Punktat,EDTA lila, 2.7ml</p></td></tr><tr><td class="confluenceTd"><p>25468</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>R254</p></td><td class="confluenceTd"><p>Natrium/Kalium Dialysat</p></td><td class="confluenceTd"><p>Dialysat Haematologie</p></td></tr><tr><td class="confluenceTd"><p>29561</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>NAS</p></td><td class="confluenceTd"><p>Natrium im Stuhl°</p></td><td class="confluenceTd"><p>Stuhlportion</p></td></tr><tr><td class="confluenceTd"><p>42474</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>NAO</p></td><td class="confluenceTd"><p>Natrium</p></td><td class="confluenceTd"><p>Sonstiges Material</p></td></tr><tr><td class="confluenceTd"><p>169492</p></td><td class="confluenceTd"><p>XLAB</p></td><td class="confluenceTd"><p>UNASAU24</p></td><td class="confluenceTd"><p>U-Natrium Ausscheidung</p></td><td class="confluenceTd"><p>Sammelurin ohne Zus., 8.5ml</p></td></tr><tr><td class="confluenceTd"><p>172215</p></td><td class="confluenceTd"><p>X/Lab nach Reorg</p></td><td class="confluenceTd"><p>C-BG-ARTNA-01</p></td><td class="confluenceTd"><p>Natrium Vollblut arteriell</p></td><td class="confluenceTd"><p>Blutgase art. orange</p></td></tr><tr><td class="confluenceTd"><p>172235</p></td><td class="confluenceTd"><p>X/Lab nach Reorg</p></td><td class="confluenceTd"><p>C-BG-VENNA-01</p></td><td class="confluenceTd"><p>Natrium Vollblut venös</p></td><td class="confluenceTd"><p>Blutgase ven. orange</p></td></tr><tr><td class="confluenceTd"><p>172261</p></td><td class="confluenceTd"><p>X/Lab nach Reorg</p></td><td class="confluenceTd"><p>C-PH-NA-01</p></td><td class="confluenceTd"><p>Natrium</p></td><td class="confluenceTd"><p>Heparin grün, 4.7ml</p></td></tr><tr><td class="confluenceTd"><p>172359</p></td><td class="confluenceTd"><p>X/Lab nach Reorg</p></td><td class="confluenceTd"><p>C-DI-NA-01</p></td><td class="confluenceTd"><p>Natrium im Dialysat</p></td><td class="confluenceTd"><p>Dialysat</p></td></tr><tr><td class="confluenceTd"><p>172387</p></td><td class="confluenceTd"><p>X/Lab nach Reorg</p></td><td class="confluenceTd"><p>C-PU-NA-01</p></td><td class="confluenceTd"><p>Natrium im Punktat</p></td><td class="confluenceTd"><p>Punktat</p></td></tr><tr><td class="confluenceTd"><p>172396</p></td><td class="confluenceTd"><p>X/Lab nach Reorg</p></td><td class="confluenceTd"><p>C-ST-NA-01</p></td><td class="confluenceTd"><p>Natrium im Stuhl°</p></td><td class="confluenceTd"><p>Stuhlportion</p></td></tr><tr><td class="confluenceTd"><p>173406</p></td><td class="confluenceTd"><p>X/Lab nach Reorg</p></td><td class="confluenceTd"><p>C-UN-NA-01</p></td><td class="confluenceTd"><p>Natrium im Urin</p></td><td class="confluenceTd"><p>Urin (quant) gelb, 8.5ml</p></td></tr></tbody></table></div><p /><p>Furthermore, the codes are not stable over time: There was one major reform of the XLAB in 06/2018 (not the only one though…) where the lab responsibles changed <strong>all</strong> the identifiers for laboratory methods without migrating the preceding data: </p><p>For example: Natrium (in English: Sodium) is a commonly used analyte measured in blood plasma. From around 200x to 2018, it was identified by <code>LMX_METHOD_SHORT_NAME = 'NA'</code> , from June 2018 it was changed to <code>LMX_METHOD_SHORT_NAME = 'C-PH-NA-01'</code> however without migrating the old data: Therefore, we you have to include both codes in your query, if you want to span the whole timeperiod.</p><p>There was never an official mapping of old to new codes, but we included an <strong>incomplete/inofficial</strong> one for the most commonly used codes. It is built into IL_DIM_LABOR_METHOD_XLAB:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- mapping of old and new labcodes after 2018 migration:
+SELECT LMX_BK,
+    LMX_LABOR,
+    LMX_METHOD_SHORT_NAME,
+    LMX_METHOD,
+    LMX_CURRENT_METHOD_SHORT_NAME,
+    LMX_PREVIOUS_METHOD_SHORT_NAME
+FROM
+    cdwh.V_IL_DIM_LABOR_METHOD_XLAB_CUR vidlmxc
+WHERE
+    LMX_METHOD_SHORT_NAME IN (
+        &#39;C-PH-NA-01&#39;, &#39;NA&#39;
+    )
+;</pre>
+</div></div><p /><h4 id="Laboratorydataintroduction-Labresultsstructure">Lab results structure</h4><p>The way how laboratory results are stored is not very helpful for analysts: LRX_RESULT_VALUE represents the original data and is string: numerical, semiquantitativ, qualitative results are all mixed here and it contains a lot a manual text that is hard to interprete automatically. Commonly often numeric results are of interest: To facilitate this, we included a specific Regex and resulting columns in the SQL of the entity, that tries to parse numerical values out of the original string: LRX_RESULT_VALUE_NUMERIC and LRX_RESULT_VALUE_COMPARATOR.  It gets more difficult with text results, as the laboratory did never standardise them in a good way: For example there many spelling just to confer the meanining “positive” - just a short extract -  in general, leave the data cleaning/mapping to the person who requests the data:</p><p><code>'positiv', 'positiv+', '+positiv', '+ positiv', 'positiv/pan', 'positiv (nur Gametozyten)', '+++positiv', 'Positiv', 'Positive', 'l. positiv', 'positiv!', 'PRESUMPTIVE POSITIVE'</code></p><p /><h3 id="Laboratorydataintroduction-Fulfillingatypicaldatarequest">Fulfilling a typical data request</h3><p /><p>A typical request would be something like: “<em>I need all Natrium (in English=Sodium) and Creatinine measurements in blood plasma of a list of 100 patients for the last 10 years</em>”.</p><p /><p>General approach for analysts:</p><ol start="1"><li><p><u>Identify the relevant LMX_METHOD_SHORT_NAME or LMX_BKs to include in your query</u> - so you query exactly the results the request specifies: This is normally the hardest part, when you don’t have detailed medical knowledge specific to USB. The specification of laboratory methods in the lab is not very standardised, varies over time (thus multiple codes need to be used for the same analyte), or the same analyte can be found in different samples (like blood vs. urine) which all has to be specified clearly. Therefore:<strong> Primarily the researchers/person requesting the data have to specify a list of laboratory codes</strong> - you can’t know exactly what they are looking for and it is eventually a research question. E.g. for Natrium values in Plasma a good selection would be <code>'NA' and 'C-PH-NA-01'</code></p><ul><li><p>Practically, ask the researcher to provide you a list of these codes. The researchers also see these codes (corresponding to LMX_METHOD_SHORT_NAME) in ISMED, with which they work every day - however, they might miss the old codes, as in current records, only the most current codes are listed.   </p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/257196056/257392645.png" data-image-src="attachments/257196056/257392645.png" data-height="305" data-width="848" data-unresolved-comment-count="0" data-linked-resource-id="257392645" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="grafik-20230814-072846.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="257196056" data-linked-resource-container-version="12" data-media-id="dbec9f6e-d3fd-44db-b3ac-808cc2e64ecb" data-media-type="file"></span></li><li><p>Unfortunately, there is no directory of lab metadata other than IL_DIM_LABOR_METHOD_XLAB at USB (the laboratory as data owner is not helpful). If you are in doubt what to select, send an excerpt of the Dimension to the researcher (example just be to select the relevant lab codes as a specification for the query. </p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- query to lookup possible lab methods, also basis for mapping to be done by
+-- data requestors
+
+SELECT r.LMX_BK,
+    m.LMX_LABOR,
+    r.LMX_METHOD_SHORT_NAME, m.LMX_METHOD, m.LMX_MATERIAL_NAME
+    , count(*) AS COUNT_RESULTS, min(LRX_RESULT_DATE_TS) AS RESULT_DATE_FIRST, max(LRX_RESULT_DATE_TS) AS RESULT_DATE_LAST
+FROM
+    cdwh.V_IL_FCT_LABOR_RESULT_XLAB r
+JOIN
+    cdwh.V_IL_DIM_LABOR_METHOD_XLAB_CID M 
+        ON r.LMX_BK = m.LMX_BK
+WHERE
+    LMX_METHOD LIKE &#39;%Natrium%&#39;
+    AND YEAR(LRX_RESULT_DATE_TS) &lt;= year(NOW()) -- DATA quality issues...
+GROUP BY r.LMX_BK,
+    m.LMX_LABOR,
+    r.LMX_METHOD_SHORT_NAME,
+    m.LMX_METHOD, m.LMX_MATERIAL_NAME 
+ORDER BY LMX_METHOD,LMX_MATERIAL_NAME, r.LMX_METHOD_SHORT_NAME;</pre>
+</div></div></li></ul></li><li><p><u>Identify what other variables are needed:</u> These are typically PAT_BK, CAS_BK, the <code>LRX_RESULT_UNIT</code>, <code>LRX_REFERENCE_RANGE </code> and a Timestamp associated with the sample. Typically, the most relevant timestamp is the timepoint of the blood/sample draw, thus when it was taken from the patient. In some cases, it might also be of interest when the analysis was finished in the lab (i.e. when the result was made available) - so make sure you understand what is asked; typically, you pick one or more of these:</p><ul><li><p>LRX_RESULT_DATE_TS</p></li><li><p>LOX_ORDER_DATE_TS</p></li><li><p>LOX_SAMPLE_TAKEN_DATE_TS</p></li><li><p>LOX_SAMPLE_ENTRY_DATE_TS</p></li></ul></li></ol><h3 id="Laboratorydataintroduction-Examplequeriesfordatarequests">Example queries for data requests</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- typical lab query for plasma creatinine and natrium values for a given patient
+
+SELECT
+    r.LRX_BK,
+    r.LOX_BK,
+    r.PAT_BK,
+    r.CAS_BK,
+    r.LMX_METHOD_SHORT_NAME,
+    m.LMX_METHOD,
+    r.LRX_RESULT_VALUE,
+    r.LRX_RESULT_VALUE_NUMERIC, -- GENERATED IN CDWH USING regex FROM LRX_RESULT_VALUE
+    r.LRX_RESULT_VALUE_COMPARATOR, -- GENERATED IN CDWH USING regex FROM LRX_RESULT_VALUE
+    r.LRX_RESULT_UNIT,
+    r.LRX_REFERENCE_RANGE,
+    o.LOX_SAMPLE_TAKEN_DATE_TS,
+    o.LOX_SAMPLE_ENTRY_DATE_TS,
+    IFNULL(o.LOX_SAMPLE_TAKEN_DATE_TS,o.LOX_SAMPLE_ENTRY_DATE_TS) AS SAMPLE_DATE, -- o.LOX_SAMPLE_TAKEN_DATE_TS IS entered manually AND can have Dataquality problems... sometimes they ARE missing AND it IS best TO use sample_entry IN that CASE, because that IS the closes TS TO SAMPLE_TAKEN available
+    o.LOX_SENDER_DEPARTMENT,
+    o.LOX_SENDER_STATION_ORG_BK
+FROM
+    cdwh.V_IL_FCT_LABOR_RESULT_XLAB r
+JOIN cdwh.V_IL_DIM_LABOR_METHOD_XLAB_CID m ON
+    r.LMX_BK = m.LMX_BK
+JOIN cdwh.V_IL_DIM_LABOR_ORDER_XLAB_CID o ON
+    r.LOX_BK = o.LOX_BK
+WHERE YEAR(
+    IFNULL(o.LOX_SAMPLE_TAKEN_DATE_TS, o.LOX_SAMPLE_ENTRY_DATE_TS)
+    ) BETWEEN 2012 AND 2020
+AND  r.LMX_METHOD_SHORT_NAME IN (&#39;NA&#39;, &#39;C-PH-NA-01&#39;, &#39;KREA&#39;, &#39;C-PH-KREA-01&#39;) -- 4 codes FOR two laboratory tests...
+AND r.PAT_BK IN (&#39;0002288018&#39;)
+ORDER BY r.PAT_BK,  r.LMX_METHOD_SHORT_NAME, IFNULL(o.LOX_SAMPLE_TAKEN_DATE_TS,o.LOX_SAMPLE_ENTRY_DATE_TS)
+</pre>
+</div></div><p /><p>Or this is a more complex example, where the researchers provided a mapping of many lab method codes:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    r.pat_bk,
+    r.cas_bk,
+    m.lmx_method_short_name,
+        CASE
+        WHEN m.lmx_method_short_name IN (&#39;BNPA&#39;) THEN &#39;bnpa&#39;
+        WHEN m.lmx_method_short_name IN (&#39;NTBNPP&#39;,&#39;C-PH-NTBNP-01&#39;,&#39;NKNTBNP&#39;,&#39;NTBNP&#39;) THEN &#39;ntprobnp&#39;
+        WHEN m.lmx_method_short_name IN (&#39;TROPTN&#39;,&#39;C-PH-TROPT-01&#39;) THEN &#39;trop_t_hs&#39;
+        WHEN m.lmx_method_short_name IN (&#39;TROPTH&#39;) THEN &#39;trop_t_hs_1000&#39;
+        WHEN m.lmx_method_short_name IN (&#39;KR&#39;,&#39;C-PH-KREA-01&#39;) THEN &#39;creatinine&#39;
+        WHEN m.lmx_method_short_name IN (&#39;HAST&#39;, &#39;C-PH-HST-01&#39;) THEN &#39;blood_urea_nitrogen&#39;
+        WHEN m.lmx_method_short_name IN (&#39;GFREPI&#39;, &#39;C-PH-GFREPI-01&#39;) THEN &#39;gfr_ckd_epi&#39;
+        WHEN m.lmx_method_short_name IN (&#39;NA&#39;, &#39;C-PH-NA-01&#39;, &#39;VNAV&#39;, &#39;VNA&#39;, &#39;P-BH-POCTNA-01&#39;, &#39;C-BG-VENNA-01&#39;, &#39;C-BG-ARTNA-01&#39;) THEN &#39;sodium&#39;
+        WHEN m.lmx_method_short_name IN (&#39;K&#39;, &#39;C-PH-K-01&#39;, &#39;VKV&#39;,&#39;VK&#39;, &#39;P-BH-POCTK-01&#39;,&#39;C-BG-VENK-01&#39;,&#39;C-BG-ARTK-01&#39;) THEN &#39;potassium&#39;
+        WHEN m.lmx_method_short_name IN (&#39;GL&#39;, &#39;G&#39;, &#39;C-PH-GLUC-01&#39;, &#39;P-BH-POCTGLUC-01&#39;, &#39;C-BG-ARTGLUC-01&#39;, &#39;C-BG-VENGLUC-01&#39;, &#39;C-PF-GLUC-01&#39;) THEN &#39;glucose&#39;
+        WHEN m.lmx_method_short_name IN (&#39;HB&#39;, &#39;H-BE-HB-01&#39;, &#39;H-BE-HBSYS-01&#39;) THEN &#39;hemoglobin&#39;
+        WHEN m.lmx_method_short_name IN (&#39;HT&#39;, &#39;H-BE-HK-01&#39;, &#39;H-BE-HKSYS-01&#39;) THEN &#39;hematocrit&#39;
+        WHEN m.lmx_method_short_name IN (&#39;LC&#39;, &#39;H-BE-LC-01&#39;, &#39;H-BE-LCSYS-01&#39;) THEN &#39;leucocytes&#39;
+        WHEN m.lmx_method_short_name IN (&#39;CRP&#39;, &#39;C-PH-CRP-01&#39;) THEN &#39;crp&#39;
+        WHEN m.lmx_method_short_name IN (&#39;PROCAL&#39;, &#39;C-PH-PROCAL-01&#39;) THEN &#39;procalcitonin&#39;
+        WHEN m.lmx_method_short_name IN (&#39;ALT&#39;, &#39;C-PH-ALAT-01&#39;) THEN &#39;alat&#39;
+        WHEN m.lmx_method_short_name IN (&#39;AST&#39;, &#39;C-PH-ASAT-01&#39;) THEN &#39;asat&#39;
+        WHEN m.lmx_method_short_name IN (&#39;VLV&#39;, &#39;VL&#39;, &#39;P-BH-POCTLAK-01&#39;, &#39;C-BG-VENLAC-01&#39;, &#39;C-BG-ARTLAC-01&#39;) THEN &#39;lactate&#39;
+        WHEN m.lmx_method_short_name IN (&#39;COL&#39;, &#39;C-PH-CHOL-01&#39;) THEN &#39;cholesterol&#39;
+        WHEN m.lmx_method_short_name IN (&#39;HDL0&#39;, &#39;C-PH-HDL-01&#39;) THEN &#39;hdl_cholesterol&#39;
+        WHEN m.lmx_method_short_name IN (&#39;LDL0&#39;, &#39;C-PH-LDL-01&#39;) THEN &#39;ldl_cholesterol&#39;
+        WHEN m.lmx_method_short_name IN (&#39;TRI&#39;, &#39;C-PH-TRIG-01&#39;) THEN &#39;triglycerides&#39;
+        WHEN m.lmx_method_short_name IN (&#39;HBA1C&#39;, &#39;C-BE-HBA1C-01&#39;) THEN &#39;hba1c&#39;
+        WHEN m.lmx_method_short_name IN (&#39;C-PH-FER-01&#39;, &#39;FER&#39;) THEN &#39;ferrtin&#39;
+        WHEN m.lmx_method_short_name IN (&#39;C-PH-TRANSSAT-01&#39;, &#39;FSAT&#39;) THEN &#39;transferrin_saturation&#39;
+        WHEN m.lmx_method_short_name IN (&#39;C-PH-TRANSF-01&#39;, &#39;TRAN&#39;) THEN &#39;transferrin&#39;
+        WHEN m.lmx_method_short_name IN (&#39;C-PH-FE-01&#39;, &#39;FE&#39;) THEN &#39;iron&#39;
+        WHEN m.lmx_method_short_name IN (&#39;C-PH-TEBK-01&#39;, &#39;TEBK&#39;) THEN &#39;tebk_calc&#39;
+        WHEN m.lmx_method_short_name IN (&#39;C-PH-STFR-01&#39;, &#39;STFR&#39;) THEN &#39;transferrin_receptor_soluble&#39;
+        WHEN m.lmx_method_short_name IN ( &#39;CK&#39;, &#39;C-PH-CK-01&#39; ) THEN &#39;ck&#39;
+        WHEN m.lmx_method_short_name IN ( &#39;CMMR&#39; , &#39;C-PH-CKMB-01&#39; ) THEN &#39;ckmb&#39;
+        ELSE m.lmx_method_short_name
+        END AS laboratory_parameter_mapped,
+    o.lox_sample_taken_date_ts,
+    o.lox_sample_entry_date_ts,
+    IFNULL (
+        o.LOX_SAMPLE_TAKEN_DATE_TS, o.LOX_SAMPLE_ENTRY_DATE_TS
+    ) AS SAMPLE_DATE_TS,
+    CASE
+        WHEN r.lrx_result_value IN (
+            &#39;verdünnt&#39;, &#39;k.Mat.&#39;, &#39;mlv&#39;, &#39;nb&#39;, &#39;nbb&#39;, &#39;ndu&#39;, &#39;nbr&#39;, &#39;nm&#39;, &#39;s.Text&#39;, &#39;Verwechsl.&#39;, &#39;zwM&#39;, &#39;?.....&#39;, &#39;.....&#39;, &#39;geronnen&#39;, &#39;n. best.&#39;, &#39;verdünnt??&#39;, &#39;verdünnt&#39;, &#39;/hnbb&#39;, &#39;zwm&#39;, &#39;Text&#39;, &#39;Material zu alt&#39;, &#39;HAE&#39;, &#39;Gerinnsel&#39;, &#39;GER&#39;, &#39;ERROR&#39;, &#39;Bef. IMED&#39;, &#39;falsch.Mat.&#39;, &#39;s. Text&#39;, &#39;siehe Text&#39;, &#39;unbeschriftet&#39;, &#39;fraglich&#39;, &#39;geronn&#39;, &#39;hämolytisch&#39;, &#39;k.Mat&#39;, &#39;kProbe&#39;, &#39;leicht häm.&#39;, &#39;Versand&#39;, &#39;Verwechslung ?&#39;, &#39;altes Mat.&#39;, &#39;ausgelaufen&#39;, &#39;entfällt&#39;, &#39;falsch&#39;, &#39;nicht auswertbar&#39;, &#39;.&#39;, &#39;nicht messbar&#39;, &#39;Nachbest.&#39;, &#39;Verwechslung&#39;, &#39;&gt;ABS&#39;, &#39;verdünnt?&#39;, &#39;kme&#39;
+        ) THEN &#39;invalid&#39;
+        WHEN r.lrx_result_value LIKE &#39;?%&#39; THEN &#39;invalid&#39;
+        WHEN r.lrx_result_value = &#39;negativ!&#39; THEN &#39;negativ&#39;
+        ELSE r.lrx_result_value
+    END AS lrx_result_value_clean,
+    r.LRX_RESULT_VALUE_NUMERIC,
+    r.LRX_RESULT_VALUE_COMPARATOR, 
+    r.lrx_result_unit ,
+    r.LRX_REFERENCE_RANGE 
+FROM
+     cdwh.v_il_fct_labor_result_xlab r 
+JOIN cdwh.v_il_dim_labor_method_xlab_cid m ON
+    r.lmx_bk = m.lmx_bk
+JOIN cdwh.v_il_dim_labor_order_xlab_cid o ON
+    r.lox_bk = o.lox_bk
+WHERE
+    m.lmx_method_short_name IN (
+    &#39;BNPA&#39;,
+    &#39;NTBNPP&#39;,&#39;C-PH-NTBNP-01&#39;,&#39;NKNTBNP&#39;,&#39;NTBNP&#39;,
+    &#39;TROPTN&#39;,&#39;TROPTH&#39;,&#39;C-PH-TROPT-01&#39;,
+    &#39;KR&#39;,&#39;C-PH-KREA-01&#39;,
+    &#39;HAST&#39;, &#39;C-PH-HST-01&#39;,
+    &#39;NA&#39;, &#39;C-PH-NA-01&#39;, &#39;VNAV&#39;, &#39;VNA&#39;, &#39;P-BH-POCTNA-01&#39;, &#39;C-BG-VENNA-01&#39;, &#39;C-BG-ARTNA-01&#39;,
+    &#39;K&#39;, &#39;C-PH-K-01&#39;, &#39;VKV&#39;,&#39;VK&#39;, &#39;P-BH-POCTK-01&#39;,&#39;C-BG-VENK-01&#39;,&#39;C-BG-ARTK-01&#39;,
+    &#39;GL&#39;, &#39;G&#39;, &#39;C-PH-GLUC-01&#39;, &#39;P-BH-POCTGLUC-01&#39;, &#39;C-BG-ARTGLUC-01&#39;, &#39;C-BG-VENGLUC-01&#39;, &#39;C-PF-GLUC-01&#39;,
+    &#39;HB&#39;, &#39;H-BE-HB-01&#39;, &#39;H-BE-HBSYS-01&#39;,
+    &#39;HT&#39;, &#39;H-BE-HK-01&#39;, &#39;H-BE-HKSYS-01&#39;,
+    &#39;LC&#39;, &#39;H-BE-LC-01&#39;, &#39;H-BE-LCSYS-01&#39;,
+    &#39;CRP&#39;, &#39;C-PH-CRP-01&#39;,
+    &#39;PROCAL&#39;, &#39;C-PH-PROCAL-01&#39;,
+    &#39;ALT&#39;, &#39;C-PH-ALAT-01&#39;,
+    &#39;AST&#39;, &#39;C-PH-ASAT-01&#39;,
+    &#39;VLV&#39;, &#39;VL&#39;, &#39;P-BH-POCTLAK-01&#39;, &#39;C-BG-VENLAC-01&#39;, &#39;C-BG-ARTLAC-01&#39;,
+    &#39;COL&#39;, &#39;C-PH-CHOL-01&#39;,
+    &#39;HDL0&#39;, &#39;C-PH-HDL-01&#39;,
+    &#39;LDL0&#39;, &#39;C-PH-LDL-01&#39;,
+    &#39;TRI&#39;, &#39;C-PH-TRIG-01&#39;,
+    &#39;HBA1C&#39;, &#39;C-BE-HBA1C-01&#39;,
+    &#39;C-PH-FER-01&#39;, &#39;FER&#39;,
+    &#39;C-PH-TRANSSAT-01&#39;, &#39;FSAT&#39;,
+    &#39;GFREPI&#39;, &#39;C-PH-GFREPI-01&#39;,
+    &#39;C-PH-FE-01&#39;, &#39;FE&#39;, &#39;C-PH-TRANSF-01&#39;, &#39;TRAN&#39;, &#39;C-PH-TEBK-01&#39;, &#39;TEBK&#39;, &#39;C-PH-STFR-01&#39;, &#39;STFR&#39;,
+    &#39;CK&#39; , &#39;CMMR&#39; , &#39;C-PH-CK-01&#39; , &#39;C-PH-CKMB-01&#39;
+    )
+AND r.PAT_BK IN (&#39;0002288018&#39;)
+ORDER BY r.PAT_BK, 
+    r.LMX_METHOD_SHORT_NAME,
+    IFNULL(o.LOX_SAMPLE_TAKEN_DATE_TS,o.LOX_SAMPLE_ENTRY_DATE_TS)
+;</pre>
+</div></div><p /><h2 id="Laboratorydataintroduction-MLAB">MLAB</h2><h2 id="Laboratorydataintroduction-Pathowin">Pathowin</h2>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/257196056/257392645.png">grafik-20230814-072846.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

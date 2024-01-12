@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : IDEAL</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Interfaces_33424004.html">Interfaces</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : IDEAL
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Juni 09, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="IDEAL-Projectdescription">Project description</h2><p>IDEAL is a SPHN project with the goal of patient ID linkage from nationwide cohort studies to internal hospital IDs (<a href="https://ideal-project.ch/" class="external-link" rel="nofollow">https://ideal-project.ch/</a>). For this, they plan to run a client in every participating hospital, which has access to the patient directory. On the other hand, it receives tables of subjects included in nationwide cohort studies from the cohort datacenters. On the local client in the hospital, the data will be matched, so a congruence table with cohort IDs and hospital IDs can be created. Those in turn can be used to query, e.g. laboratory data from hospital databases, in order to complete datasets of the cohorts. However, IDEAL is not the agent for the final data transfers of e.g. laboratory data.</p><p>The project has a contract with Bram Stieltjes and pay e.g. for a VD on the research server and access to CDWH.</p><h2 id="IDEAL-Contactpersons">Contact persons</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Department</th><th class="confluenceTh">Contact</th></tr><tr><td class="confluenceTd">IDEAL</td><td class="confluenceTd"><p>Head: Michael Koller</p><p>Lead: Alexandra Scherrer</p></td></tr></tbody></table></div><p><br/></p><h2 id="IDEAL-Descriptionofdataflow">Description of dataflow</h2><p><br/></p><p>DWHP Database schemas for this study:</p><ul><li>IDEAL has access exclusively to schema IF_IDEAL on DWHP</li><li>CDWH manages the schema IDEAL on DWHP, which grants SELECT on IDEAL.V_PATIENTS to IF_IDEAL</li></ul><p>In Schema IDEAL, we provided one view V_PATIENTS, which contains the following columns (from IL_DIM_PATIENT and IL_DIM_CONSENT). Regarding &quot;Generalkonsent&quot;, they are interested in the latest decision recorded by each patient.</p><p><br/></p><p>DWH_PATIENT_INFO_UPDATE_TS</p><p>DWH_CONSENT_INFO_UPDATE_TS</p><p>CARE_CENTER_PATIENT_ID</p><p>LAST_NAME</p><p>FIRST_NAME</p><p>DATE_OF_BIRTH</p><p>GENDER</p><p>HOME_ADDRESS</p><p>HOME_POST_CODE</p><p>HOME_CITY</p><p>LANDLINE_PHONE</p><p>MOBILE_PHONE</p><p>GENERAL_CONSENT_DECISION</p><p>GENERAL_CONSENT_DECISION_DATE</p><p><br/></p><p>User IF_IDEAL has a SELECT grant to read this view. No other services are provided from CDWH. The client of IDEAL runs on the research server (Andy Aeberhard).</p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423942/33424410.png">antiresist_schema2.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

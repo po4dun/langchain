@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Power Designer Extensions for CDWH</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Powerdesigner_33424152.html">Powerdesigner</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Power Designer Extensions for CDWH
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>PowerDesigner maintains the code templates for generating DDL statemnets for a specific target database in so called DBMS files. These files are located in the PD installation directory in <em>~\Resource Files\DBMS</em>. The HANA 2.0 DBMS file is called <em>HanaDB20.xdb</em>. We made a copy of this file and added some extensions specific for the CDWH (see below).</p><p>The DBMS file is an attribute of the model:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/33423880/33442724.png?height=250" data-image-src="attachments/33423880/33442724.png" data-unresolved-comment-count="0" data-linked-resource-id="33442724" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="08ed01e3a9b1806b9e074813f5816085_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="2fe1c294-4a58-4940-98bb-29d7d62c84ca" data-media-type="file"></span></p><p>This DBMS file will be saved and versioned in the PD repository. You can still keep a local copy of this file on your local VD, but there is actually no need for it (see <a href="Working-with-the-Powerdesigner-repository_33423876.html" data-linked-resource-id="33423876" data-linked-resource-version="7" data-linked-resource-type="page">Working with the PowerDesigner Repository</a>]</p><p><strong>We have added 3 extensions to the HANA 2.0 DBMS file:</strong></p><p><strong>1. drop table statement replaced:</strong></p><p>The drop table statement has been replaced by a conditional drop, i.e.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/33423880/33442718.png?height=250" data-image-src="attachments/33423880/33442718.png" data-unresolved-comment-count="0" data-linked-resource-id="33442718" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="b9a13f3bfc09246570d3250feb2e48dd_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="3ab470d3-9a09-46f0-be6a-636cacf19a2e" data-media-type="file"></span></p><p><strong>2. Table properties: new attributes BK column and Delta Load Date Colum</strong></p><ul><li><p>You need to specify the business key (BK) column of this table. This relates to the previous BK index in the Oracle CDWH.</p></li><li><p>For delta loads you can specify a column which will define the date range to be loaded</p></li><li>If this attribute is set the CDWH library generator will generate code for a delta load (using the specified column as filter criteria)</li><li>If this attribute is not set the CDWH library generator will generate code for a full load</li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/33423880/33442700.png?height=250" data-image-src="attachments/33423880/33442700.png" data-unresolved-comment-count="0" data-linked-resource-id="33442700" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="7746dca2428e42bc4d26f28bffc763da_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="c0a29f42-271f-4bed-be93-4af780217357" data-media-type="file"></span></p><p>These two fields will generate table annotations in HANA which will be used as input for the CDWH library generator, i.e.:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" loading="lazy" src="attachments/33423880/33442694.png?width=600" data-image-src="attachments/33423880/33442694.png" data-unresolved-comment-count="0" data-linked-resource-id="33442694" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="f014da53c54df4e9114a27317c44127f_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="d1a75e19-2240-4693-acb4-609d4169d012" data-media-type="file"></span></p><p><strong>3. Column properties: new attribute Join Check Parent Table:</strong></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423880/33442712.png?height=400" data-image-src="attachments/33423880/33442712.png" data-unresolved-comment-count="0" data-linked-resource-id="33442712" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="66409300c14c7c3170710aaf94a48f23_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="de4addb8-6adf-4712-8468-faf03c0d3fb1" data-media-type="file"></span></p><p>For join checks you need to specify a parent table. The join check will join this column with the BK column of the parent table. The CDWH library generator will generate these join checks accordingly.</p><p>You may also use the selector tool <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423880/33442706.png" data-image-src="attachments/33423880/33442706.png" data-unresolved-comment-count="0" data-linked-resource-id="33442706" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="d7a088630aa416ef63259d1a2e51e0f2_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="6314ece4-a30e-45b5-8ea9-1e8030366550" data-media-type="file"></span> to select a parent table by filtering:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423880/33442736.png?height=400" data-image-src="attachments/33423880/33442736.png" data-unresolved-comment-count="0" data-linked-resource-id="33442736" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="508285d6ee9254bc0b5d7c99ee9c35de_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="c133f103-c2e2-495b-b990-2f0742307098" data-media-type="file"></span></p><p>This field will generate a column annotation in HANA which will be used as input for the CDWH library generator, i.e.:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="750" loading="lazy" src="attachments/33423880/33442730.png?width=750" data-image-src="attachments/33423880/33442730.png" data-unresolved-comment-count="0" data-linked-resource-id="33442730" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="a97f54bd1d7614a7b160a6c21f772215_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423880" data-linked-resource-container-version="8" data-media-id="9a759e6a-9963-440c-8510-828cd2da105c" data-media-type="file"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442724.png">08ed01e3a9b1806b9e074813f5816085_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442718.png">b9a13f3bfc09246570d3250feb2e48dd_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442700.png">7746dca2428e42bc4d26f28bffc763da_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442694.png">f014da53c54df4e9114a27317c44127f_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442712.png">66409300c14c7c3170710aaf94a48f23_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442706.png">d7a088630aa416ef63259d1a2e51e0f2_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442736.png">508285d6ee9254bc0b5d7c99ee9c35de_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423880/33442730.png">a97f54bd1d7614a7b160a6c21f772215_image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

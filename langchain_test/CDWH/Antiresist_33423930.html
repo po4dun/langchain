@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Antiresist</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Interfaces_33424004.html">Interfaces</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Antiresist
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Juni 09, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="Antiresist-Projectdescription">Project description</h2><p>NCCR Antiresist is a prospective study including patients at USB, aimed at running 5-10 years. A part of the data describing the patients included is extracted automatically using the clinical datawarehouse. The CTU is managing a Secutrial database, where patients are included and all clinicial data (from CDWH and manual entry) is consolidated. The task of CDWH is to provide multiple datapoints for these subjects.</p><h2 id="Antiresist-Contactpersons">Contact persons</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Department</th><th class="confluenceTh">Contact</th></tr><tr><td class="confluenceTd">CTU</td><td class="confluenceTd">Silvia Grieder, Constantin Sluka</td></tr><tr><td class="confluenceTd">Antiresist</td><td class="confluenceTd">Study physicians: Nina Khanna, Richard Kühl</td></tr></tbody></table></div><p><br/></p><h2 id="Antiresist-Dataflow">Dataflow</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423930/33424404.png?height=400" data-image-src="attachments/33423930/33424404.png" data-unresolved-comment-count="0" data-linked-resource-id="33424404" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="antiresist_schema2.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423930" data-linked-resource-container-version="5" data-media-id="36a1d523-2762-4511-9f24-917fd6f9fb53" data-media-type="file"></span></p><p><br/></p><p>DWHP Database schemas for this study:</p><ul><li>CTU has access exclusively to schema IF_ANTIRESIST on DWHP</li><li>CDWH manages the schema ANTIRESIST on DWHP, which grants SELECT on the views to IF_ANTIRESIST</li></ul><p><br/></p><h2 id="Antiresist-Descriptionofdataflow">Description of dataflow</h2><p><br/></p><ol><li>The CTU updates the table KEYLIST_PAT in the schema IF_ANTIRESIST on DWHP (it contains USB patientids, an internal study_id, year of birth of the patients, the selected studygroup and a timeframe for dataextraction) based on data in Secutrial</li><li>In schema ANTIRESIST, there are views on CDWH data specifically designed for this study. This ensures also row (on patient and timeframe basis) and column security</li><li>KEYLIST_ENRICH:<ul><li>Variables with the prefix “DWH_” are enriched with data from CDWH</li><li>validates that the patientids are valid in SAP, have not been merged to another patientid, year of birth is equal in KEYLIST as in SAP</li><li>checks the latest “Generalforschungskonsent” status recorded for the patient: For studygroup “Infection” data can be loaded when no explicit denial of consent is document (i.e. consent approval or no consent decision recorded). For studygroup “Control” only data can be loaded, when there is explicit approval of the consent</li><li>Sets the timeframe for dataextraction: First, it checks if FROM_DATE is within a stationärer Fall. In this case, the data extraction starts at the beginning of the stationärer Fall, not the FROM_DATE. If FROM_DATE is not within a stationärer Fall, then FROM_DATE is used as the starting date for data extraction (consolidated into DWH_FROM_DATE). Until date either as indicated in KEYLIST or if NULL, then the CURRENT_DATE is used (DWH_UNTIL_DATE).</li><li>Creates final variable DATA_LOAD_OK which is ‘1’ when the patient is validated and consent status allows dataload</li></ul></li><li> KEYLIST_DATALOAD:<ul><li>Only includes rows from ANTIRESIST.KEYLIST_ENRICH where DATA_LOAD_OK=1</li></ul></li><li>Data views in ANTIRESIST:<ul><li>E.g. ANTIRESIST.CONSULTS_ID: all views were specified by the study team and implemented by Fabian Franzeck. They join data entities from CDWH on patientid and the inclusion timeframe (DWH_FROM_DATE and DWH_UNTIL_DATE). If a fact has a relevant timestamp/date, this is implemented using a BETWEEN DWH_FROM_DATE and DWH_UNTIL_DATE. If a fact has a relevant timeframe (e.g. catheters), then this is implemented using a join on the “START_DATE” of the fact BETWEEN DWH_FROM_DATE and DWH_UNTIL_DATE</li></ul></li><li>IF_ANTIRESIST has the grants to SELECT on views in ANTIRESIST and runs queries on these views after updating IF_ANTIRESIST.KEYLIST. From here data are downloaded to servers of CTU for further processing</li></ol><h2 id="Antiresist-DescriptionofviewsinANTIRESIST">Description of views in ANTIRESIST</h2>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423930/33424404.png">antiresist_schema2.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

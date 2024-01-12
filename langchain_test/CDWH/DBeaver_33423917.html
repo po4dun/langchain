@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : DBeaver</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : DBeaver
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified on Feb. 02, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Content <style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336129504 {padding: 0px;}
+div.rbtoc1698336129504 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336129504 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336129504'>
+<ul class='toc-indentation'>
+<li><a href='#DBeaver-Howtosetupadatabaseconnection'>How to setup a database connection</a></li>
+<li><a href='#DBeaver-Passwordchange(viaWebservice)'>Password change (via Webservice)</a></li>
+<li><a href='#DBeaver-Passwordchange(viaSQL)'>Password change (via SQL)</a></li>
+</ul>
+</div></p><hr/><h2 id="DBeaver-Howtosetupadatabaseconnection">How to setup a database connection</h2><p><br/></p><p>After download from <a href="https://dbeaver.io/download/" class="external-link" rel="nofollow">https://dbeaver.io/download/</a> and installation (possible without admin rights), run DBeaver and add a new connection by clicking on the symbol shown here<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423917/33443365.png" data-image-src="attachments/33423917/33443365.png" data-unresolved-comment-count="0" data-linked-resource-id="33443365" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="8ea24d1cb780b9678c9345f8daddca96_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="c9565f34-1918-4e5d-bdd9-9e2df116e24f" data-media-type="file"></span></p><p><br/></p><p>Enter &quot;HANA&quot; in the search field, highlight the SAP HANA Logo and continue (Weiter):<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423917/33443425.png?height=400" data-image-src="attachments/33423917/33443425.png" data-unresolved-comment-count="0" data-linked-resource-id="33443425" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="d05bcdf3e4c96e3765905b1dd4db0a17_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="8f6fb2a9-d10f-49a6-b14c-18cbd419ecb0" data-media-type="file"></span></p><p>Now as first add the configuration to use an encrypted connection:</p><ul><li>[1-4] enable encryption (to make sure, nobody can read your password while you connect)<ul><li>encrypt = true</li><li>validateCertificate = false</li></ul></li><li>[5] Host: ictthdbdwlp1.uhbs.ch</li><li>[6] Port: 33241</li><li>[7-8] Enter your Username and Initial-Password (Tick the box to save your password locally)</li><li>[9] Click to test the connection first</li><li>[10] Then click Finish (Fertigstellen)</li></ul><p style="margin-left: 30.0px;"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423917/33443419.png?height=400" data-image-src="attachments/33423917/33443419.png" data-unresolved-comment-count="0" data-linked-resource-id="33443419" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="db66277e6ae8d886c4cccd677e1b5915_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="24338417-f4e7-4827-a1b9-84c12ca77f82" data-media-type="file"></span></p><ul><li>Press OK if you get this dialogue:<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="150" loading="lazy" src="attachments/33423917/33443437.png?height=150" data-image-src="attachments/33423917/33443437.png" data-unresolved-comment-count="0" data-linked-resource-id="33443437" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="38055bf77f803130f0a23a72cfd3d4e4_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="55a6520c-9f5f-44a9-bfbf-a5d854afde7b" data-media-type="file"></span></li></ul><p>You will then find the newly created connection in the database navigator: * Right click on the new connection and open a new SQL-Editor window:<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423917/33443431.png?height=400" data-image-src="attachments/33423917/33443431.png" data-unresolved-comment-count="0" data-linked-resource-id="33443431" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="c867d5eb72ce87243a490362e81e8db5_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="a220c07d-03be-4891-ad1c-5f24e35fd386" data-media-type="file"></span></p><p><br/></p><h2 id="DBeaver-Passwordchange(viaWebservice)">Password change (via Webservice)</h2><p>Changing passwords via SQL (below) might not work due to a problem with JDBC on HANA. Alternatively, the password can be change here:</p><p>For Prod access: <a href="https://ictthdbdwlp1.uhbs.ch:4332/sap/hana/xs/formLogin/login.html" class="external-link" rel="nofollow">https://ictthdbdwlp1.uhbs.ch:4332/sap/hana/xs/formLogin/login.html</a></p><p><em>For Kons access use: <a href="https://ictthdbdwlk1.uhbs.ch:4331/sap/hana/xs/formLogin/login.html" class="external-link" rel="nofollow">https://ictthdbdwlk1.uhbs.ch:4331/sap/hana/xs/formLogin/login.html</a></em></p><p><em>For Dev access use: <a href="https://ictthdbdwle1.uhbs.ch:4330/sap/hana/xs/formLogin/login.html" class="external-link" rel="nofollow">https://ictthdbdwle1.uhbs.ch:4330/sap/hana/xs/formLogin/login.html</a></em></p><h2 id="DBeaver-Passwordchange(viaSQL)">Password change (via SQL)</h2><p>Enter: ALTER USER <strong>YourUsername</strong> PASSWORD &quot;<strong>YourNewPassword</strong>&quot; and execute the statement by clicking the &quot;Play&quot;-Button, as shown in the example below:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423917/33443401.png" data-image-src="attachments/33423917/33443401.png" data-unresolved-comment-count="0" data-linked-resource-id="33443401" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="783d159064d30fc0865c80d825ea6ba3_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="9578b5e8-3e77-436b-8a00-009e5302aaf8" data-media-type="file"></span><br/>The successful password change should be confirmed with a green line:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423917/33443395.png" data-image-src="attachments/33423917/33443395.png" data-unresolved-comment-count="0" data-linked-resource-id="33443395" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="a1d9f56af5f551a0f6e310e6290cc47e_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="9a4e7472-e3de-4269-9921-4eec29441b3b" data-media-type="file"></span></p><p>Close the SQL-Editor window without saving and right-click again on your new connection, and edit the connection:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423917/33443413.png" data-image-src="attachments/33423917/33443413.png" data-unresolved-comment-count="0" data-linked-resource-id="33443413" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="9671ceaf9fd203203bd947c3bafc9816_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="8b566585-3547-40a5-bb55-27b5438419c0" data-media-type="file"></span></p><p>Enter your new password in the password field, test the connection and click OK:<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423917/33443407.png?height=400" data-image-src="attachments/33423917/33443407.png" data-unresolved-comment-count="0" data-linked-resource-id="33443407" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="dd03d966b47eee0ab3d53527d35195f9_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="2bed7509-52d6-4c8f-85c5-470083551dc3" data-media-type="file"></span></p><p>The program notice the change in the connection settings and asks, whether you want to be connected freshly, that is a good idea (Ja):<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423917/33443449.png" data-image-src="attachments/33423917/33443449.png" data-unresolved-comment-count="0" data-linked-resource-id="33443449" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="cd39409e98eac90ae95db0448a0ca76e_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423917" data-linked-resource-container-version="13" data-media-id="dfad83fc-a1dc-40da-833d-cc72ab4fc59f" data-media-type="file"></span></p><p>When you open the tree in the database navigator below your new connection, you should now be able to see all the schemas and object where you have access to.</p><p>Congratulations, you are now connected to the CDWH!</p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443365.png">8ea24d1cb780b9678c9345f8daddca96_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443425.png">d05bcdf3e4c96e3765905b1dd4db0a17_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443419.png">db66277e6ae8d886c4cccd677e1b5915_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443437.png">38055bf77f803130f0a23a72cfd3d4e4_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443431.png">c867d5eb72ce87243a490362e81e8db5_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443401.png">783d159064d30fc0865c80d825ea6ba3_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443395.png">a1d9f56af5f551a0f6e310e6290cc47e_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443413.png">9671ceaf9fd203203bd947c3bafc9816_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443407.png">dd03d966b47eee0ab3d53527d35195f9_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423917/33443449.png">cd39409e98eac90ae95db0448a0ca76e_image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

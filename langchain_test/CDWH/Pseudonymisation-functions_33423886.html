@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Pseudonymisation functions</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="CDWH_33424168.html">CDWH</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Pseudonymisation functions
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified on Okt. 09, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><strong>Overview</strong></p><p>In SAP HANA all pseudonymisation functions are encapsulatetd in the user defined library <em>cdwh_pseudo.lib_pseudo_services</em>. The permision to use the pseudonymisation functions is granted per database user, usage (i.e. study or project) and time range. The grants are registered in the table <em>cdwh_pseudo.pseudo_security</em>.</p><p>You can generate / retrieve pseudo IDs for patients by calling the procedure <em>cdwh_pseudo.get_patient_pseudo</em> (likewise <em>cdwh_pseudo.get_case_pseudo</em> for cases). These functions return a random alphanumeric string if no pseudo ID had been generated previously for the given patient/case and usage. In this case the generated pseudo ID will also be saved in the table PSEUDO_PATIENT or PSEUDO_CASE. If a pseudo ID had already been generated in a previous call, the same pseudo ID will be returned by the functions. This means that the initially and randomly generated pseudo ID will be stable for a given patient/case and usage. Furthermore, a pseudo ID is unique within the same usage (i.e project or study).</p><p>The function <em>cdwh_pseudo.get_patient_pseudo</em> returns a random timeshift number (in days) in addition to the pseudo ID. You can use this number to shift timestamps of patient data by the number of days. As with the pseudo ID, the timeshift nunber will be stable within the same usage.</p><p><strong>To register new project</strong></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">insert into cdwh_pseudo.pseudo_security (
+   pss_user_id
+,   pss_usage
+,   pss_usage_from
+,   pss_usage_until
+,   pss_timeshift_lower_limit
+,   pss_timeshift_upper_limit
+,   pss_timeshift_unit
+,   pss_update_time
+,   pss_update_user_id
+)
+values (
+   &#39;&lt;user&gt;&#39;
+,   &#39;&lt;project_name&gt;&#39;
+,   now()
+,   &#39;9999-12-31 23:59:59&#39;
+,   &lt;pss_timeshift_lower_limit&gt;
+,   &lt;pss_timeshift_upper_limit&gt;
+,   &#39;D&#39;
+,   now()
+,   &#39;CDWH_PSEUDO&#39;
+);</pre>
+</div></div><p><br/></p><p><strong>Procedure calls</strong></p><p><br/></p><p><br/></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">call cdwh_pseudo.lib_pseudo_services:get_patient_pseudo(in p_usage nvarchar(100))
+call cdwh_pseudo.lib_pseudo_services:get_case_pseudo(in p_usage nvarchar(100))</pre>
+</div></div><p><br/></p><p><code>
+</code></p><p>p_usage: the name of the usage/study. The caller of the procedure must be registered for using these functions for this study.</p><p>The input of the patient/case IDs and the output of the corresponding pseudo IDs is managed global temporary tables. See the next section for more details.</p><p><strong>Input / Output</strong></p><p>In contrast to the function versions in Oracle, the SAP HANA pseudonymisation functions cannot be implemented as user defined functions that you can use in your SQL queries. Therefore, they are implemented as user defined procedures. The input data (patient IDs or case IDs need to be provided in global temporary input tables in the CDWH_PSEUDO schema. Likewise the functions return the pseudo data in global temporary output tables. Please note that data in global temporary tables is only visible for the session that inserted the data. Once the session closes that session data will automatically get deleted from the global temporary table.</p><p><strong>Input / output tables for patient pseudonymisation:</strong></p><p>CDWH_PSEUDO.PSEUDO_PATIENT_INPUT:</p><div class="table-wrap"><table class="wrapped confluenceTable"><thead><tr><th class="confluenceTh">Column</th><th class="confluenceTh">Datatype</th></tr></thead><tbody><tr><td class="confluenceTd">PAT_BK</td><td class="confluenceTd">NVARCHAR(10)</td></tr></tbody></table></div><p>CDWH_PSEUDO.PSEUDO_PATIENT_OUTPUT:</p><div class="table-wrap"><table class="wrapped confluenceTable"><thead><tr><th class="confluenceTh">Column</th><th class="confluenceTh">Datatype</th></tr></thead><tbody><tr><td class="confluenceTd">PAT_BK</td><td class="confluenceTd">NVARCHAR(10)</td></tr><tr><td class="confluenceTd">PSEUDO_ID</td><td class="confluenceTd">NVARCHAR(13)</td></tr><tr><td class="confluenceTd">TIMESHIFT_DAYS</td><td class="confluenceTd">INTEGER</td></tr></tbody></table></div><p><strong>Input / output tables for case pseudonymisation:</strong></p><p>CDWH_PSEUDO.PSEUDO_CASE_INPUT:</p><div class="table-wrap"><table class="wrapped confluenceTable"><thead><tr><th class="confluenceTh">Column</th><th class="confluenceTh">Datatype</th></tr></thead><tbody><tr><td class="confluenceTd">CAS_BK</td><td class="confluenceTd">NVARCHAR(10)</td></tr></tbody></table></div><p>CDWH_PSEUDO.PSEUDO_CASE_OUTPUT:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><thead><tr><th class="confluenceTh">Column</th><th class="confluenceTh">Datatype</th></tr></thead><tbody><tr><td class="confluenceTd">CAS_BK</td><td class="confluenceTd">NVARCHAR(10)</td></tr><tr><td class="confluenceTd">PSEUDO_ID</td><td class="confluenceTd">NVARCHAR(13)</td></tr></tbody></table></div><p><strong>Example usage:</strong></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">insert into cdwh_pseudo.pseudo_patient_input (pat_bk)
+select top 5 pat_bk
+  from cdwh.v_il_dim_patient_cid;
+
+ call cdwh_pseudo.lib_pseudo_services:get_patient_pseudo(&#39;USB Research-Patient-ID&#39;);
+
+ select pseudo.pseudo_id, pat.*
+   from cdwh_pseudo.pseudo_patient_output pseudo
+   join cdwh.v_il_dim_patient_cid pat 
+     on pat.pat_bk = pseudo.pat_bk;</pre>
+</div></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:01</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Release Management Process</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="CDWH_33424168.html">CDWH</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Release Management Process
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Richard Marti</span> on Sept. 27, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="ReleaseManagementProcess-Scope">Scope</h1><ol start="1"><li><p>align issue tracking system to the release/deployment management via Milestone</p></li><li><p>tracking developments and request to the CDWH</p></li><li><p>exchange information between developers efficiently</p></li></ol><p /><p>In general, we plan a monthly release shedule. Typically, the last Tuesday of the month is the day we deploy the release on DWHK for testing and one week later, i.e. the first Tuesday of the month, we deploy to DWHP.</p><p>The naming of the release is R (elease), Year.Month of when the release is deployed on DWHP: E.g. R23.07 is the release that has been deployed on DWHP in July 2023. </p><p /><h2 id="ReleaseManagementProcess-1.Milestoneandreleasemanagementtrackingdevelopmentsandrequest">1. Milestone and release management tracking developments and request</h2><p>For each release a Milastone, named as the release (CDWH 2x.mm), is created and all issues that are planned to be resolved for that release are collected in the Milestone. Issue assigned to a Milestone are follewed in their progress via the following Labels:</p><p>&quot;<strong>01 Analysis/Specification</strong>&quot; : Issues not fully specified and unasssigned</p><p>&quot;<strong>02 Ready for DEV</strong>&quot; : Issue is ready to enter the development cycle and it is assigned</p><p>&quot;<strong>03 In DEV</strong>&quot; : Developments releted to the issue are curretly developed in the DEV</p><p>&quot;<strong>04 Ready for TEST</strong>&quot; : The issue is completed and ready to deploy to TEST and the issue is assigned to the tester</p><p>&quot;<strong>05 In TEST</strong>&quot; : The development related to the issue are deployed in test</p><p>&quot;<strong>06 Ready for Prod</strong>&quot; : issue goes back to the developer and the developments are ready to be deployed to PROD</p><p>Once an issue is resolved and the Milestone is closed the labels are let free for the next release cycle.</p><p><strong>Each issue is assigned to a developer that should not change for the time of the release. A tester for the test phase should be tagged in the comment by the change manager before the deployment to Test</strong>.</p><p>Each Milestone descripition contains a task list of related task that have to be performed in order to deploy the changes and complete the release:</p><p>The Due Date of a Milestone is the planned date for the Release to KONS of the release. In a normal monthly planning of the releases this is the last Wednesday of each month. The Start Date of a Milestone is the day developers can start to commit new changes for the next release. In a normal monthly planning this is the day the previous release is deployed to KONS. The general yearly plan and overview of the release is mantained in the following page: <a href="https://usbch.atlassian.net/wiki/display/CDWH/Release" rel="nofollow">CDWH/Releases</a></p><h2 id="ReleaseManagementProcess-MilestonestepsTemplate(copypastintothemilestonedescriptionwhenstartinganewrelease)">Milestone steps Template (copy past into the milestone description when starting a new release)</h2><p><br/></p><h5 id="ReleaseManagementProcess-MilestonestepsTemplate(copypastintothemilestonedescriptionwhenstartinganewrelease).1"><strong>Milestone steps Template (copy past into the milestone description when starting a new release)</strong></h5><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">General steps to complete the release:
+
+**Pre-deployment steps for deployer**
+* [ ] re-generate all object with the generator
+  * [ ] on DEV
+  * [ ] without TZ tables (else you will truncate the tz-tables for delta loads)
+* [ ] check again if there are other objects to commit to develop branch
+
+
+**Deploy to Test**
+- [ ] clone prd to kons: S:\cdwh-generator\bin\windows\clone\10_clone_PRD_to_KONS.bat
+- [ ] **Database Objects &amp; Prefect (via Git)**
+  1. [ ] execute `yy_00_git_flow_release_start.bat` from S:\cdwh-generator\bin\\windows\deploy
+  1. [ ] execute pre migration scripts on Kons
+     1. [ ] S:\\cdwh\\releases\\2X.XX\\00_migration_scripts\\10-pre-script.sql
+     2. [ ] execute further XX-pre-script.sql, if applicable
+  1. [ ] run `20_deploy_to_kons.bat`
+     1. [ ] check generator output, especially the marked cases `(!)` and `*`
+     1. [ ] commit &amp; push the scripts from &quot;S:\\cdwh-generator\\out&quot; to the release folder cdwh/releases/\[2x.xx\]/\[20_prod/10_kons\]
+  1. [ ] execute after migration scripts on Kons
+     1. [ ] S:\\cdwh\\releases\\2X.XX\\00_migration_scripts\\20-after-script.sql
+  1. [ ] care about prefect (https://gitlab.uhbs.ch/cdwh/cdwh-prefect/-/blob/master/README.md#release)
+  1. [ ] run the **TST Register** job on [Prefect PRD](https://prd.cdwh.uhbs.ch/)
+     1. [ ] Check if there are no warnings in the log (naming conventions)
+  1. [ ] make sure the tst-flows (register and load) are scheduled in prefect
+  1. [ ] Notify the team about the finish of the release
+- [ ] **Data Services**
+  1. [ ] retrieve latest version of all DS Objects as specified in I:\\Verwaltung\\ICT_CDWH\\Data\\Deployment Objekte.xlsx
+  1. [ ] enable kons jobs
+- [ ] **The next day**
+  1. [ ] run JoinChecks script
+  (git-repository: help-queries\\early-arrives\\RELEASE_JoinChecks.sql)
+  1. [ ] look for warnings in prefect
+  1. [ ] check: historical audit
+      ```sql
+      select *
+      from v_md_prefect_historical_audit
+      where is_outlier = 1
+          and run_id = XXX
+      order by entity, audit_type
+      ;
+      ```
+  1. [ ] Test Changes
+
+**Deploy to Prod**
+- [ ] Update Model Documentation (https://usbch.atlassian.net/wiki/display/CDWH/Update+Model+Documentation) (because this takes forever)
+- [ ] Before starting send an e-mail to all costumers to warn data could be missing for the next hours
+- [ ] **Database Objects &amp; Prefect (via Git)**
+  1. [ ] execute `yy_10_git_flow_release_finish.bat` from S:\cdwh-generator\bin\\windows\deploy
+  1. [ ] execute pre migration scripts on Prod
+     1. [ ] S:\\cdwh\\releases\\2X.XX\\00_migration_scripts\\10-pre-script.sql
+     2. [ ] execute further XX-pre-script.sql, if applicable
+  1. [ ] run `30_deploy_to_prod.bat`
+     1. [ ] check generator output, especially the marked cases `(!)` and `*`
+     1. [ ] commit &amp; push the scripts from &quot;S:\\cdwh-generator\\out&quot; to the release folder cdwh/releases/\[2x.xx\]/\[20_prod/10_kons\]
+  1. [ ] execute after migration scripts on Prod
+     1. [ ] S:\\cdwh\\releases\\2X.XX\\00_migration_scripts\\20-after-script.sql
+     1. [ ] refresh remote sources on Prod
+        1. [ ] execute on DWHP:
+        ```sql
+        ALTER REMOTE SOURCE CDWH_DWHE DROP LINKED OBJECTS;
+        ALTER REMOTE SOURCE CDWH_DWHE REFRESH LINKED OBJECTS;
+        ALTER REMOTE SOURCE CDWH_DWHK DROP LINKED OBJECTS;
+        ALTER REMOTE SOURCE CDWH_DWHK REFRESH LINKED OBJECTS;        ```
+  1. [ ] care about prefect (https://gitlab.uhbs.ch/cdwh/cdwh-prefect/-/blob/master/README.md#release)
+  1. [ ] run the **PRD Register** on [Prefect PRD](https://prd.cdwh.uhbs.ch/)
+     1. [ ] Check if there are no warnings in the log (naming conventions)
+  1. [ ] make sure the schedule for the tst-flow is disabled
+  1. [ ] Notify the team about the finish of the release
+- [ ] **Data Services**
+  1. [ ] retrieve latest version of all DS Objects as specified in I:\\Verwaltung\\ICT_CDWH\\Data\\Deployment Objekte.xlsx
+  1. [ ] disable kons jobs
+- [ ] **Admin stuff**
+  - [ ] Create folder in cdwh-repository for next release
+  - [ ] Send release notes and save them as release tag notes in project: [cdwh-objects/tags](https://gitlab.uhbs.ch/cdwh_usb/cdwh-objects/-/tags)
+- [ ] **The next day**
+  - [ ] run JoinChecks script
+    (git-repository: help-queries\\early-arrives\\RELEASE_JoinChecks.sql)
+  - [ ] look for warnings in prefect
+  - [ ] check: historical audit
+      ```sql
+      select *
+      from v_md_prefect_historical_audit
+      where is_outlier = 1
+          and run_id = XXX
+      order by entity, audit_type
+      ;
+      ```
+
+
+## How to create Release Notes
+
+ 1. Retrieve issue labels from the milestone
+
+https://gitlab.uhbs.ch/cdwh/cdwh/-/blob/master/utils/gitlab_changelog.js
+
+2. Update the list of LZ in PowerDesigner Model Domumentation
+```
+SELECT DISTINCT schema_name 
+FROM tables
+ORDER BY 1;
+```
+3. Update the release candidates PDM in PowerDesigner Model Documentation
+
+4. Add the list of object in provisional state by topic 
+```
+SELECT VIEW_name
+FROM views 
+WHERE schema_name=&#39;CDWH_PROV&#39;;
+```
+
+</pre>
+</div></div><p /><p /><p /><h2 id="ReleaseManagementProcess-ScreenshotsforMilestone-Steps:">Screenshots for Milestone-Steps:</h2><span class="confluence-embedded-file-wrapper image-left-wrapper"><img class="confluence-embedded-image confluence-external-resource image-left" src="https://gitlab.uhbs.ch/cdwh/cdwh/uploads/15e9dc33e63a1177921d4fb4d71d4d56/image.png" data-image-src="https://gitlab.uhbs.ch/cdwh/cdwh/uploads/15e9dc33e63a1177921d4fb4d71d4d56/image.png" loading="lazy"></span><span class="confluence-embedded-file-wrapper image-left-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-left" width="170" loading="lazy" src="attachments/33423894/33424960.png?width=170" data-image-src="attachments/33423894/33424960.png" data-height="328" data-width="467" data-unresolved-comment-count="0" data-linked-resource-id="33424960" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-7_14-41-59.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423894" data-linked-resource-container-version="53" data-media-id="d9763dd6-17ad-49d3-9bc3-f00906cd138a" data-media-type="file"></span><h2 id="ReleaseManagementProcess-HowtocreateReleaseNotes">How to create Release Notes</h2><ol start="1"><li><p>Retrieve issue labels from the milestone<br/><a href="https://gitlab.uhbs.ch/cdwh/cdwh/-/blob/master/utils/gitlab_changelog.js" class="external-link" rel="nofollow">https://gitlab.uhbs.ch/cdwh/cdwh/-/blob/master/utils/gitlab_changelog.js</a></p></li><li><p>Update the list of LZ in PowerDesigner Model Domumentation</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT DISTINCT schema_name 
+FROM tables
+ORDER BY 1;</pre>
+</div></div><p><br/></p></li><li><p>Update the release candidates PDM in PowerDesigner Model Documentation</p></li><li><p>Add the list of object in provisional state by topic</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT VIEW_name
+FROM views 
+WHERE schema_name=&#39;CDWH_PROV&#39;;</pre>
+</div></div><p><br/></p></li></ol><p><sup>
+</sup></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423894/33424948.png">image2022-9-7_14-37-30.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423894/33424954.png">image2022-9-7_14-37-52.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423894/33424960.png">image2022-9-7_14-41-59.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:01</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

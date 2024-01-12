@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Implement Delta Load to LZ Table</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Data-Services_33424156.html">Data Services</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Implement Delta Load to LZ Table
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <ul><li>GET Latest Version of functions:<ul><li>CF_DELTA_GET_DATE</li><li>CF_DELTA_INSERT</li></ul></li><li>Go to an existing WF with Delta Load (e.g. LZ_LIS_BILLIING) and copy scripts and conditional element to your WF<ul><li>C_GET_DELTA_DATE</li><li>IF_INITAL</li><li>SC_DELTA_INSERT</li></ul></li><li>Set Variables on workflow level<ul><li>$L_DELTA_DATE -&gt; date</li><li>$L_FILTER_CLAUSE -&gt; varchar 1000</li><li>$L_YEAR -&gt; int</li></ul></li><li>Create new Dataflow DF_LZ_[SOURCE]_[TABLENAME]_DELTA and put in IF_INITAL under ELSE clause<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423927/33443701.png?height=400" data-image-src="attachments/33423927/33443701.png" data-unresolved-comment-count="0" data-linked-resource-id="33443701" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="a0bd9f14e888a484e28a361173dd3592_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423927" data-linked-resource-container-version="3" data-media-id="d2b31d5e-66de-420c-bdf9-fdfdaf049be8" data-media-type="file"></span></li><li>Create a new Parameter inside DF<ul><li>&quot;$P_DELTA_DATE&quot; -&gt; date</li></ul></li><li>Create new Dataflow name it DF_LZ_[SOURCE]_[TABLENAME]_INITAL and put in IF_INITAL -&gt; While Year</li><li>Create a new Parameter inside DF<ul><li>&quot;$P_FILTER_CLAUSE&quot; -&gt; varchar 1000</li></ul></li><li>Change Truncate statement in script SC_INITIAL_TRUNCATE under IF_INITAL <br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" loading="lazy" src="attachments/33423927/33443695.png?width=700" data-image-src="attachments/33423927/33443695.png" data-unresolved-comment-count="0" data-linked-resource-id="33443695" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="276c62aa090ea436414a83950113ada1_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423927" data-linked-resource-container-version="3" data-media-id="a40bd660-7027-447e-b0cd-b2f244f7fa15" data-media-type="file"></span></li><li>Set first bulk load year (INITAL Load will load until then and after year by year)</li><li>Switch to DBeaver and create a new Delta Table of origin Table (eg. Origal Table = RESULT; DeltaTable = RESULT_DELTA)<ul><li>Hint: Generate SQL DDL from original table and rename it to delta</li></ul></li><li>Import created DELTA Table to Datastore</li><li>Add to table &quot;config_delta_load table&quot; the configration of this delta<ul><li>hint: open table USERAREA.CONFIG_DELTA_LOAD, right click on last entry and go to &quot;erweitertes kopieren&quot; &gt; copy as SQL</li><li>change colum table name and fieldname. (fieldname defined the delta field, it must be a timestamp)<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="800" loading="lazy" src="attachments/33423927/33443713.png?width=800" data-image-src="attachments/33423927/33443713.png" data-unresolved-comment-count="0" data-linked-resource-id="33443713" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="4c1d5ac742e9f219e79953a73631ef96_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423927" data-linked-resource-container-version="3" data-media-id="bca7599f-776f-4bfc-ba0e-f806bd1e1528" data-media-type="file"></span></li></ul></li><li>Build DF_LZ_[SOURCE]_[TABLENAME]_DELTA<ul><li>Create new SQL Transform Element</li><li style="text-align: right;">The sql statement will be executed directly on source system (check SQL syntax)</li><li style="text-align: right;">Hint: Proceed &quot;update schema&quot; without WHERE clause to avoid error. you can add it afterwards</li><li style="text-align: right;">Cast Column output to fit to variable $P_DELTA_DATE (it is only a date)</li><li>Add Query Element (add T_JOB_ID)</li><li>Add DELTA Table as target table</li><li>Change Bulk Loader Option to &quot;Truncate Mode&quot;</li></ul></li><li>Build DF_LZ_[SOURCE]_[TABLENAME]_INITIAL<ul><li>Create new SQL Transform Element</li><li>The sql statement will be executed directly on source system (check SQL syntax)</li><li>Hint: Proceed &quot;update schema&quot; without WHERE clause to avoid error. you can add it afterwards</li><li>Cast Column output to fit to variable $P_FILTER_CLAUSE(it contains the logical operator and a year)</li><li>Add Query Element (add T_JOB_ID)</li><li>Add DELTA Table as target table</li></ul></li><li>Set Calls for IF_INITIAL and WhileYear<ul><li>$P_DELTA_DATE value $L_DELTA_DATE</li></ul></li></ul><p style="margin-left: 60.0px;"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423927/33443707.png" data-image-src="attachments/33423927/33443707.png" data-unresolved-comment-count="0" data-linked-resource-id="33443707" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="fd4caf015ba1f99ff5cacc0230dc108b_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423927" data-linked-resource-container-version="3" data-media-id="2c9216cb-3c08-4119-9e8a-61e671a8d08e" data-media-type="file"></span></p><ul><li style="list-style-type: none;"><ul><li>$P_FILTER_CLAUSE value $L_FILTER_CLAUSE</li></ul></li></ul><p style="margin-left: 60.0px;"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423927/33443749.png" data-image-src="attachments/33423927/33443749.png" data-unresolved-comment-count="0" data-linked-resource-id="33443749" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="75a0241bf839c0a48629237f55a239f1_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423927" data-linked-resource-container-version="3" data-media-id="0e4f853f-1f0c-4f18-8b3f-c1245a03e117" data-media-type="file"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423927/33443701.png">a0bd9f14e888a484e28a361173dd3592_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423927/33443695.png">276c62aa090ea436414a83950113ada1_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423927/33443713.png">4c1d5ac742e9f219e79953a73631ef96_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423927/33443707.png">fd4caf015ba1f99ff5cacc0230dc108b_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423927/33443749.png">75a0241bf839c0a48629237f55a239f1_image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

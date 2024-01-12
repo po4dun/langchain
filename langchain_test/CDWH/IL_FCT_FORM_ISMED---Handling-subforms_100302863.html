@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : IL_FCT_FORM_ISMED - Handling subforms</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="ISMED-data_257097771.html">ISMED data</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : IL_FCT_FORM_ISMED - Handling subforms
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Jan. 05, 2023
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p /><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336164305 {padding: 0px;}
+div.rbtoc1698336164305 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336164305 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336164305'>
+<ul class='toc-indentation'>
+<li><a href='#IL_FCT_FORM_ISMED-Handlingsubforms-Backgroundonsubforms'>Background on subforms</a></li>
+<li><a href='#IL_FCT_FORM_ISMED-Handlingsubforms-ExamplefromGUIandCDWHdata'>Example from GUI and CDWH data</a></li>
+<li><a href='#IL_FCT_FORM_ISMED-Handlingsubforms-Howisthisdistinguishedfromregularformfields?'>How is this distinguished from regular form fields?</a></li>
+</ul>
+</div><h1 id="IL_FCT_FORM_ISMED-Handlingsubforms-Backgroundonsubforms">Background on subforms</h1><p>Usually, forms have a fixed structure with one occurence of each field in a given form or form instance.</p><p>Subforms (“Unterformular” or “Feldset” in ISMED”) are a rarely used design feature in ISMED. However, they need to be handled generically together with regular form data.</p><p>Subforms are repetitions of a field within a form (or a form within a form): The person entering the data can decide, how many times he wants to fill in a certain field. Thus there is an additional level in the data, i.e. a field can have multiple instances within a form instance : SUBFORM_INSTANCE_ID.</p><p /><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>It is necessary to check if there are subform data present before you analyse data from a certain ISMED form</p></div></div><p>You can identify all forms that contain subforms with this statement:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">--Subformulare und deren Felder
+ select ff &quot;Formular&quot;, fb &quot;Formular &quot;, fd &quot;Subformular&quot;, so &quot;sortorder Felder Subf.&quot;,fs &quot;Felder Subf.&quot;, ft &quot;Feldbezeichnung&quot;,
+(select count(*) from ISMED.formdefinition d1 where d1.fo_formnr = ff
+    and inputtype not in (&#39;D&#39;, &#39;L&#39;)
+        and d1.sortorder &gt;= (select sortorder from ISMED.formdefinition where fo_formnr = ff and formdefnr = fd)
+        and d1.sortorder &lt; IFNULL((
+            select min(sortorder) from ISMED.formdefinition 
+            where fo_formnr = ff
+            and sortorder &gt; (select sortorder from ISMED.formdefinition where fo_formnr = ff and formdefnr = fd)
+            and (inputtype in (&#39;S&#39;, &#39;V&#39;, &#39;U&#39;) or forcenewrow &lt;&gt; (select forcenewrow from ISMED.formdefinition where fo_formnr = ff and formdefnr = fd)) 
+        ), 1000000000)
+) &quot;Azl Felder Subformular&quot;,
+(select count(*) from ISMED.formresult r where r.FO_FORMNR = ff and (r.FD_DEFNR = fs or r.fd_defnr like &#39;-&#39; || fs || &#39;__&#39;)) &quot;Anzahl Resultate&quot;
+ from ( 
+select d.fo_formnr ff, f.bez fb, d.formdefnr fd, d1.sortorder so, d1.formdefnr fs, d1.text1 ft
+ from ISMED.formulare f
+ join ISMED.formdefinition d on d.FO_FORMNR = f.formnr 
+ join ISMED.formdefinition d1 on d1.fo_formnr = d.fo_formnr
+    and d1.inputtype not in (&#39;D&#39;, &#39;L&#39;)
+        and d1.sortorder &gt;= (select sortorder from ISMED.formdefinition where fo_formnr = d.fo_formnr and formdefnr = d.formdefnr)
+        and d1.sortorder &lt; IFNULL((
+            select min(sortorder) from ISMED.formdefinition 
+            where fo_formnr = d.fo_formnr
+            and sortorder &gt; (select sortorder from ISMED.formdefinition where fo_formnr = d.fo_formnr and formdefnr = d.formdefnr)
+            and (inputtype in (&#39;S&#39;, &#39;V&#39;, &#39;U&#39;) or forcenewrow &lt;&gt; (select forcenewrow from ISMED.formdefinition where fo_formnr = d.fo_formnr and formdefnr = d.formdefnr)) 
+        ), 1000000000)
+ where d.inputtype in (&#39;V&#39;) --and d.fo_formnr = 2312 --Test
+)
+ order by ff, fd, so;</pre>
+</div></div><p /><h1 id="IL_FCT_FORM_ISMED-Handlingsubforms-ExamplefromGUIandCDWHdata">Example from GUI and CDWH data</h1><p>This is illustrated in ISMED as follows, an example of a form (“Doku CM (alt)”), that contains a subform (“Verlaufseinträge) :</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/100302863/102138065.png" data-image-src="attachments/100302863/102138065.png" data-height="1166" data-width="1798" data-unresolved-comment-count="0" data-linked-resource-id="102138065" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230105-074936.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="100302863" data-linked-resource-container-version="8" data-media-id="147009ab-4e2d-43d8-acef-3dbcbececf24" data-media-type="file"></span><p>When empty, This Subform (FRIM_SUBFORM_ID=3270) on the form (FOIM_FORM_ID= 2097) has only one row. Each column is a field (defined by FRIM_BK), in this example, each FRIM_BK has been filled 7 times, i.e. there are 7 instances of the subform (numbered 0 to 6).</p><p /><p>Let’s look at the data as it is modelled:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    FOIM_FORM_ID,
+    FOIM_FORM_NAME,
+    FRIM_BK,
+    FRIM_SUBFORM_ID,
+    FRIM_SUBFORM_INSTANCE_ID,
+    FOIM_FIELD_VALUE,
+    FOIM_FIELD_VALUE_TEXT
+FROM
+    cdwh.V_IL_FCT_FORM_ISMED
+WHERE
+    FOIM_INSTANCE_ID = 3453196
+    -- the whole form (including all tabs on the screenshot)
+    AND FRIM_SUBFORM_ID = 3270
+    -- restricted the TO show ONLY the subform data
+ORDER BY
+    FRIM_SUBFORM_ID ,
+    FRIM_SUBFORM_INSTANCE_ID;</pre>
+</div></div><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/100302863/100270154.png" data-image-src="attachments/100302863/100270154.png" data-height="638" data-width="1413" data-unresolved-comment-count="0" data-linked-resource-id="100270154" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230103-094647.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="100302863" data-linked-resource-container-version="8" data-media-id="c506630b-85f1-46b6-bddb-c3f6db04e7d2" data-media-type="file"></span><p /><h1 id="IL_FCT_FORM_ISMED-Handlingsubforms-Howisthisdistinguishedfromregularformfields?">How is this distinguished from regular form fields?</h1><p>Here an example from the same <code>FOIM_INSTANCE_ID</code>, without restriction on <code>FRIM_SUBFORM_ID = 3270</code>:</p><p>Regular fields simply always have their <code>FRIM_SUBFORM_ID = -1</code></p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/100302863/100302906.png" data-image-src="attachments/100302863/100302906.png" data-height="98" data-width="1407" data-unresolved-comment-count="0" data-linked-resource-id="100302906" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20230103-095001.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="100302863" data-linked-resource-container-version="8" data-media-id="79a42851-088a-46ce-bfb6-a90eee1de309" data-media-type="file"></span><p />
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/100302863/100270110.png">image-20230103-093312.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/100302863/100270154.png">image-20230103-094647.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/100302863/100302906.png">image-20230103-095001.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/100302863/102138065.png">image-20230105-074936.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

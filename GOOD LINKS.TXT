@@ -1,0 +1,7 @@
+GOOD LINKS	
+
+EXPLAINING NICELY THE CONCEPT OF EMBEDDING
+https://betterprogramming.pub/building-a-multi-document-reader-and-chatbot-with-langchain-and-chatgpt-d1864d47e339
+
+Workaround OpenAI's Token Limit With Chain Types
+https://www.youtube.com/watch?v=f9_BWhCI4Zo

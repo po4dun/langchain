@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Overview</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Data-Services_33424156.html">Data Services</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Overview
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Aug. 24, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>There are 3 environments available:</p><ul><li>DEV: ictsapdaswe01:6400</li><li>KONS: ictsapdaswk01:6400</li><li>PROD: ictsapdaswp02:6400</li></ul><h2 id="Overview-DSLogin">DS Login</h2><p>Login to the environment of your choice with Enterprise-Authentication, using your USB-Account, then click Log On:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423704/33444261.png?height=400" data-image-src="attachments/33423704/33444261.png" data-unresolved-comment-count="0" data-linked-resource-id="33444261" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423704" data-linked-resource-container-version="3" data-media-id="00581434-9ef5-4201-bef7-d0f630d89515" data-media-type="file"></span></p><h2 id="Overview-DSDEVRepositories">DS DEV Repositories</h2><p>There's a set of impersonal repositories <strong>only in the development environment</strong>, so that several developers can work in parallel. Each developer should &quot;take&quot; one of the available repositories from the list. The repositories starting with DS_CDWH_ are connected to the Oracle target platform, the one's starting with DSREPO_DEV_ are connected to the new HANA platform. Please keep this list uptodate:</p><ul><li>DS_CDWH_01 / DSREPO_DEV_01: Michael Hadorn [hadornmi]</li><li>DS_CDWH_02 / DSREPO_DEV_02: Serena Bianco [biancose]</li><li>DS_CDWH_03 / DSREPO_DEV_03: Roger Mathis [mathisr]</li><li>DS_CDWH_04 / DSREPO_DEV_04: Arne Weitzel [weitzela]</li><li>DS_CDWH_05 / DSREPO_DEV_05: Devon Mahadevan [mahadevand]</li><li>DSREPO_DEV_06 (HANA only) : Richard Marti [martir]</li></ul><p>The first time you log in you need to configure the Central Repository for your DEV environment. From Tools -&gt; Central Repositories... Activate the central repository connection DS_CDWH_CENT as below.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" loading="lazy" src="attachments/33423704/33444267.jpg" data-image-src="attachments/33423704/33444267.jpg" data-unresolved-comment-count="0" data-linked-resource-id="33444267" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="central_rep_ds.JPG" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="33423704" data-linked-resource-container-version="3" data-media-id="0275e08a-6d3e-409d-a83b-b718dd055b73" data-media-type="file"></span></p><p>Before you start developing, ensure that your repository contains the latest versions! To fetch the latest version from the central repository go to Tools -&gt; Central Object Library, right click on the object you need and Get the latest version (with or without dependencies).<br/>Test- and Prod-Environment has only one repository each, as there's no development allowed in those repositories.</p><h2 id="Overview-DSDatastoreDS_REPO">DS Datastore DS_REPO</h2><ul><li>Every user has to edit the connection to point to his repository. Right-click the datastore, choose &quot;Edit&quot;:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" loading="lazy" src="attachments/33423704/33444261.png" data-image-src="attachments/33423704/33444261.png" data-unresolved-comment-count="0" data-linked-resource-id="33444261" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423704" data-linked-resource-container-version="3" data-media-id="00581434-9ef5-4201-bef7-d0f630d89515" data-media-type="file"></span></li><li>Then change user name and password to your repository, the passwords are stored in KeePass:<br/><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" loading="lazy" src="attachments/33423704/33444261.png" data-image-src="attachments/33423704/33444261.png" data-unresolved-comment-count="0" data-linked-resource-id="33444261" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423704" data-linked-resource-container-version="3" data-media-id="00581434-9ef5-4201-bef7-d0f630d89515" data-media-type="file"></span></li></ul><h2 id="Overview-DSManagementConsole:">DS Management Console:</h2><p>Management Consoles per environment:</p><ul><li>DEV: <a href="http://ictsapdaswe01.ms.uhbs.ch:8080/DataServices/launch/launch.action" class="external-link" rel="nofollow">http://ictsapdaswe01.ms.uhbs.ch:8080/DataServices/launch/launch.action</a></li><li>KONS: <a href="http://ictsapdaswk01:8080/DataServices/launch/launch.action" class="external-link" rel="nofollow">http://ictsapdaswk01:8080/DataServices/launch/launch.action</a></li><li>PROD: <a href="http://ictsapdaswp02:8080/DataServices/launch/launch.action" class="external-link" rel="nofollow">http://ictsapdaswp02:8080/DataServices/launch/launch.action</a></li></ul>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423704/33444289.png">image2022-8-24_16-5-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423704/33444255.png">image2022-8-24_16-6-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423704/33444273.png">image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423704/33444267.jpg">central_rep_ds.JPG</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423704/33444279.png">image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423704/33444261.png">image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

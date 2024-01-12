@@ -1,0 +1,831 @@
+#############################################################
+## 
+## Form name : SWISSCARE_REGISTRY
+## Form version : V1
+## 
+#############################################################
+Date : 2.12.2022
+
+
+IV_TYPE (1. Procedure)
+
+Type : radiobutton
+
+Answers:
+
+1 = Coronary angiography only
+2 = Coronary angiography and PCI
+3 = Staged PCI (planned PCI)
+
+Rules:
+
+Include question rules:
+Value 1 (Coronary angiography only) activates question(s) 
+ - ACS (ACS, please specify)
+ - ANGINA_PECTORIS_YN (Angina pectoris)
+ - ANTI_ANGINAL_DRUGS_YN (Anti-anginal drugs (prior or current))
+ - CAD_TESTS (Coronary angiography-preceeding test(s) suggesting CAD)
+ - CCS (CCS)
+ - DYSPNOE_YN (Dyspnoe)
+ - INDICATION (Indication)
+Value 2 (Coronary angiography and PCI) activates question(s) 
+ - ACS (ACS, please specify)
+ - ANGINA_PECTORIS_YN (Angina pectoris)
+ - ANTI_ANGINAL_DRUGS_YN (Anti-anginal drugs (prior or current))
+ - BIFURCATION (Bifurcation)
+ - CAD_TESTS (Coronary angiography-preceeding test(s) suggesting CAD)
+ - CALCIUM_MODIFICATION (Calcium modification)
+ - CARDIOGENIC_SHOCK_YN (Cardiogenic shock)
+ - CCS (CCS)
+ - CTO_PROCEDURE (CTO procedure)
+ - CVRF (cvRF)
+ - DISCHARGE_MEDICATION (Prescribed discharge medication (in cathlab))
+ - DOSE (Dose (please round to the nearest integer))
+ - DOSE_UNIT (Dose unit)
+ - DRUG_ELUTING_BALLOONS_NR (Number of used drug-eluting balloons)
+ - DUAL_ANTIPLATELET_DURATION (Dual antiplatelet therapy duration)
+ - DYSPNOE_YN (Dyspnoe)
+ - ECG_CA_INTERVAL_DURATION (Time between first ECG and coronary angiography)
+ - HOSP_ENTRY_DATE (Date of hospital entry)
+ - HOSP_ENTRY_TIME (Time of hospital entry [hh:mm])
+ - IMPLANTED_STENTS_NR (Number of implanted stents)
+ - INDICATION (Indication)
+ - INTUBATED_YN (Intubated)
+ - LMS_TREATED_YN (Unprotected left main stenosis treated)
+ - LVEF (LVEF)
+ - MECHANICAL_SUPPORT_DEVICES (Mechanical support device(s))
+ - OOH_CARDIAC_ARREST_YN (Out of hospital cardiac arrest)
+ - P2Y12_INHIBITOR (P2Y12 inhibitor)
+ - PATIENT_HISTORY (Patient history)
+ - RECANALIZATION_DATE (Date of recanalization)
+ - RECANALIZATION_TIME (Time of recanalization [hh:mm])
+ - STATIN_THERAPY (Statin therapy)
+ - STENT_FAILURE_INTERVENTIONS (Intervention(s) for stent failure)
+ - SYMPTOMS_ONSET_DATE (Date of symptoms onset)
+ - SYMPTOMS_ONSET_TIME (Time of symptoms onset [hh:mm])
+ - TREATED_LESIONS_NR (Number of treated lesions)
+ - TREATED_VESSELS_NR (Number of treated vessels)
+ - TRIPLE_ANTIPLATELET_DURATION (Triple antiplatelet therapy duration)
+Value 3 (Staged PCI (planned PCI)) activates question(s) 
+ - BIFURCATION (Bifurcation)
+ - CALCIUM_MODIFICATION (Calcium modification)
+ - CTO_PROCEDURE (CTO procedure)
+ - DISCHARGE_MEDICATION (Prescribed discharge medication (in cathlab))
+ - DOSE (Dose (please round to the nearest integer))
+ - DOSE_UNIT (Dose unit)
+ - DRUG_ELUTING_BALLOONS_NR (Number of used drug-eluting balloons)
+ - DUAL_ANTIPLATELET_DURATION (Dual antiplatelet therapy duration)
+ - IMPLANTED_STENTS_NR (Number of implanted stents)
+ - LMS_TREATED_YN (Unprotected left main stenosis treated)
+ - P2Y12_INHIBITOR (P2Y12 inhibitor)
+ - STATIN_THERAPY (Statin therapy)
+ - STENT_FAILURE_INTERVENTIONS (Intervention(s) for stent failure)
+ - TREATED_LESIONS_NR (Number of treated lesions)
+ - TREATED_VESSELS_NR (Number of treated vessels)
+ - TRIPLE_ANTIPLATELET_DURATION (Triple antiplatelet therapy duration)
+
+Exclude question rules:
+Value 1 (Coronary angiography only) deactivates question(s) 
+ - CAD_TREATMENT (Treatment in case of CAD/ACS)
+
+
+------------------------------------------------------------------------------------
+
+
+CVRF (2. cvRF)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Arterial hypertension
+2 = Diabetes requiring medication
+3 = Dyslipidemia
+4 = Smoking
+5 = Family history
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Arterial hypertension)
+ - 2 (Diabetes requiring medication)
+ - 3 (Dyslipidemia)
+ - 4 (Smoking)
+ - 5 (Family history)
+
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+PATIENT_HISTORY (3. Patient history)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Prior PCI
+2 = Prior CABG
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Prior PCI)
+ - 2 (Prior CABG)
+
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+LVEF (4. LVEF)
+
+Type : radiobutton
+
+Answers:
+
+1 = Normal (50-70%)
+2 = Mildly reduced (40-49%)
+3 = Moderately reduced (30-39%)
+4 = Severly reduced (<30%)
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+OOH_CARDIAC_ARREST_YN (5. Out of hospital cardiac arrest)
+
+Type : radiobutton
+
+Answers:
+
+0 = No
+1 = Yes
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+INTUBATED_YN (6. Intubated)
+
+Type : radiobutton
+
+Answers:
+
+0 = No
+1 = Yes
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+CARDIOGENIC_SHOCK_YN (7. Cardiogenic shock)
+
+Type : radiobutton
+
+Answers:
+
+0 = No
+1 = Yes
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+MECHANICAL_SUPPORT_DEVICES (8. Mechanical support device(s))
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Impella
+2 = ECMO
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Impella)
+ - 2 (ECMO)
+
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+INDICATION (9. Indication)
+
+Type : radiobutton
+
+Answers:
+
+1 = Clinical presentation as ACS
+2 = Suspected CAD or suspected progression of known CAD
+3 = Planned valvular heart disease intervention
+4 = Follow-up after HTX
+5 = Heart failure
+6 = Routine follow-up
+7 = Tachy- or bradyarrhythmia
+8 = Planned vascular surgery
+9 = Planned major surgery
+
+Rules:
+
+Include question rules:
+Value 1 (Clinical presentation as ACS) activates question(s) 
+ - ACS (ACS, please specify)
+Value 2 (Suspected CAD or suspected progression of known CAD) activates question(s) 
+ - ANGINA_PECTORIS_YN (Angina pectoris)
+ - ANTI_ANGINAL_DRUGS_YN (Anti-anginal drugs (prior or current))
+ - CAD_TESTS (Coronary angiography-preceeding test(s) suggesting CAD)
+ - CAD_TREATMENT (Treatment in case of CAD/ACS)
+ - CCS (CCS)
+ - DYSPNOE_YN (Dyspnoe)
+
+Exclude question rules:
+Value 1 (Clinical presentation as ACS) deactivates question(s) 
+ - CAD_TREATMENT (Treatment in case of CAD/ACS)
+
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+ACS (10. ACS, please specify)
+
+Type : radiobutton
+
+Answers:
+
+1 = Unstable angina pectoris
+2 = Non-STEMI
+3 = STEMI
+
+Rules:
+
+Include question rules:
+Value 2 (Non-STEMI) activates question(s) 
+ - ECG_CA_INTERVAL_DURATION (Time between first ECG and coronary angiography)
+ - HOSP_ENTRY_DATE (Date of hospital entry)
+ - HOSP_ENTRY_TIME (Time of hospital entry [hh:mm])
+ - RECANALIZATION_DATE (Date of recanalization)
+ - RECANALIZATION_TIME (Time of recanalization [hh:mm])
+ - SYMPTOMS_ONSET_DATE (Date of symptoms onset)
+ - SYMPTOMS_ONSET_TIME (Time of symptoms onset [hh:mm])
+Value 3 (STEMI) activates question(s) 
+ - ECG_CA_INTERVAL_DURATION (Time between first ECG and coronary angiography)
+ - HOSP_ENTRY_DATE (Date of hospital entry)
+ - HOSP_ENTRY_TIME (Time of hospital entry [hh:mm])
+ - RECANALIZATION_DATE (Date of recanalization)
+ - RECANALIZATION_TIME (Time of recanalization [hh:mm])
+ - SYMPTOMS_ONSET_DATE (Date of symptoms onset)
+ - SYMPTOMS_ONSET_TIME (Time of symptoms onset [hh:mm])
+
+
+Depends on question(s):
+IV_TYPE, INDICATION
+------------------------------------------------------------------------------------
+
+
+CAD_TESTS (11. Coronary angiography-preceeding test(s) suggesting CAD)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Treadmill indicating ischemia
+2 = CCTA with significant stenoses
+3 = Stress MRI with ischemia
+4 = Stress TTE with ischemia
+5 = TTE with hypokinesia
+6 = Nuclear test with ischemia
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Treadmill indicating ischemia)
+ - 2 (CCTA with significant stenoses)
+ - 3 (Stress MRI with ischemia)
+ - 4 (Stress TTE with ischemia)
+ - 5 (TTE with hypokinesia)
+ - 6 (Nuclear test with ischemia)
+
+
+Depends on question(s):
+IV_TYPE, INDICATION
+------------------------------------------------------------------------------------
+
+
+DYSPNOE_YN (12. Dyspnoe)
+
+Type : radiobutton
+
+Answers:
+
+0 = No
+1 = Yes
+
+Depends on question(s):
+IV_TYPE, INDICATION
+------------------------------------------------------------------------------------
+
+
+ANGINA_PECTORIS_YN (13a. Angina pectoris)
+
+Type : radiobutton
+
+Answers:
+
+0 = No
+1 = Yes
+
+Rules:
+
+Include question rules:
+Value 1 (Yes) activates question(s) 
+ - ANTI_ANGINAL_DRUGS_YN (Anti-anginal drugs (prior or current))
+ - CCS (CCS)
+
+
+Depends on question(s):
+INDICATION, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+CCS (13b. CCS)
+
+Type : radiobutton
+
+Answers:
+
+1 = I
+2 = II
+3 = III
+4 = IV
+
+Depends on question(s):
+INDICATION, ANGINA_PECTORIS_YN, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+ANTI_ANGINAL_DRUGS_YN (13c. Anti-anginal drugs (prior or current))
+
+Type : radiobutton
+
+Answers:
+
+0 = No
+1 = Yes
+
+Depends on question(s):
+INDICATION, ANGINA_PECTORIS_YN, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+SYMPTOMS_ONSET_DATE (14a. Date of symptoms onset)
+
+Type : date
+
+Depends on question(s):
+ACS, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+SYMPTOMS_ONSET_TIME (14b. Time of symptoms onset [hh:mm])
+
+Type : string
+
+Depends on question(s):
+ACS, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+HOSP_ENTRY_DATE (15a. Date of hospital entry)
+
+Type : date
+
+Depends on question(s):
+ACS, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+HOSP_ENTRY_TIME (15b. Time of hospital entry [hh:mm])
+
+Type : string
+
+Depends on question(s):
+IV_TYPE, ACS
+------------------------------------------------------------------------------------
+
+
+RECANALIZATION_DATE (16a. Date of recanalization)
+
+Type : date
+
+Depends on question(s):
+ACS, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+RECANALIZATION_TIME (16b. Time of recanalization [hh:mm])
+
+Type : string
+
+Depends on question(s):
+ACS, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+ECG_CA_INTERVAL_DURATION (17. Time between first ECG and coronary angiography)
+
+Type : radiobutton
+
+Answers:
+
+1 = <24 hours
+2 = 24-48 hours
+3 = >48 hours
+
+Depends on question(s):
+ACS, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+IV_DATE_QUESTION (18. Date of procedure)
+
+Type : date
+
+------------------------------------------------------------------------------------
+
+
+ACCESS (19. Access)
+
+Type : radiobutton
+
+Answers:
+
+1 = Femoral
+2 = Radial
+
+------------------------------------------------------------------------------------
+
+
+DOSE (20a. Dose (please round to the nearest integer))
+
+Type : integer
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+DOSE_UNIT (20b. Dose unit)
+
+Type : radiobutton
+
+Answers:
+
+1 = mGycm2
+2 = cGycm2 or uGym2
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+INTRACORONARY_PHYSIOLOGY (21. Intracoronary physiology)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Resting index (iFR/RFR)
+2 = FFR
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Resting index (iFR/RFR))
+ - 2 (FFR)
+
+
+------------------------------------------------------------------------------------
+
+
+INTRACORONARY_IMAGING (22. Intracoronary imaging)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = IVUS
+2 = OCT
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (IVUS)
+ - 2 (OCT)
+
+
+------------------------------------------------------------------------------------
+
+
+TREATED_LESIONS_NR (23. Number of treated lesions)
+
+Type : integer
+Min-Max answers : 1 to  7
+Data type : integer
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+TREATED_VESSELS_NR (24. Number of treated vessels)
+
+Type : integer
+Min-Max answers : 1 to  4
+Data type : integer
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+LMS_TREATED_YN (25. Unprotected left main stenosis treated)
+
+Type : radiobutton
+
+Answers:
+
+0 = No
+1 = Yes
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+IMPLANTED_STENTS_NR (26. Number of implanted stents)
+
+Type : integer
+Min-Max answers : 0 to  12
+Data type : integer
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+DRUG_ELUTING_BALLOONS_NR (27. Number of used drug-eluting balloons)
+
+Type : integer
+Min-Max answers : 0 to  5
+Data type : integer
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+STENT_FAILURE_INTERVENTIONS (28. Intervention(s) for stent failure)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Restenosis
+2 = Stent thrombosis
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Restenosis)
+ - 2 (Stent thrombosis)
+
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+CTO_PROCEDURE (29. CTO procedure)
+
+Type : radiobutton
+
+Answers:
+
+0 = None
+1 = Antegrade
+2 = Retrograde
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+CALCIUM_MODIFICATION (30. Calcium modification)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Cutting balloon
+2 = Scoring balloon
+3 = Rotablation
+4 = Lithotripsy
+5 = Orbital atherectomy
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Cutting balloon)
+ - 2 (Scoring balloon)
+ - 3 (Rotablation)
+ - 4 (Lithotripsy)
+ - 5 (Orbital atherectomy)
+
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+BIFURCATION (31. Bifurcation)
+
+Type : radiobutton
+
+Answers:
+
+0 = None
+1 = 1 stent
+2 = 2 stents
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+CAD_TREATMENT (32. Treatment in case of CAD/ACS)
+
+Type : radiobutton
+
+Answers:
+
+1 = Conservative
+2 = CABG
+3 = PCI
+
+Depends on question(s):
+INDICATION, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+MAJOR_COMPLICATIONS (33. Major complications)
+
+Type : checkbox
+
+Answers:
+
+0 = None
+1 = Emergency open heart surgery
+2 = Clinically overt stroke
+3 = Procedural death
+
+Rules:
+
+Exclude answer rules:
+Value 0 (None) deactivates answer(s) 
+ - 1 (Emergency open heart surgery)
+ - 2 (Clinically overt stroke)
+ - 3 (Procedural death)
+
+
+------------------------------------------------------------------------------------
+
+
+DISCHARGE_MEDICATION (34. Prescribed discharge medication (in cathlab))
+
+Type : checkbox
+
+Answers:
+
+1 = ASA
+2 = P2Y12 inhibitor
+3 = N/OAC
+4 = Statin
+
+Rules:
+
+Include question rules:
+Value 2 (P2Y12 inhibitor) activates question(s) 
+ - DUAL_ANTIPLATELET_DURATION (Dual antiplatelet therapy duration)
+ - P2Y12_INHIBITOR (P2Y12 inhibitor)
+ - TRIPLE_ANTIPLATELET_DURATION (Triple antiplatelet therapy duration)
+Value 4 (Statin) activates question(s) 
+ - STATIN_THERAPY (Statin therapy)
+
+Exclude question rules:
+Value 1 (ASA) deactivates question(s) 
+ - DUAL_ANTIPLATELET_DURATION (Dual antiplatelet therapy duration)
+
+Exclude questions from multiple answers rules:
+Values 3  (N/OAC) in question  DISCHARGE_MEDICATION (Prescribed discharge medication (in cathlab))  exclude question(s) 
+ - TRIPLE_ANTIPLATELET_DURATION
+
+Values 2  (P2Y12 inhibitor) in question  DISCHARGE_MEDICATION (Prescribed discharge medication (in cathlab))  exclude question(s) 
+ - DUAL_ANTIPLATELET_DURATION
+
+
+
+Depends on question(s):
+IV_TYPE
+------------------------------------------------------------------------------------
+
+
+P2Y12_INHIBITOR (35. P2Y12 inhibitor)
+
+Type : radiobutton
+
+Answers:
+
+1 = Clopidogrel
+2 = Prasugrel
+3 = Ticagrelor
+88 = Other
+
+Depends on question(s):
+DISCHARGE_MEDICATION, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+STATIN_THERAPY (36. Statin therapy)
+
+Type : radiobutton
+
+Answers:
+
+1 = Low-intensity
+2 = High-intensity
+
+Depends on question(s):
+DISCHARGE_MEDICATION, IV_TYPE
+------------------------------------------------------------------------------------
+
+
+DUAL_ANTIPLATELET_DURATION (37a. Dual antiplatelet therapy duration)
+
+Type : radiobutton
+
+Answers:
+
+1 = <1 month
+2 = 1 month
+3 = 3 months
+4 = 6 months
+5 = 12 months
+6 = >12 months
+
+Depends on question(s):
+IV_TYPE, DISCHARGE_MEDICATION
+------------------------------------------------------------------------------------
+
+
+TRIPLE_ANTIPLATELET_DURATION (37b. Triple antiplatelet therapy duration)
+
+Type : radiobutton
+
+Answers:
+
+1 = <1 week
+2 = 1 month
+3 = 3 months
+4 = 6 months
+
+Depends on question(s):
+DISCHARGE_MEDICATION, IV_TYPE
+------------------------------------------------------------------------------------

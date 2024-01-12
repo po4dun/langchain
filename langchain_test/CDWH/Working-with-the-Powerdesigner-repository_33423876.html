@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Working with the Powerdesigner repository</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Powerdesigner_33424152.html">Powerdesigner</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Working with the Powerdesigner repository
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336137068 {padding: 0px;}
+div.rbtoc1698336137068 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336137068 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336137068'>
+<ul class='toc-indentation'>
+<li><a href='#WorkingwiththePowerdesignerrepository-Basicinformation'>Basic information</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-FreezesandVersioning'>Freezes and Versioning</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-Locks'>Locks</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-Modelicons'>Model icons</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-Checkinginamodelintotherepositoryforthefirsttime'>Checking in a model into the repository for the first time</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-Retrievingamodelintotherepositoryforthefirsttime'>Retrieving a model into the repository for the first time</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-Mergechangesdialog'>Merge changes dialog</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-Comparingmodels'>Comparing models</a></li>
+<li><a href='#WorkingwiththePowerdesignerrepository-CustomizedDBMSfileforHANA2.0'>Customized DBMS file for HANA 2.0</a></li>
+</ul>
+</div></p><hr/></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="WorkingwiththePowerdesignerrepository-Basicinformation"><strong>Basic information</strong></h2><ul><li><em>Check in / check out / update from repository</em> always copy the model between the local workspace (on your VD) and the repository database.</li><li><em>Check-in / check-out / update from repository</em> always work on the level of a document (in our case the *.pdm file, i.e. the complete physical data model). In case of differences on some model items between the local workspace and the repository you will be prompted for the appropriate merge action for each item</li><li><em>Check out dependencies</em>: applies only for cross-model lineages, in our case irrelevant</li><li><em>Check out</em> vs. <em>Update from repository</em>:<ul><li><em>Check out</em> can only applied to the model in the repository. <em>Check out</em> always creates a new model in your local workspace. If you check out a model twice you will have two models with the same name in your local workspace. You would need to merge these models manually later. Therefore, it is recommended to use the <em>check out</em> command only if the model is not yet in your workspace. Otherwise you can use the <em>Update from repository</em></li><li><p><em>Update from repository</em> can only applied to a model in your local workspace</p></li></ul></li><li><p><em>Check in</em>: when you check in a model into the repository, you have the option to “check out” the model from repository after the check in has completed. This “check out” is actually an <em>update from repository</em> (see notes above), means it does not create a new model in your workspace:</p></li><li><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442752.png?width=400" data-image-src="attachments/33423876/33442752.png" data-unresolved-comment-count="0" data-linked-resource-id="33442752" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="62c9687ce2363870b141e3be4ec28793_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="11864901-e751-4b9b-b51f-10c34372d7a3" data-media-type="file"></span>.</li></ul><p>I recommend to leave this option set. With the check in in you merge your local changes into the repository. Afterwards you would get any other changes that other users made in the meanwhile from the repository</p><h2 id="WorkingwiththePowerdesignerrepository-FreezesandVersioning"><strong>Freezes and Versioning</strong></h2><p>When you check in a model you have the option to freeze it. That means that the model in the repository will be frozen. <strong>Future </strong>check ins/changes will generate a new version number. You have the option to freeze the model in the repository before and after the check in:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442742.png?width=400" data-image-src="attachments/33423876/33442742.png" data-unresolved-comment-count="0" data-linked-resource-id="33442742" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="df8d0f68a75f96e3a99a5bba3099249b_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="bb27e6c2-d2f0-4c8e-96d5-4914ea49a026" data-media-type="file"></span></p><p>These two alternatives have an impact on how versions are generated in the repository:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442764.png?width=400" data-image-src="attachments/33423876/33442764.png" data-unresolved-comment-count="0" data-linked-resource-id="33442764" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="a12b68ff23a5aae3db41c83c10401df7_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="eb10c8a9-4689-4846-b969-542df2e719c7" data-media-type="file"></span></p><p>If you always freeze with every check in you will always generate a version number, regardless whether you freeze before or after check in. Because <em>freeze after</em> option is set as default in the check in dialog, I recommend to always use <strong><em>Freeze after check in</em></strong> and never <em>Freeze before check in</em>.</p><p>The version number in the model will be applied to all affected items in the object hierarchy. For instance in this test model the column TEST_DETAIL.DETAIL_DESTCRIPTION had been changed 5 times, whereas the other columns have not been changed. In the object hierarchy, the table TEST_DETAIL and the TestModel die get the same version number applied:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442758.png?width=400" data-image-src="attachments/33423876/33442758.png" data-unresolved-comment-count="0" data-linked-resource-id="33442758" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="e809a1072b177379bdd0e1a7258314c8_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="7a419b4c-42bb-4224-9828-fa053a4d695b" data-media-type="file"></span></p><h2 id="WorkingwiththePowerdesignerrepository-Locks"><strong>Locks</strong></h2><p>You can a lock a document. This will prevent other users from checking in the model and applying changes. Because of the granular merging mechanism there might not be the need for locking/unlocking documents.</p><h2 id="WorkingwiththePowerdesignerrepository-Modelicons"><strong>Model icons</strong></h2><p>Small icons in front of the model in the object browser display the status of the model:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="150" loading="lazy" src="attachments/33423876/33442812.png?height=150" data-image-src="attachments/33423876/33442812.png" data-unresolved-comment-count="0" data-linked-resource-id="33442812" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="bceea1b4ccae698e7a1813b022ddca74_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="30ac820f-9144-4791-8def-d5593e174072" data-media-type="file"></span></p><p>The icons are documented in the Documentation (<em>Cure Features Guide -&gt; Modeling with PowerDesigner -&gt; The Browser</em>):</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="150" loading="lazy" src="attachments/33423876/33442806.png?height=150" data-image-src="attachments/33423876/33442806.png" data-unresolved-comment-count="0" data-linked-resource-id="33442806" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="2c15a839dcda117e8b1de2c4909eda2a_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="ea8d15c1-5d83-4795-9c43-fede678cf363" data-media-type="file"></span></p><h2 id="WorkingwiththePowerdesignerrepository-Checkinginamodelintotherepositoryforthefirsttime"><strong>Checking in a model into the repository for the first time</strong></h2><p>The user who checks in the model for the first time is the owner of the model and has full permission. I particular he can unlock locks from other user. When checking in a model which is locked by another user, the owner just receives a warning message whether the model should be unlocked. This way the owner actually overwrites the intention of the other user. Therefore I recommend that only the ADMIN user should check in a model the first time. Afterwards the permissions for the other users on this model should be set like this:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442824.png?width=400" data-image-src="attachments/33423876/33442824.png" data-unresolved-comment-count="0" data-linked-resource-id="33442824" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="8bd6f0039f9cfb1368f5cfe406268eee_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="354aa8d9-a4c7-45a6-a7db-b3aab05d56d4" data-media-type="file"></span></p><p>Then going forward only personal logins should be used to change the model in the repository.</p><h2 id="WorkingwiththePowerdesignerrepository-Retrievingamodelintotherepositoryforthefirsttime"><strong>Retrieving a model into the repository for the first time</strong></h2><p>Retrieve the model for the first time from the repository to your local workspace: <em>check out</em><br/>Attention: if the <em>check out to file</em> option is checked the model will be saved to the file path. The path might not exist on your VD. In this case you should uncheck the box.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442818.png?width=400" data-image-src="attachments/33423876/33442818.png" data-unresolved-comment-count="0" data-linked-resource-id="33442818" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="caeb5ea6f04411938e65dbd947d19c9f_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="45e70a22-cbdb-4656-9481-5413c5f45778" data-media-type="file"></span></p><p><strong>Recommended workflow for changing a model</strong></p><ol><li>Get the latest version from the repository:<br/>select the model in your local workspace and apply <em>Update from repository</em>. The <em>Check out to File</em> check box is activated only if the current model in your workplace has already been saved to a file. Use the default settings in the dialog:<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442788.png?width=400" data-image-src="attachments/33423876/33442788.png" data-unresolved-comment-count="0" data-linked-resource-id="33442788" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="6c8e17044ba5b70bb8fa636b39240e9e_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="81f21a75-2a56-4b01-9593-d91f22bc1381" data-media-type="file"></span></li><li>Apply the model changes in your local workplace</li><li>Check in your local model into the repository:<br/><br/>Use the default settings in the dialog. You may want to change the comments filed to annotate your changes:<br/><br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442782.png?width=400" data-image-src="attachments/33423876/33442782.png" data-unresolved-comment-count="0" data-linked-resource-id="33442782" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="734c8d79d4205d3261c8e0c3f47fc5d6_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="ed14a6a5-5740-4079-8c6e-9aa91e6da1ae" data-media-type="file"></span><br/><br/>In any way the merge changes dialog appears, even if there are no differences between your local model and the model in the repository (see section Merge changes dialog).</li></ol><h2 id="WorkingwiththePowerdesignerrepository-Mergechangesdialog"><strong>Merge changes dialog</strong></h2><p>The check in process is per default an interactive process. This mode can be changed to Batch by clicking the <em>Options</em> button on <em>Check In Document</em> dialog:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423876/33442800.png" data-image-src="attachments/33423876/33442800.png" data-unresolved-comment-count="0" data-linked-resource-id="33442800" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="7039441e0b28e1af1ba45b963a62bf2e_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="becdb468-2b03-49cf-9d9c-483ea4cab3f4" data-media-type="file"></span></p><p>I recommend to use the interactive mode at least at the beginning until you are more familiar with this process.</p><p>In interactive mode the <em>Merge Changes</em> dialog opens. You can then explore the object hierarchy to navigate to those items that differ. You may also use the navigation buttons on the top to directly jump to differences. The lower panel shows the details of the differences. You can deselect the item if you don’t want this item change to be applied to the repository:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442794.png?width=400" data-image-src="attachments/33423876/33442794.png" data-unresolved-comment-count="0" data-linked-resource-id="33442794" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="60aac6fa320f77da477f2dfc3c12a298_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="ad68207c-a540-4475-af0d-163d765c8dac" data-media-type="file"></span></p><p>Please note that the <em>Merge Changes</em> dialog usually activates all changes per default. Nevertheless it may happen that some changes are deselected. This happens when there is a newer change on either side (local or in the repository) which would be overwritten by an older setting on the other side. For instance, the <em>Merge Changes</em> doalog below shows the proposed changes after an <em>Update from repository</em> action:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442841.png?width=400" data-image-src="attachments/33423876/33442841.png" data-unresolved-comment-count="0" data-linked-resource-id="33442841" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="6448f9b5c2fa9dfe2dcf45c35f8a0f3c_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="bce46fc4-5830-43d7-a1b7-729b01624bf6" data-media-type="file"></span></p><ul><li>there had beeen recent changes on the CAS_BK column in the repository (probably by another user). PowerDesigner proposes to apply this change to your local data model</li><li>there had been a recent change on the PAT_BK column in your local data model, which you did not yet check into the repository. PowerDesigner proposes not to overwrite and revert your local change with the value from the repository</li></ul><h2 id="WorkingwiththePowerdesignerrepository-Comparingmodels"><strong>Comparing models</strong></h2><p>You can compare the model in your local workspace with latest or previous version of that model in the repository. You can also compare different versions of a model in the repository. The compare model window is similar to the Merge Changes to Repository dialog, except that you cannot update the target model with this dialog.</p><h2 id="WorkingwiththePowerdesignerrepository-CustomizedDBMSfileforHANA2.0"><strong>Customized DBMS file for HANA 2.0</strong></h2><p>For HANA 2.0 we are using a <a href="Power-Designer-Extensions-for-CDWH_33423880.html" data-linked-resource-id="33423880" data-linked-resource-version="8" data-linked-resource-type="page">customized DBMS file in PowerDesigner</a>. The DBMS files that are delievered with the PowerDesigner installation are located in the PD directory <em>~\Resource Files\DBMS</em>. Instead, our customized <em>SAP HANA 2.0 DB with CDWH Extensions</em> DBMS file is embedded within the PDM_USB_HANA model and as such also saved in the PowerDesigner repository. When changing the PDM_USB datamodel from Oracle to SAP HANA we had choosen to embed the DBMS file into the data model:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" loading="lazy" src="attachments/33423876/33442835.png?width=400" data-image-src="attachments/33423876/33442835.png" data-unresolved-comment-count="0" data-linked-resource-id="33442835" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="fada54741004db9e5b25334fc8ce7533_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="b99c70e1-caac-4bf0-9aa7-23dedd2a66fe" data-media-type="file"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/33423876/33442847.png?height=400" data-image-src="attachments/33423876/33442847.png" data-unresolved-comment-count="0" data-linked-resource-id="33442847" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="87e56c8c7e6cd8b227f0987d5e05aa3c_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423876" data-linked-resource-container-version="7" data-media-id="36e0d181-f124-43dc-8dab-ddb2217031e3" data-media-type="file"></span></p></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442752.png">62c9687ce2363870b141e3be4ec28793_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442742.png">df8d0f68a75f96e3a99a5bba3099249b_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442764.png">a12b68ff23a5aae3db41c83c10401df7_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442758.png">e809a1072b177379bdd0e1a7258314c8_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442812.png">bceea1b4ccae698e7a1813b022ddca74_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442806.png">2c15a839dcda117e8b1de2c4909eda2a_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442824.png">8bd6f0039f9cfb1368f5cfe406268eee_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442818.png">caeb5ea6f04411938e65dbd947d19c9f_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442788.png">6c8e17044ba5b70bb8fa636b39240e9e_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442782.png">734c8d79d4205d3261c8e0c3f47fc5d6_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442800.png">7039441e0b28e1af1ba45b963a62bf2e_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442794.png">60aac6fa320f77da477f2dfc3c12a298_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442841.png">6448f9b5c2fa9dfe2dcf45c35f8a0f3c_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442835.png">fada54741004db9e5b25334fc8ce7533_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423876/33442847.png">87e56c8c7e6cd8b227f0987d5e05aa3c_image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Wieso HANA behindert ist...</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Application-documentation_33424138.html">Application documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="HANA_33424112.html">HANA</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Wieso HANA behindert ist...
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified on Sept. 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Hier können Eigenheiten von HANA dokumentiert werden. Diese Seite kann genutzt werden, falls es wiedereinmal im Leben eine Diskussion gibt welche DB verwendet werden soll.</p><p>Allgemeine Sache, wie dass es kaum eine Community dafür gibt (d.h. dass es auch keine guten Tools gibt), sie viel zu teuer ist und es kaum ausgebildete DBA's gibt, können mal weggelassen werden.</p><p>(Keine Tools bezieht sich auf jegliche Unterstützung Frameworks, wie: Deployment, Versionierung, SQL-Clients, Python Frameworks, ORM-Tools, etc...)</p><h2 id="WiesoHANAbehindertist...-Behinderung1:EinSpaltennameineinerFunktionkannauchmaleineVariableseinoderebennicht">Behinderung 1: Ein Spaltenname in einer Funktion kann auch mal eine Variable sein oder eben nicht</h2><h3 id="WiesoHANAbehindertist...-HintergrundInfos">Hintergrund Infos</h3><p>Die Dummy tabelle sieht wie folgt aus</p><pre>select dummy from dummy;</pre><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="60" loading="lazy" src="attachments/33424035/33424851.png?height=60" data-image-src="attachments/33424035/33424851.png" data-unresolved-comment-count="0" data-linked-resource-id="33424851" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-8_18-57-18.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33424035" data-linked-resource-container-version="4" data-media-id="0e211e25-0dbf-4718-ad6b-aedff692263e" data-media-type="file"></span></p><p><br/></p><p>select search_term from dummy<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="58" loading="lazy" src="attachments/33424035/33424857.png?height=58" data-image-src="attachments/33424035/33424857.png" data-unresolved-comment-count="0" data-linked-resource-id="33424857" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-8_19-1-28.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33424035" data-linked-resource-container-version="4" data-media-id="3b665d65-a8f0-42ca-b457-a69407a8d32c" data-media-type="file"></span><br/>Wir halten fest:</p><ul><li>Es gibt eine Spalte &quot;dummy&quot; in der Tabelle Dummy</li><li>Es gibt keine Spalte &quot;search_term&quot; in der Tabelle Dummy</li></ul><h3 id="WiesoHANAbehindertist...-Behinderungs-Demo">Behinderungs-Demo</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Beispielcode: Behinderung 1</b></div><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence" data-theme="Confluence">CREATE OR replace function mha_hana_bug_demo (
+             search_term NVARCHAR(100)
+             -- V2: dummy NVARCHAR(100)
+       )
+       returns return_val NVARCHAR(100)
+       as begin
+       select top 1 DUMMY
+             into return_val
+                    default &#39;not_found&#39;
+       from (
+             select top 1 dummy
+             from dummy
+             where search_term = :search_term
+			 -- V1: where dummy = :search_term
+			 -- V2: where dummy = :dummy
+       )
+       ;
+end;
+
+SELECT mha_hana_bug_demo(&#39;y&#39;)
+FROM dummy
+;
+
+drop function mha_hana_bug_demo;</pre>
+</div></div><p><br/></p><p>Paar Frage an hoffentlich weniger behinderte Leser:</p><ul><li>Was könnte man von einem DBMS bei diesem Query erwarten?<ul><li>z.B. der Fehler von oben:<pre>SQL-Fehler [260] [HY000]: SAP DBTech JDBC: [260] (at 7): invalid column name: SEARCH_TERM: line 1 col 8 (at pos 7)</pre></li><li><p>Nein, HANA erstellt die Funktion erfolgreich.</p></li></ul></li><li>Was wird nun der Funktionsaufruf &quot;mha_hana_bug_demo('y')&quot; ausgeben?<ul><li>z.B. sicher keinen Record, sondern z.B. den Fehler 260</li><li>Nein, da HANA die &quot;search_term&quot; Spalte nicht findet, verwendet sie halt anstelle des Spaltennamens den Variablen-Wert. Diese Einschränkung ist somit sehr oft true. Also werden einach alle Records angezeigt.</li></ul></li><li>Was passiert, wenn man nun anstelle des Variable-Namen dort den existierenden Spaltennamen verwendet? (Version 1)<ul><li>Die Variable wird wie erwartet mit der Spalte verglichen.</li></ul></li><li>Nun, jetzt wirds interessant: Was wenn der Spaltenamen exakt gleich wie die Variable lautet? Wie reagiert HANA darauf? (Version 2)<ul><li>Die Spalte gewinnt. Hat HANA die Qual der Wahl, entscheidet sie sich für den Spaltennamen.</li></ul></li></ul><p>Ja, früher hat man ja Präfixe für alles verwendet, stimmt, dann wäre das nicht passiert. Trotzdem nicht ok.</p><p>Übrigens habe ich dieses Verhalten bei SAP als Bug gemeldet: Dies ist bei Design. Wer hätte das gedacht?!</p><h1 id="WiesoHANAbehindertist...-Behinderung2:HANAkannseineObjektenichteindeutigbeschreiben(get_object_definition())">Behinderung 2: HANA kann seine Objekte nicht eindeutig beschreiben (get_object_definition())</h1><h3 id="WiesoHANAbehindertist...-Behinderungs-Demo.1">Behinderungs-Demo</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>Beispielcode: Behinderung 2</b></div><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence" data-theme="Confluence">create or replace library mh_sql_direct language sqlscript as
+begin
+    public procedure do_it(in job_id int) as begin
+        select :job_id as v1, ::rowcount as v2 from dummy;
+    end;
+end;
+
+call get_object_definition(current_schema, &#39;mh_sql_direct&#39;);
+/*
+CREATE LIBRARY &quot;CDWH_DEV_DWH&quot;.&quot;MH_SQL_DIRECT&quot; LANGUAGE SQLSCRIPT AS
+BEGIN
+  PUBLIC procedure do_it(in job_id int) as begin
+        select :job_id as v1, ::rowcount as v2 from dummy;
+    end;
+END
+ */
+
+call mh_sql_direct:do_it(1);
+
+
+-- einziger Unterschied ist der Library Name
+do begin
+    exec &#39;create or replace library mh_sql_generic language sqlscript as
+begin
+    public procedure do_it(in job_id int) as begin
+        select :job_id as v1, ::rowcount as v2 from dummy;
+    end;
+end;&#39;;
+end;
+
+call get_object_definition(current_schema, &#39;mh_sql_generic&#39;);
+/*
+CREATE LIBRARY &quot;CDWH_DEV_DWH&quot;.&quot;MH_SQL_GENERIC&quot; LANGUAGE SQLSCRIPT AS
+BEGIN
+  PUBLIC procedure do_it(in job_id int) as begin
+        select :JOB_ID as v1, ::ROWCOUNT as v2 from dummy;
+    end;
+END
+ */
+
+
+select * from sys.libraries
+where 
+    schema_name = current_schema
+    and lower(library_name) in (&#39;mh_sql_generic&#39;, &#39;mh_sql_direct&#39;)
+;
+
+
+drop library mh_sql_direct;
+drop library mh_sql_generic;</pre>
+</div></div><h3 id="WiesoHANAbehindertist...-Beobachtung">Beobachtung</h3><ul><li>Nur weil wir das Query als generisches Query abfeuern, verändert HANA Variablen Namen zu upper case.<ul><li>Übrigens dies ist auch der Fall für Function Calls innerhalb von Libs. Z.B.: call mh_sql_direct:do_it(1); wird zu call mh_sql_direct:DO_IT(1);</li></ul></li><li>Ok, mann könnte sagen: get_object_definition() ist nicht gut.</li><li>Nein auch wenn wir im system-Katalog nachschauen ist dort der Unterschied auch erkennbar.</li></ul><h3 id="WiesoHANAbehindertist...-Fazit:">Fazit: </h3><p>HANA kann seine Objekte nicht beschreiben. Übrigens auch beim Beschreiben von Tabellen sind versch. viele Leerzeichen vorhanden: abhängig ob not null oder partition infos.</p><p>Dies führt alles zu Problemen, wenn man ein Deployment-System baut. Ah vielleicht gibt es auch gar nicht wegen der zu kleinen Community keine Tools, sondern einfach weil HANA &quot;anders&quot; ist...</p><p>Das ist ein Problem weil:</p><ul><li>User erstellt/generiert eine Library auf DEV</li><li>Commit diese → lower_case</li><li>Deployment erkennt, dass diese auf Kons nicht gleich ist, und überschreibt sie, nun aber upper_case</li><li>Deployment erkennt, dass sie nicht so ist, wie sein sollte und versucht, das ewig zu korrigeren</li></ul><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33424035/33424851.png">image2022-9-8_18-57-18.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33424035/33424857.png">image2022-9-8_19-1-28.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

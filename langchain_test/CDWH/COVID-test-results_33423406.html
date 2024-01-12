@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : COVID test results</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="FAQ-CDWH-Analysis_33424229.html">FAQ CDWH Analysis</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Laboratory-data_257032245.html">Laboratory data</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : COVID test results
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Fabian Franzeck</span>, last modified on Sept. 30, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>There are many laboratory tests used for diagnosis of covid, results vary from qualitative (positiv/negativ) to quantitative measures. This page gives some indications of of how to analyse this data.</p></div></div><p><br/></p><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336166232 {padding: 0px;}
+div.rbtoc1698336166232 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336166232 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336166232'>
+<ul class='toc-indentation'>
+<li><a href='#COVIDtestresults-Whichlaboratorytestcodestoinclude'>Which laboratory test codes to include</a></li>
+<li><a href='#COVIDtestresults-Howtointerpretresults'>How to interpret results</a>
+<ul class='toc-indentation'>
+<li><a href='#COVIDtestresults-Invalidresults'>Invalid results</a></li>
+<li><a href='#COVIDtestresults-Positiveresults(=SARS-Coronavirus2detected,binary)'>Positive results (=SARS-Coronavirus2 detected, binary)</a></li>
+</ul>
+</li>
+<li><a href='#COVIDtestresults-Samplequeries'>Sample queries</a>
+<ul class='toc-indentation'>
+<li><a href='#COVIDtestresults-IdentifyallCOVIDtestsperformedwithavalidresultandadoptbinaryclassification(positivevs.negative)'>Identify all COVID tests performed with a valid result and adopt binary classification (positive vs. negative)</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h2 id="COVIDtestresults-Whichlaboratorytestcodestoinclude">Which laboratory test codes to include</h2><p>There are more than 100 laboratory codes for COVID tests (different sample types, different methodologies at different times, etc.). Typically, a study should be able to identify those codes but the situation is very complex and they normally don't know the relevant codes. In general, they are interested in COVID-PCRs that are run on respiratory samples (e.g. swaps from the throat, bronchoalveolar lavage, etc.)</p><p>This a commonly used selection of laboratory tests, verify with the study team that this covers their need:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">WHERE r.LMX_METHOD_SHORT_NAME IN  (&#39;M-AB-SARSCoV2-01&#39;, &#39;M-AB-SARSCoV2Cob-01&#39;, &#39;M-AB-SARSCoV2QN-01&#39;, &#39;M-SK-SARSCoV2-01&#39;, &#39;M-SK-SARSCoV2QN-01&#39;, &#39;M-AB-SARSCoV2Xprt-01&#39;, &#39;M-AB-SARSCoV2Biof-01&#39;)</pre>
+</div></div><p><br/></p><h2 id="COVIDtestresults-Howtointerpretresults">How to interpret results</h2><h3 id="COVIDtestresults-Invalidresults">Invalid results</h3><p>There are invalid results, where there is no usable result available from the lab. Unfortunately, they are not standardized and have to be identified from a string. It's best to exclude them in most situations (however the list might have to expanded in time):</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">WHERE lower(r.LRX_RESULT_VALUE) NOT IN (&#39;k.mat.&#39;, &#39;k. mat.&#39;, &#39;nbb&#39;, &#39;nb&#39;, &#39;ndu&#39;, &#39;.&#39;, &#39;k. mat.&#39;, &#39;s.text&#39;, &#39;s. text&#39;, &#39;k.mat&#39;, &#39;mlv&#39;, &#39;verwechsl.&#39;, &#39;-&#39;, &#39;entfällt&#39;, &#39;zu wenig probenmaterial&#39;, &#39;falsch.mat.&#39;, &#39;nicht beurteilbar&#39;, &#39;s. text&#39;, &#39;-&#39;, &#39;notapplicable&#39;)
+
+
+--String results can be listed to adapt to future changes (also includes valid ones like &#39;negativ&#39;, etc.!):
+SELECT
+    DISTINCT LRX_RESULT_VALUE
+FROM
+    cdwh.V_IL_FCT_LABOR_RESULT_XLAB 
+WHERE
+    LMX_METHOD_SHORT_NAME IN (
+        &#39;M-AB-SARSCoV2-01&#39;, &#39;M-AB-SARSCoV2Cob-01&#39;, &#39;M-AB-SARSCoV2QN-01&#39;, &#39;M-SK-SARSCoV2-01&#39;, &#39;M-SK-SARSCoV2QN-01&#39;, &#39;M-AB-SARSCoV2Xprt-01&#39;, &#39;M-AB-SARSCoV2Biof-01&#39;
+    )
+    AND LRX_RESULT_VALUE_NUMERIC IS NULL
+
+
+</pre>
+</div></div><h3 id="COVIDtestresults-Positiveresults(=SARS-Coronavirus2detected,binary)">Positive results (=SARS-Coronavirus2 detected, binary)</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">WHERE (
+        lower(r.LRX_RESULT_VALUE) LIKE &#39;%pos%&#39; -- multiple possible strings for &#39;positive results&#39;
+        OR (
+            r.LRX_RESULT_VALUE_NUMERIC IS NOT NULL
+            -- if there is a quantitative result (i.e. a number) and the comparator is &#39;=&#39;, then this can be considered a positive result.
+            -- This is opposed by e.g. results as &#39;&lt;1000&#39;, which are to be interpreted negativ 
+            AND r.LRX_RESULT_VALUE_COMPARATOR = &#39;=&#39;
+        )
+    )</pre>
+</div></div><p style="margin-left: 30.0px;"><br/></p><h2 id="COVIDtestresults-Samplequeries">Sample queries</h2><h3 class="auto-cursor-target" id="COVIDtestresults-IdentifyallCOVIDtestsperformedwithavalidresultandadoptbinaryclassification(positivevs.negative)">Identify all COVID tests performed with a valid result and adopt binary classification (positive vs. negative)</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    CASE
+        WHEN (
+            lower(r.LRX_RESULT_VALUE) LIKE &#39;%pos%&#39;
+            -- multiple possible strings for &#39;positive results&#39;
+            OR (
+                r.LRX_RESULT_VALUE_NUMERIC IS NOT NULL
+                -- if there is a quantitative result (i.e. a number) and the comparator is &#39;=&#39;, then this can be considered a positive result.
+                -- This is opposed by e.g. results as &#39;&lt;1000&#39;, which are to be interpreted negativ 
+                AND r.LRX_RESULT_VALUE_COMPARATOR = &#39;=&#39;
+            )
+        ) THEN &#39;positive&#39;
+        ELSE &#39;negative&#39; -- only works when invalid results are excluded below in WHERE
+    END AS result_binary_classification,
+    *
+FROM
+    cdwh.V_IL_FCT_LABOR_RESULT_XLAB AS r
+JOIN cdwh.V_IL_DIM_LABOR_METHOD_XLAB_CID AS m ON
+    r.LMX_BK = m.LMX_BK
+JOIN cdwh.V_IL_DIM_LABOR_ORDER_XLAB_CID AS o ON
+    r.LOX_BK = o.lox_bk
+WHERE
+    1 = 1
+    AND r.LMX_METHOD_SHORT_NAME IN (
+        &#39;M-AB-SARSCoV2-01&#39;, &#39;M-AB-SARSCoV2Cob-01&#39;, &#39;M-AB-SARSCoV2QN-01&#39;, &#39;M-SK-SARSCoV2-01&#39;, &#39;M-SK-SARSCoV2QN-01&#39;, &#39;M-AB-SARSCoV2Xprt-01&#39;, &#39;M-AB-SARSCoV2Biof-01&#39;
+    )
+    AND lower(r.LRX_RESULT_VALUE) NOT IN (
+        &#39;k.mat.&#39;, &#39;k. mat.&#39;, &#39;nbb&#39;, &#39;nb&#39;, &#39;ndu&#39;, &#39;.&#39;, &#39;k. mat.&#39;, &#39;s.text&#39;, &#39;s. text&#39;, &#39;k.mat&#39;, &#39;mlv&#39;, &#39;verwechsl.&#39;, &#39;-&#39;, &#39;entfällt&#39;, &#39;zu wenig probenmaterial&#39;, &#39;falsch.mat.&#39;, &#39;nicht beurteilbar&#39;, &#39;s. text&#39;, &#39;-&#39;, &#39;notapplicable&#39;
+    ) ;</pre>
+</div></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423406/33432113.png">image2022-9-27_17-17-59.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

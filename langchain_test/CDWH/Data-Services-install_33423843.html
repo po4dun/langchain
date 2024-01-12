@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DataWarehouse : Data Services install</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="DataWarehouse_33423377.html">DataWarehouse</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Wiki_33424094.html">Wiki</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="33424146.html">Application install/setup</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            DataWarehouse : Data Services install
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Michael Hadorn</span>, last modified by <span class='editor'> Fabian Franzeck</span> on Juni 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p>content <style type='text/css'>/*<![CDATA[*/
+div.rbtoc1698336140328 {padding: 0px;}
+div.rbtoc1698336140328 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1698336140328 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1698336140328'>
+<ul class='toc-indentation'>
+<li><a href='#DataServicesinstall-DSAccessRights'>DS Access Rights</a></li>
+<li><a href='#DataServicesinstall-DSOverview'>DS Overview</a></li>
+<li><a href='#DataServicesinstall-DSInstallation'>DS Installation</a></li>
+</ul>
+</div></p><hr/></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="DataServicesinstall-DSAccessRights">DS Access Rights</h2><p>Before you can start to work with SAP DS, you need your users to be setup in all three repositories. To do so, write an email to <a class="external-link" rel="nofollow" href="mailto:Emanuel.Madiou@usb.ch">Emanuel Madiou</a> and ask him to open a login on all DS servers and assign the repositories to the user. It is always helpful to add an existing user for reference, e.g. Richard Marti (martir). In addition ask the access to the following shared folders:</p><ul><li>DEV: <a class="external-link" rel="nofollow">\\ictsapdaswe01\CDWH</a></li><li>KONS: <a rel="nofollow" class="external-link">\\ictsapdaswk01\CDWH</a></li><li>PROD: <a class="external-link" rel="nofollow">\\ictsapdaswp02\CDWH</a></li></ul><p><br/></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="DataServicesinstall-DSOverview">DS Overview</h2><p><a href="Overview_33423704.html" data-linked-resource-id="33423704" data-linked-resource-version="3" data-linked-resource-type="page">Data Services overview</a></p><p><br/></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="DataServicesinstall-DSInstallation">DS Installation</h2><div class="confluence-information-macro confluence-information-macro-information"><p class="title">HANA Remark</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>If you get an ODBC error message when opening a HANA-Repository, do:</p><ul><li>Execute %LINK_DIR%\bin\ODBCDriverSelector.exe as Administrator</li><li>For HANA 2.x ODBC Driver, choose: HDBODBC from the dropdown list</li><li>Press OK</li></ul></div></div><p><br/></p><div class="confluence-information-macro confluence-information-macro-information"><p class="title">Windows 10 Remark</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><u>If SAP DS Designer not able to launch</u></p><p>Please find the workaround steps here: <a href="https://answers.sap.com/questions/13010095/not-able-to-launch-data-services-designer-after-su.html" class="external-link" rel="nofollow">https://answers.sap.com/questions/13010095/not-able-to-launch-data-services-designer-after-su.html</a></p><p>Workaround:</p><ul><li>Take a backup of %LINK_DIR%\bin\CreateDemoCerts.bat</li><li>Edit %LINK_DIR%/bin/CreateDemoCerts.bat on Windows and change the value of VALIDITY_DAYS from 10950 to 9125.</li><li>Take a backup of folder %LINK_DIR%\ssl</li><li>Remove all the existing files under %LINK_DIR%\ssl\server</li><li>Open CMD as Administrator</li><li>Regenerate SSL certificates by running %LINK_DIR%\bin\CreateDemoCerts.bat (as admin)</li><li>Check output for any errors. If any occurred, address these before reattempting the step above.</li><li>Run DS</li></ul></div></div><p><br/></p><ol><li><p>Go to the SAP Data Services Download page, login with your SAP user, and download: <a href="https://launchpad.support.sap.com/#/softwarecenter/search/DSCLIENT4209P_5-20011166.EXE" class="external-link" rel="nofollow">DSCLIENT4209P_5-20011166.EXE</a></p></li><li><p>After downloading, execute the file and start the installation. Be patient, it is a very big file (2.2GB)!</p></li><li><p>Run as Administrator</p></li><li><p>When you're asked whether you want to watch the pre-installation-video. Click No:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33443989.png" data-image-src="attachments/33423843/33443989.png" data-unresolved-comment-count="0" data-linked-resource-id="33443989" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="da3548bb05f150b1fd690be2ab991766_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="5a61dcfa-ab43-462f-9206-80386f23de18" data-media-type="file"></span></p></li><li><p>Check the prerequisites: All prerequisites where Type = &quot;Critical&quot; must have Status = &quot;Succeeded&quot;. Items of Type = &quot;Optional&quot; max have Status = &quot;Failed&quot; (i.e. SAP Host Agent, SAP Information platform services). If everything is ok, click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33443983.png" data-image-src="attachments/33423843/33443983.png" data-unresolved-comment-count="0" data-linked-resource-id="33443983" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="6c0704e10d99dd0f0a04e4a136960d30_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="68fafc9a-e305-4f0c-afd6-fabc78cb2309" data-media-type="file"></span></p></li><li><p>Click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33443965.png" data-image-src="attachments/33423843/33443965.png" data-unresolved-comment-count="0" data-linked-resource-id="33443965" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="fb0a9f78055af64972a66b6f8ddcc3d4_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="eb7e9ee9-8ac7-4a84-a710-10f9a709666a" data-media-type="file"></span></p></li><li><p>Accept the License Agreement and click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33443959.png" data-image-src="attachments/33423843/33443959.png" data-unresolved-comment-count="0" data-linked-resource-id="33443959" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="8f04e6b3e179bea2406a15ab72a98516_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="d7d9e5b5-6edf-42bb-812b-6b415777221a" data-media-type="file"></span></p></li><li><p>Enter the product key (CA31M-M6TGV3G-00MVX4X-NH7U) and click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33443977.png" data-image-src="attachments/33423843/33443977.png" data-unresolved-comment-count="0" data-linked-resource-id="33443977" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="574336428f4d0467af273858dd9f139a_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="2d5f4888-161c-4379-8a71-16fd89b41f30" data-media-type="file"></span></p></li><li><p>Click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33443971.png" data-image-src="attachments/33423843/33443971.png" data-unresolved-comment-count="0" data-linked-resource-id="33443971" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="883cf4bce661788aaa487fd850125577_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="0b9c55b5-4505-4614-8ec4-db543bfe2e4b" data-media-type="file"></span></p></li><li><p>Click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444025.png" data-image-src="attachments/33423843/33444025.png" data-unresolved-comment-count="0" data-linked-resource-id="33444025" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="4d8a23202c7feb9ad82cbfe1b9433c94_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="9553db78-3678-46cf-880d-dbb8ba2dab4a" data-media-type="file"></span></p></li><li><p>Select English, French and German, then click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444019.png" data-image-src="attachments/33423843/33444019.png" data-unresolved-comment-count="0" data-linked-resource-id="33444019" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="b5eafd0236164d05daf5adf98e283ab3_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="83007b30-fa51-4915-8b41-4e6519152a47" data-media-type="file"></span></p></li><li><p>Skip the specification of an CMS:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444037.png" data-image-src="attachments/33423843/33444037.png" data-unresolved-comment-count="0" data-linked-resource-id="33444037" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="fadc4517b2b48bff8a4603a0f702f487_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="8ae88f96-d5cc-4254-a591-8b59e086e0bf" data-media-type="file"></span></p></li><li><p>Select the options as shown in the screen shot below:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444031.png" data-image-src="attachments/33423843/33444031.png" data-unresolved-comment-count="0" data-linked-resource-id="33444031" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="14002297afa82f3d65c84e0e7ecf6561_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="39a31d73-cc8f-4fc3-909c-8ca022d6a7b6" data-media-type="file"></span></p></li><li><p>Open the list of &quot;Text Data Processing Languages&quot; and select German, French and Italian, then click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444001.png" data-image-src="attachments/33423843/33444001.png" data-unresolved-comment-count="0" data-linked-resource-id="33444001" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="8f59d9c18a23101ec93ccd38bbc35dbd_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="761708f4-36d1-4160-a867-e70555cad0d1" data-media-type="file"></span></p></li><li><p>If you are asked, skip configuration and click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33443995.png" data-image-src="attachments/33423843/33443995.png" data-unresolved-comment-count="0" data-linked-resource-id="33443995" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="20f5296d9d66dc1635624adce52a141d_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="dd670511-ba7d-45d6-9674-1020bb3b82d0" data-media-type="file"></span></p></li><li><p>Start the installation by clicking Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444013.png" data-image-src="attachments/33423843/33444013.png" data-unresolved-comment-count="0" data-linked-resource-id="33444013" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="2e8002547c3ffe70aa728ce52ff5af9e_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="3d9b1d90-62a2-4b19-891d-c8e0b22085b7" data-media-type="file"></span></p></li><li><p>Click Next:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444007.png" data-image-src="attachments/33423843/33444007.png" data-unresolved-comment-count="0" data-linked-resource-id="33444007" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="4478bc37925681452e6775d4fb4d7783_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="304026ee-214f-41eb-81e2-673b9d096650" data-media-type="file"></span></p></li><li><p>Click Finish:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444061.png" data-image-src="attachments/33423843/33444061.png" data-unresolved-comment-count="0" data-linked-resource-id="33444061" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="2e947b9129a5a48a1326a578945d1184_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="75d100a5-439d-48cf-8ddf-892670883a5c" data-media-type="file"></span></p></li><li><p>A reboot is required after the installation:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444055.png" data-image-src="attachments/33423843/33444055.png" data-unresolved-comment-count="0" data-linked-resource-id="33444055" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="157931c15d07178934542328a89f11ab_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="aac3f48e-c9c5-4c46-a41e-4dfc78efb7ac" data-media-type="file"></span></p></li><li><p>After the reboot, open the &quot;Data Services Locale Selector&quot; from the Startmenu:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444073.png" data-image-src="attachments/33423843/33444073.png" data-unresolved-comment-count="0" data-linked-resource-id="33444073" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="e687f4b198fb8b600063d99dcdacc130_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="2e7b0456-0223-4dc5-9902-b1d2fe9dc67f" data-media-type="file"></span></p></li><li><p>Change the setting as followed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-thumbnail" loading="lazy" src="attachments/33423843/33444067.png" data-image-src="attachments/33423843/33444067.png" data-unresolved-comment-count="0" data-linked-resource-id="33444067" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="39d6d1323afa320bcebe6160ee8ed381_image.png" data-base-url="https://usbch.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="33423843" data-linked-resource-container-version="16" data-media-id="d50c2c85-d8ac-490b-9748-f63280a36327" data-media-type="file"></span></p></li></ol></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33443989.png">da3548bb05f150b1fd690be2ab991766_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33443983.png">6c0704e10d99dd0f0a04e4a136960d30_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33443965.png">fb0a9f78055af64972a66b6f8ddcc3d4_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33443959.png">8f04e6b3e179bea2406a15ab72a98516_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33443977.png">574336428f4d0467af273858dd9f139a_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33443971.png">883cf4bce661788aaa487fd850125577_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444025.png">4d8a23202c7feb9ad82cbfe1b9433c94_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444019.png">b5eafd0236164d05daf5adf98e283ab3_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444037.png">fadc4517b2b48bff8a4603a0f702f487_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444031.png">14002297afa82f3d65c84e0e7ecf6561_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444001.png">8f59d9c18a23101ec93ccd38bbc35dbd_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33443995.png">20f5296d9d66dc1635624adce52a141d_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444013.png">2e8002547c3ffe70aa728ce52ff5af9e_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444007.png">4478bc37925681452e6775d4fb4d7783_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444061.png">2e947b9129a5a48a1326a578945d1184_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444055.png">157931c15d07178934542328a89f11ab_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444073.png">e687f4b198fb8b600063d99dcdacc130_image.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/33423843/33444067.png">39d6d1323afa320bcebe6160ee8ed381_image.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Okt. 26, 2023 18:02</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
